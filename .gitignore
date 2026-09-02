@@ -1,0 +1,42 @@
+# =============================================================================
+# .gitignore — site L'Atelier du Bout d'à Haut
+# =============================================================================
+# Ce projet est un dépôt Git indépendant, destiné à être transféré à la
+# cliente. Il ne bénéficie donc PAS du .gitignore du workspace Jarvis :
+# tout ce qui doit rester privé doit être listé ici.
+# =============================================================================
+
+# --- Secrets & clés d'API ----------------------------------------------------
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+secrets.json
+credentials.json
+
+# --- Système -------------------------------------------------------------
+.DS_Store
+Thumbs.db
+
+# --- Dépendances -----------------------------------------------------------
+node_modules/
+
+# --- Builds et outils d'hébergement -----------------------------------------
+dist/
+build/
+.netlify/
+
+# --- Éditeurs ----------------------------------------------------------------
+.vscode/
+.idea/
+
+# --- Logs et fichiers temporaires --------------------------------------------
+*.log
+logs/
+npm-debug.log*
+*.tmp
+*.temp
+.cache/

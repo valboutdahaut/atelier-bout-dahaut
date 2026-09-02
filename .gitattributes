@@ -1,0 +1,15 @@
+# Normalisation des fins de ligne : LF partout dans le dépôt, quel que soit
+# l'OS de la machine. Évite les warnings "LF will be replaced by CRLF" et les
+# diffs parasites entre contributeurs.
+
+* text=auto eol=lf
+
+# Fichiers binaires : jamais de conversion
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary

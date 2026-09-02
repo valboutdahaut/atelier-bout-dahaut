@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&amp;family=Work+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #E9E2D2; }
+  a { color: #7FA6A2; text-decoration: none; }
+  a:hover { color: #1B2A41; }
+</style>
+</helmet>
+
+<section style="font-family:'Work Sans',system-ui,sans-serif;color:#1B2A41;padding:80px 80px 140px;display:flex;flex-direction:column;gap:96px;background:#E9E2D2">
+
+  <header style="display:flex;flex-direction:column;gap:28px;max-width:1100px">
+    <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#7FA6A2">Maquette UI — 10 écrans</span>
+    <h1 style="font-family:'Libre Baskerville',Georgia,serif;font-size:52px;line-height:1.12;margin:0;font-weight:400">L'Atelier du Bout d'à Haut<br><span style="color:#7FA6A2">tapisserie, couture d'ameublement, abat-jour</span></h1>
+    <p style="max-width:640px;font-size:16px;line-height:1.7;margin:0;color:rgba(27,42,65,.75)">Trois parties publiques — accueil, vitrine, boutique — et un espace administrateur volontairement limité au fond : textes, photos, produits et posts. Jamais la mise en page.</p>
+    <div style="display:flex;gap:40px;flex-wrap:wrap;margin-top:12px">
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:44px;height:44px;background:#F4EDDE;border:1px solid rgba(27,42,65,.15)"></div>
+        <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:500">Blanc cassé</span><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.5)">#F4EDDE</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:44px;height:44px;background:#C0D4C9"></div>
+        <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:500">Ile de Malte</span><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.5)">#C0D4C9</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:44px;height:44px;background:#7FA6A2"></div>
+        <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:500">Vert profond</span><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.5)">#7FA6A2</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:44px;height:44px;background:#1B2A41"></div>
+        <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;font-weight:500">Bleu marine</span><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.5)">#1B2A41</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;padding-left:40px;border-left:1px solid rgba(27,42,65,.15)">
+        <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:20px">Libre Baskerville — titres</span>
+        <span style="font-size:15px;font-weight:400">Work Sans — texte courant</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ 1. ACCUEIL ============ -->
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:baseline;gap:16px">
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#7FA6A2">01</span>
+      <h2 style="font-family:'Libre Baskerville',Georgia,serif;font-size:26px;margin:0;font-weight:400">Page d'accueil — desktop</h2>
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.45)">1440 × défilement</span>
+    </div>
+
+    <div style="width:1440px;background:#F4EDDE;box-shadow:0 24px 60px rgba(27,42,65,.14)">
+      <!-- nav -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:26px 56px;border-bottom:1px solid rgba(27,42,65,.1)">
+        <span style="display:flex;align-items:center;gap:12px"><img src="assets/logo-atelier.png" alt="Logo L'Atelier du Bout d'à Haut" style="width:38px;height:38px;object-fit:contain;flex:0 0 auto"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:19px;letter-spacing:.01em">L'Atelier du Bout d'à Haut</span></span>
+        <div style="display:flex;gap:34px;align-items:center;font-size:14px;letter-spacing:.02em">
+          <span>Vitrine</span><span>Boutique</span><span>Savoir-faire</span><span>Le Boudoir</span><span>Contact</span>
+          <span style="padding:9px 16px;background:#7FA6A2;color:#F4EDDE;font-size:13px;letter-spacing:.04em">Panier · 0</span>
+        </div>
+      </div>
+
+      <!-- hero -->
+      <div style="display:grid;grid-template-columns:1.35fr 1fr;min-height:620px">
+        <div style="background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:flex-end;padding:36px">
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.06em;color:rgba(27,42,65,.5);background:#F4EDDE;padding:8px 12px">photo — fauteuil crapaud restauré, plein cadre</span>
+        </div>
+        <div style="padding:88px 64px 64px;display:flex;flex-direction:column;justify-content:space-between;gap:48px">
+          <div style="display:flex;flex-direction:column;gap:26px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7FA6A2">Atelier à Gallardon · Showroom à Rambouillet</span>
+            <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:56px;line-height:1.1;margin:0;font-weight:400">Redonner vie<br>aux sièges<br><em style="color:#7FA6A2">qui ont une histoire.</em></h3>
+            <p style="font-size:17px;line-height:1.75;margin:0;color:rgba(27,42,65,.78);max-width:380px;text-wrap:pretty">Tapissière-garnisseuse. Je restaure fauteuils, canapés et chaises dans les règles du métier, et je couds rideaux, coussins et abat-jour sur mesure.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;max-width:330px">
+            <span style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:#1B2A41;color:#F4EDDE;font-size:15px;letter-spacing:.03em">Découvrir la vitrine <span style="color:#C0D4C9">→</span></span>
+            <span style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:#C0D4C9;font-size:15px;letter-spacing:.03em">Visiter la boutique <span style="color:#1B2A41">→</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- présentation artisane -->
+      <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:72px;padding:104px 56px;align-items:center">
+        <div style="height:460px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:flex-end;padding:24px">
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:rgba(27,42,65,.5);background:#F4EDDE;padding:7px 11px">portrait — l'artisane à l'atelier</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;max-width:520px">
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7FA6A2">L'artisane</span>
+          <h4 style="font-family:'Libre Baskerville',Georgia,serif;font-size:34px;line-height:1.25;margin:0;font-weight:400">Un métier de patience, de crin et de fil.</h4>
+          <p style="font-size:16px;line-height:1.8;margin:0;color:rgba(27,42,65,.78);text-wrap:pretty">Formée à la tapisserie d'ameublement traditionnelle et contemporaine, j'accompagne chaque pièce du dégarnissage à la finition : sanglage, guindage, garniture, couture. Le choix du tissu se fait ensemble, à l'atelier ou au showroom.</p>
+          <span style="font-size:14px;letter-spacing:.04em;border-bottom:1px solid #7FA6A2;align-self:flex-start;padding-bottom:4px;color:#7FA6A2">En savoir plus sur l'atelier</span>
+        </div>
+      </div>
+
+      <!-- savoir-faire -->
+      <div style="background:#C0D4C9;padding:96px 56px;display:flex;flex-direction:column;gap:52px">
+        <h4 style="font-family:'Libre Baskerville',Georgia,serif;font-size:32px;margin:0;font-weight:400">Trois savoir-faire</h4>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+          <div style="background:#F4EDDE;display:flex;flex-direction:column">
+            <div style="height:220px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:center;justify-content:center"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.5)">photo — tapisserie</span></div>
+            <div style="padding:28px 28px 32px;display:flex;flex-direction:column;gap:12px">
+              <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:21px">Tapisserie</span>
+              <p style="margin:0;font-size:14.5px;line-height:1.7;color:rgba(27,42,65,.72)">Fauteuils, canapés et chaises restaurés selon les techniques traditionnelles et contemporaines.</p>
+            </div>
+          </div>
+          <div style="background:#F4EDDE;display:flex;flex-direction:column">
+            <div style="height:220px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:center;justify-content:center"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.5)">photo — couture</span></div><div style="padding:28px 28px 32px;display:flex;flex-direction:column;gap:12px">
+              <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:21px">Couture d'ameublement</span>
+              <p style="margin:0;font-size:14.5px;line-height:1.7;color:rgba(27,42,65,.72)">Rideaux, stores, coussins et housses sur mesure.</p>
+            </div>
+            
+          </div>
+          <div style="background:#F4EDDE;display:flex;flex-direction:column">
+            <div style="height:220px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:center;justify-content:center"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.5)">photo — abat-jour</span></div>
+            <div style="padding:28px 28px 32px;display:flex;flex-direction:column;gap:12px">
+              <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:21px">Abat-jour sur mesure</span>
+              <p style="margin:0;font-size:14.5px;line-height:1.7;color:rgba(27,42,65,.72)">Formes classiques ou dessinées pour l'occasion, montées à la main.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- deux accès -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(27,42,65,.1)">
+        <div style="background:#F4EDDE;padding:72px 56px;display:flex;flex-direction:column;gap:22px">
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7FA6A2">Vitrine</span>
+          <h4 style="font-family:'Libre Baskerville',Georgia,serif;font-size:30px;margin:0;font-weight:400">Les grosses pièces</h4>
+          <p style="margin:0;font-size:15.5px;line-height:1.75;color:rgba(27,42,65,.75);max-width:420px">Avant / après, récit du projet, tissus employés. Sur devis, pas de vente en ligne.</p>
+          <span style="align-self:flex-start;padding:15px 26px;background:#1B2A41;color:#F4EDDE;font-size:14px;letter-spacing:.04em;margin-top:8px">Voir les réalisations</span>
+        </div>
+        <div style="background:#F4EDDE;padding:72px 56px;display:flex;flex-direction:column;gap:22px">
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7FA6A2">Boutique</span>
+          <h4 style="font-family:'Libre Baskerville',Georgia,serif;font-size:30px;margin:0;font-weight:400">Les petites pièces</h4>
+          <p style="margin:0;font-size:15.5px;line-height:1.75;color:rgba(27,42,65,.75);max-width:420px">Abat-jour, lampes, rideaux et coussins prêts à partir, en vente directe.</p>
+          <span style="align-self:flex-start;padding:15px 26px;background:#7FA6A2;color:#F4EDDE;font-size:14px;letter-spacing:.04em;margin-top:8px">Acheter en ligne</span>
+        </div>
+      </div>
+
+      <!-- footer -->
+      <div style="background:#1B2A41;color:#F4EDDE;padding:72px 56px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:56px">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <span style="display:flex;align-items:center;gap:14px"><img src="assets/logo-atelier-clair.png" alt="Logo L'Atelier du Bout d'à Haut" style="width:46px;height:46px;object-fit:contain;flex:0 0 auto"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:22px">L'Atelier du Bout d'à Haut</span></span>
+          <p style="margin:0;font-size:14px;line-height:1.8;color:rgba(244,237,222,.7);max-width:340px">Rénover plutôt que remplacer : chaque siège remis en état est un meuble qui ne part pas à la déchetterie.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:rgba(244,237,222,.7)">
+          <span style="color:#C0D4C9;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px">Atelier</span>
+          <span>Gallardon (28)</span><span>Sur rendez-vous</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:rgba(244,237,222,.7)">
+          <span style="color:#C0D4C9;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px">Showroom</span>
+          <span>Rambouillet (78)</span><span>De 10h à 18h les mardis, mercredis, vendredis et samedis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 2. VITRINE GALERIE ============ -->
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:baseline;gap:16px">
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#7FA6A2">02</span>
+      <h2 style="font-family:'Libre Baskerville',Georgia,serif;font-size:26px;margin:0;font-weight:400">Vitrine — galerie des réalisations</h2>
+    </div>
+
+    <div style="width:1440px;background:#F4EDDE;box-shadow:0 24px 60px rgba(27,42,65,.14)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:26px 56px;border-bottom:1px solid rgba(27,42,65,.1)">
+        <span style="display:flex;align-items:center;gap:12px"><img src="assets/logo-atelier.png" alt="Logo L'Atelier du Bout d'à Haut" style="width:38px;height:38px;object-fit:contain;flex:0 0 auto"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:19px">L'Atelier du Bout d'à Haut</span></span>
+        <div style="display:flex;gap:34px;align-items:center;font-size:14px">
+          <span style="border-bottom:1px solid #1B2A41;padding-bottom:2px">Vitrine</span><span>Boutique</span><span>Savoir-faire</span><span>Le Boudoir</span><span>Contact</span>
+          <span style="padding:9px 16px;background:#7FA6A2;color:#F4EDDE;font-size:13px">Panier · 0</span>
+        </div>
+      </div>
+
+      <div style="padding:80px 56px 40px;display:flex;flex-direction:column;gap:40px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:48px">
+          <div style="display:flex;flex-direction:column;gap:20px;max-width:620px">
+            <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:46px;line-height:1.12;margin:0;font-weight:400">Vitrine</h3>
+            <p style="margin:0;font-size:16.5px;line-height:1.75;color:rgba(27,42,65,.75)">Réalisations effectuées pour des clients qui souhaitaient rénover et embellir leurs biens.</p>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <span style="padding:11px 20px;background:#1B2A41;color:#F4EDDE;font-size:13.5px;letter-spacing:.03em">Tout</span>
+            <span style="padding:11px 20px;border:1px solid rgba(27,42,65,.22);font-size:13.5px;letter-spacing:.03em">Tapisserie</span>
+            <span style="padding:11px 20px;border:1px solid rgba(27,42,65,.22);font-size:13.5px;letter-spacing:.03em">Couture d'ameublement</span>
+            <span style="padding:11px 20px;border:1px solid rgba(27,42,65,.22);font-size:13.5px;letter-spacing:.03em">Abat-jour</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:0 56px 96px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px 32px">
+        <div style="grid-column:span 2;display:flex;flex-direction:column;gap:20px">
+          <div style="height:520px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:flex-start;justify-content:flex-end;padding:20px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.5);background:#F4EDDE;padding:6px 10px">après — bergère Louis XV</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Tapisserie · 2026</span>
+              <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:27px">Bergère Louis XV, velours vert de gris</span>
+              <span style="font-size:14px;color:rgba(27,42,65,.65)">Garniture traditionnelle refaite, crin animal conservé</span>
+            </div>
+            <span style="font-size:13.5px;color:#7FA6A2;white-space:nowrap;border-bottom:1px solid #7FA6A2;padding-bottom:3px">Lire le projet</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px;padding-top:64px">
+          <div style="height:400px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Abat-jour · 2026</span>
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:22px">Paire d'abat-jour coniques, lin naturel</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="height:340px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Tapisserie · 2025</span>
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:22px">Canapé trois places, réfection complète</span>
+          </div>
+        </div>
+        <div style="grid-column:span 2;display:flex;flex-direction:column;gap:20px">
+          <div style="height:400px;background:#C0D4C9;display:flex;align-items:center;justify-content:center;padding:48px">
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:30px;line-height:1.4;text-align:center;max-width:640px;font-style:italic">« Un fauteuil bien garni traverse des décennies. »</span>
+          </div>
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(27,42,65,.5)">Économie circulaire — la rénovation d'abord</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="height:360px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Couture · 2025</span>
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:22px">Rideaux doublés, salon de Rambouillet</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="height:320px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Tapisserie · 2025</span>
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:22px">Six chaises de salle à manger</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="height:320px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Couture · 2024</span>
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:22px">Tête de lit capitonnée, coton chevrons</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="height:320px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Abat-jour · 2024</span>
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:22px">Abat-jour tambour, tissu du client</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 3. ARTICLE PROJET ============ -->
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:baseline;gap:16px">
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#7FA6A2">03</span>
+      <h2 style="font-family:'Libre Baskerville',Georgia,serif;font-size:26px;margin:0;font-weight:400">Vitrine — récit d'un projet (avant / après)</h2>
+    </div>
+
+    <div style="width:1440px;background:#F4EDDE;box-shadow:0 24px 60px rgba(27,42,65,.14)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:26px 56px;border-bottom:1px solid rgba(27,42,65,.1)">
+        <span style="display:flex;align-items:center;gap:12px"><img src="assets/logo-atelier.png" alt="Logo L'Atelier du Bout d'à Haut" style="width:38px;height:38px;object-fit:contain;flex:0 0 auto"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:19px">L'Atelier du Bout d'à Haut</span></span>
+        <div style="display:flex;gap:34px;align-items:center;font-size:14px">
+          <span style="border-bottom:1px solid #1B2A41;padding-bottom:2px">Vitrine</span><span>Boutique</span><span>Savoir-faire</span><span>Le Boudoir</span><span>Contact</span>
+          <span style="padding:9px 16px;background:#7FA6A2;color:#F4EDDE;font-size:13px">Panier · 0</span>
+        </div>
+      </div>
+
+      <div style="padding:72px 56px 0;display:flex;flex-direction:column;gap:32px;align-items:center;text-align:center">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7FA6A2">Tapisserie · Mars 2026 · Gallardon</span>
+        <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:52px;line-height:1.15;margin:0;font-weight:400;max-width:820px">Bergère Louis XV,<br>velours vert de gris</h3>
+        <p style="margin:0;font-size:18px;line-height:1.7;color:rgba(27,42,65,.72);max-width:640px;font-style:italic;text-wrap:pretty">Retrouvée dans un grenier de l'Eure-et-Loir, la carcasse était saine. Tout le reste était à refaire.</p>
+      </div>
+
+      <div style="padding:64px 56px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="height:520px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);position:relative;display:flex;align-items:flex-start;padding:18px">
+            <span style="background:#1B2A41;color:#F4EDDE;font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;padding:7px 12px">AVANT</span>
+          </div>
+          <span style="font-size:13.5px;color:rgba(27,42,65,.6)">Garniture d'origine affaissée, sangles rompues.</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="height:520px;background:repeating-linear-gradient(135deg,#C7D9CF 0 10px,#D6E4DB 10px 20px);position:relative;display:flex;align-items:flex-start;padding:18px">
+            <span style="background:#7FA6A2;color:#F4EDDE;font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.16em;padding:7px 12px">APRÈS</span>
+          </div>
+          <span style="font-size:13.5px;color:rgba(27,42,65,.6)">Velours de coton, clous de tapissier laiton vieilli.</span>
+        </div>
+      </div>
+
+      <div style="padding:0 56px 88px;display:grid;grid-template-columns:220px 1fr;gap:64px">
+        <div style="display:flex;flex-direction:column;gap:28px;font-size:14px">
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Savoir-faire</span><span>Tapisserie traditionnelle</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Tissu</span><span>Velours de coton, vert de gris</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Durée</span><span>Trois semaines d'atelier</span></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Matières réemployées</span><span>Crin animal, carcasse, ressorts</span></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:26px;max-width:680px">
+          <p style="margin:0;font-size:17px;line-height:1.85;color:rgba(27,42,65,.85);text-wrap:pretty">Le dégarnissage a demandé deux jours. Sous la toile, le crin animal était encore bon : lavé, cardé, il a repris sa place. Les ressorts ont été changés, le sanglage entièrement remplacé par des sangles de jute.</p>
+          <p style="margin:0;font-size:17px;line-height:1.85;color:rgba(27,42,65,.85);text-wrap:pretty">Pour le tissu, la propriétaire hésitait entre un lin écru et ce velours. Nous avons posé les deux échantillons sur le bois nu, à la lumière du salon : le vert de gris a gagné sans discussion.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:12px 0">
+            <div style="height:200px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+            <div style="height:200px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+            <div style="height:200px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+          </div>
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.5)">détails — guindage, pose du velours, finition clous</span>
+          <p style="margin:0;font-size:17px;line-height:1.85;color:rgba(27,42,65,.85);text-wrap:pretty">La finition est faite au clou de tapissier, posé à la main sur galon. Le fauteuil est reparti chez elle en mars, pour au moins trente ans.</p>
+        </div>
+      </div>
+
+      <div style="background:#C0D4C9;padding:80px 56px;display:flex;align-items:center;justify-content:space-between;gap:48px">
+        <div style="display:flex;flex-direction:column;gap:14px;max-width:560px">
+          <h4 style="font-family:'Libre Baskerville',Georgia,serif;font-size:32px;margin:0;font-weight:400">Vous avez un siège dans ce cas ?</h4>
+          <p style="margin:0;font-size:15.5px;line-height:1.7;color:rgba(27,42,65,.78)">Envoyez-moi des photos et vos dimensions, je vous réponds avec une estimation.</p>
+        </div>
+        <span style="padding:20px 34px;background:#1B2A41;color:#F4EDDE;font-size:15px;letter-spacing:.03em;white-space:nowrap">Me contacter pour un projet similaire</span>
+      </div>
+
+      <div style="padding:72px 56px;display:flex;flex-direction:column;gap:32px">
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#7FA6A2">À lire aussi</span>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+          <div style="display:flex;flex-direction:column;gap:14px"><div style="height:240px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:20px">Canapé trois places, réfection complète</span></div>
+          <div style="display:flex;flex-direction:column;gap:14px"><div style="height:240px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:20px">Six chaises de salle à manger</span></div>
+          <div style="display:flex;flex-direction:column;gap:14px"><div style="height:240px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:20px">Tête de lit capitonnée</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 4. MARKETPLACE GRILLE ============ -->
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:baseline;gap:16px">
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#7FA6A2">04</span>
+      <h2 style="font-family:'Libre Baskerville',Georgia,serif;font-size:26px;margin:0;font-weight:400">Boutique — grille produits</h2>
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.45)">structure e-commerce classique : filtres, tri, pagination</span>
+    </div>
+
+    <div style="width:1440px;background:#F4EDDE;box-shadow:0 24px 60px rgba(27,42,65,.14)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:26px 56px;border-bottom:1px solid rgba(27,42,65,.1)">
+        <span style="display:flex;align-items:center;gap:12px"><img src="assets/logo-atelier.png" alt="Logo L'Atelier du Bout d'à Haut" style="width:38px;height:38px;object-fit:contain;flex:0 0 auto"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:19px">L'Atelier du Bout d'à Haut</span></span>
+        <div style="display:flex;gap:34px;align-items:center;font-size:14px">
+          <span>Vitrine</span><span style="border-bottom:1px solid #1B2A41;padding-bottom:2px">Boutique</span><span>Savoir-faire</span><span>Le Boudoir</span><span>Contact</span>
+          <span style="padding:9px 16px;background:#7FA6A2;color:#F4EDDE;font-size:13px">Panier · 2</span>
+        </div>
+      </div>
+      <div style="padding:16px 56px;border-bottom:1px solid rgba(27,42,65,.1);display:flex;gap:10px;font-size:13px;color:rgba(27,42,65,.6)">
+        <span>Accueil</span><span>/</span><span style="color:#1B2A41">Boutique</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:248px 1fr;gap:48px;padding:48px 56px 88px">
+        <div style="display:flex;flex-direction:column;gap:36px">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Catégorie</span>
+            <div style="display:flex;flex-direction:column;gap:11px;font-size:14.5px">
+              <span style="display:flex;justify-content:space-between"><span style="font-weight:500">Tout</span><span style="color:rgba(27,42,65,.45)">24</span></span>
+              <span style="display:flex;justify-content:space-between"><span>Abat-jour</span><span style="color:rgba(27,42,65,.45)">9</span></span>
+              <span style="display:flex;justify-content:space-between"><span>Lampes</span><span style="color:rgba(27,42,65,.45)">4</span></span>
+              <span style="display:flex;justify-content:space-between"><span>Coussins</span><span style="color:rgba(27,42,65,.45)">7</span></span>
+              <span style="display:flex;justify-content:space-between"><span>Rideaux</span><span style="color:rgba(27,42,65,.45)">4</span></span>
+            </div>
+          </div>
+          <div style="height:1px;background:rgba(27,42,65,.12)"></div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Prix</span>
+            <div style="display:flex;flex-direction:column;gap:11px;font-size:14.5px">
+              <span style="display:flex;gap:10px;align-items:center"><span style="width:14px;height:14px;border:1px solid rgba(27,42,65,.3)"></span>Moins de 50 €</span>
+              <span style="display:flex;gap:10px;align-items:center"><span style="width:14px;height:14px;border:1px solid #1B2A41;background:#1B2A41"></span>50 – 120 €</span>
+              <span style="display:flex;gap:10px;align-items:center"><span style="width:14px;height:14px;border:1px solid rgba(27,42,65,.3)"></span>Plus de 120 €</span>
+            </div>
+          </div>
+          <div style="height:1px;background:rgba(27,42,65,.12)"></div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Disponibilité</span>
+            <div style="display:flex;flex-direction:column;gap:11px;font-size:14.5px">
+              <span style="display:flex;gap:10px;align-items:center"><span style="width:14px;height:14px;border:1px solid rgba(27,42,65,.3)"></span>En stock</span>
+              <span style="display:flex;gap:10px;align-items:center"><span style="width:14px;height:14px;border:1px solid rgba(27,42,65,.3)"></span>Pièce unique</span>
+            </div>
+          </div>
+          <div style="background:#C0D4C9;padding:24px;display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:17px">Sur mesure ?</span>
+            <p style="margin:0;font-size:13.5px;line-height:1.65;color:rgba(27,42,65,.78)">Abat-jour ou coussins dans votre tissu : passez par la page contact.</p>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:32px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid rgba(27,42,65,.12);padding-bottom:20px">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:34px;margin:0;font-weight:400">Boutique</h3>
+              <span style="font-size:13.5px;color:rgba(27,42,65,.6)">24 pièces disponibles, expédiées sous 5 jours</span>
+            </div>
+            <span style="display:flex;gap:12px;align-items:center;font-size:13.5px;border:1px solid rgba(27,42,65,.22);padding:10px 16px">Trier : nouveautés <span style="color:#7FA6A2">▾</span></span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:36px 28px">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="height:300px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:flex-start;padding:14px"><span style="background:#7FA6A2;color:#F4EDDE;font-size:11px;font-family:ui-monospace,Menlo,monospace;letter-spacing:.1em;padding:5px 9px">PIÈCE UNIQUE</span></div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:18px">Abat-jour conique, lin naturel</span>
+                <span style="font-size:13px;color:rgba(27,42,65,.6)">Ø 25 cm · monté main</span>
+                <span style="font-size:15px;font-weight:500;margin-top:4px">89,00 €</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="height:300px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:18px">Coussin passepoilé, velours vert</span>
+                <span style="font-size:13px;color:rgba(27,42,65,.6)">45 × 45 cm · garnissage inclus</span>
+                <span style="font-size:15px;font-weight:500;margin-top:4px">54,00 €</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="height:300px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:18px">Lampe de chevet chinée, laiton</span>
+                <span style="font-size:13px;color:rgba(27,42,65,.6)">Recâblée · abat-jour au choix</span>
+                <span style="font-size:15px;font-weight:500;margin-top:4px">145,00 €</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="height:300px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:18px">Abat-jour tambour, coton imprimé</span>
+                <span style="font-size:13px;color:rgba(27,42,65,.6)">Ø 30 cm</span>
+                <span style="font-size:15px;font-weight:500;margin-top:4px">96,00 €</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="height:300px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:18px">Paire de rideaux doublés, lin lavé</span>
+                <span style="font-size:13px;color:rgba(27,42,65,.6)">140 × 250 cm</span>
+                <span style="font-size:15px;font-weight:500;margin-top:4px">310,00 €</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="height:300px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:flex-start;padding:14px"><span style="background:#1B2A41;color:#F4EDDE;font-size:11px;font-family:ui-monospace,Menlo,monospace;letter-spacing:.1em;padding:5px 9px">DERNIER</span></div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:18px">Coussin capitonné, chevrons</span>
+                <span style="font-size:13px;color:rgba(27,42,65,.6)">40 × 60 cm</span>
+                <span style="font-size:15px;font-weight:500;margin-top:4px">62,00 €</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:center;gap:8px;padding-top:24px;font-size:14px">
+            <span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:#1B2A41;color:#F4EDDE">1</span>
+            <span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(27,42,65,.2)">2</span>
+            <span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(27,42,65,.2)">3</span>
+            <span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(27,42,65,.2)">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 5. FICHE PRODUIT + 6. PANIER ============ -->
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:baseline;gap:16px">
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#7FA6A2">05 · 06</span>
+      <h2 style="font-family:'Libre Baskerville',Georgia,serif;font-size:26px;margin:0;font-weight:400">Boutique — fiche produit et panier</h2>
+    </div>
+
+    <div style="display:flex;gap:48px;align-items:flex-start;width:max-content">
+      <div style="flex:0 0 auto;width:1000px;background:#F4EDDE;box-shadow:0 24px 60px rgba(27,42,65,.14)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 40px;border-bottom:1px solid rgba(27,42,65,.1)">
+          <span style="display:flex;align-items:center;gap:12px"><img src="assets/logo-atelier.png" alt="Logo L'Atelier du Bout d'à Haut" style="width:32px;height:32px;object-fit:contain;flex:0 0 auto"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:17px">L'Atelier du Bout d'à Haut</span></span>
+          <div style="display:flex;gap:24px;align-items:center;font-size:13px"><span>Vitrine</span><span style="border-bottom:1px solid #1B2A41">Boutique</span><span>Contact</span><span style="padding:8px 14px;background:#7FA6A2;color:#F4EDDE">Panier · 2</span></div>
+        </div>
+        <div style="padding:14px 40px;border-bottom:1px solid rgba(27,42,65,.1);font-size:12.5px;color:rgba(27,42,65,.6);display:flex;gap:8px"><span>Boutique</span><span>/</span><span>Abat-jour</span><span>/</span><span style="color:#1B2A41">Abat-jour conique, lin naturel</span></div>
+
+        <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:40px;padding:40px">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="height:420px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:flex-end;padding:16px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.5);background:#F4EDDE;padding:6px 10px">photo produit 1/4</span></div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+              <div style="height:88px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);outline:2px solid #7FA6A2;outline-offset:-2px"></div>
+              <div style="height:88px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="height:88px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="height:88px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#7FA6A2">Abat-jour · pièce unique</span>
+            <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:32px;line-height:1.25;margin:0;font-weight:400">Abat-jour conique, lin naturel</h3>
+            <span style="font-size:26px;font-weight:500">89,00 €</span>
+            <p style="margin:0;font-size:15px;line-height:1.8;color:rgba(27,42,65,.78)">Monté à la main sur carcasse laiton, doublure blanche pour une lumière chaude. Lin belge non traité, couture rentrée. Diamètre 25 cm, hauteur 18 cm.</p>
+            <div style="display:flex;gap:10px;align-items:center;font-size:13.5px;color:#7FA6A2"><span style="width:7px;height:7px;background:#7FA6A2;border-radius:50%"></span>En stock — 1 exemplaire</div>
+            <div style="display:flex;gap:14px;align-items:stretch;margin-top:6px">
+              <div style="display:flex;align-items:center;border:1px solid rgba(27,42,65,.22)">
+                <span style="padding:14px 16px;font-size:15px">−</span><span style="padding:14px 8px;font-size:15px;min-width:24px;text-align:center">1</span><span style="padding:14px 16px;font-size:15px">+</span>
+              </div>
+              <span style="flex:1;display:flex;align-items:center;justify-content:center;background:#7FA6A2;color:#F4EDDE;font-size:15px;letter-spacing:.03em">Ajouter au panier</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1px solid rgba(27,42,65,.12);font-size:13.5px;color:rgba(27,42,65,.7)">
+              <span>Expédition sous 5 jours ouvrés</span>
+              <span>Retrait possible au showroom de Rambouillet</span>
+              <span>Paiement sécurisé</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:0 40px 48px;display:flex;flex-direction:column;gap:20px">
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#7FA6A2">Dans le même esprit</span>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+            <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div><span style="font-size:13.5px">Abat-jour tambour</span><span style="font-size:13.5px;font-weight:500">96,00 €</span></div>
+            <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div><span style="font-size:13.5px">Lampe laiton</span><span style="font-size:13.5px;font-weight:500">145,00 €</span></div>
+            <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div><span style="font-size:13.5px">Coussin velours</span><span style="font-size:13.5px;font-weight:500">54,00 €</span></div>
+            <div style="display:flex;flex-direction:column;gap:10px"><div style="height:150px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div><span style="font-size:13.5px">Coussin chevrons</span><span style="font-size:13.5px;font-weight:500">62,00 €</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:0 0 auto;width:800px;background:#F4EDDE;box-shadow:0 24px 60px rgba(27,42,65,.14)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 36px;border-bottom:1px solid rgba(27,42,65,.1)">
+          <span style="display:flex;align-items:center;gap:12px"><img src="assets/logo-atelier.png" alt="Logo L'Atelier du Bout d'à Haut" style="width:32px;height:32px;object-fit:contain;flex:0 0 auto"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:17px">L'Atelier du Bout d'à Haut</span></span>
+          <span style="font-size:13px;color:rgba(27,42,65,.6)">Retour à la boutique</span>
+        </div>
+        <div style="padding:36px 36px 0;display:flex;gap:22px;align-items:center;font-size:13px">
+          <span style="display:flex;gap:9px;align-items:center;font-weight:500"><span style="width:22px;height:22px;background:#1B2A41;color:#F4EDDE;display:flex;align-items:center;justify-content:center;font-size:11px">1</span>Panier</span>
+          <span style="flex:1;height:1px;background:rgba(27,42,65,.15)"></span>
+          <span style="display:flex;gap:9px;align-items:center;color:rgba(27,42,65,.45)"><span style="width:22px;height:22px;border:1px solid rgba(27,42,65,.3);display:flex;align-items:center;justify-content:center;font-size:11px">2</span>Livraison</span>
+          <span style="flex:1;height:1px;background:rgba(27,42,65,.15)"></span>
+          <span style="display:flex;gap:9px;align-items:center;color:rgba(27,42,65,.45)"><span style="width:22px;height:22px;border:1px solid rgba(27,42,65,.3);display:flex;align-items:center;justify-content:center;font-size:11px">3</span>Paiement</span>
+        </div>
+
+        <div style="padding:36px;display:flex;flex-direction:column;gap:24px">
+          <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:30px;margin:0;font-weight:400">Votre panier</h3>
+          <div style="display:flex;flex-direction:column">
+            <div style="display:grid;grid-template-columns:96px 1fr auto auto;gap:20px;align-items:center;padding:20px 0;border-top:1px solid rgba(27,42,65,.12)">
+              <div style="height:96px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="display:flex;flex-direction:column;gap:5px"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:17px">Abat-jour conique, lin naturel</span><span style="font-size:13px;color:rgba(27,42,65,.6)">Ø 25 cm · pièce unique</span><span style="font-size:12.5px;color:#7FA6A2">Retirer</span></div>
+              <div style="display:flex;align-items:center;border:1px solid rgba(27,42,65,.22)"><span style="padding:9px 12px;font-size:14px">−</span><span style="padding:9px 6px;font-size:14px">1</span><span style="padding:9px 12px;font-size:14px">+</span></div>
+              <span style="font-size:16px;font-weight:500;min-width:84px;text-align:right">89,00 €</span>
+            </div>
+            <div style="display:grid;grid-template-columns:96px 1fr auto auto;gap:20px;align-items:center;padding:20px 0;border-top:1px solid rgba(27,42,65,.12)">
+              <div style="height:96px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="display:flex;flex-direction:column;gap:5px"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:17px">Coussin passepoilé, velours vert</span><span style="font-size:13px;color:rgba(27,42,65,.6)">45 × 45 cm</span><span style="font-size:12.5px;color:#7FA6A2">Retirer</span></div>
+              <div style="display:flex;align-items:center;border:1px solid rgba(27,42,65,.22)"><span style="padding:9px 12px;font-size:14px">−</span><span style="padding:9px 6px;font-size:14px">2</span><span style="padding:9px 12px;font-size:14px">+</span></div>
+              <span style="font-size:16px;font-weight:500;min-width:84px;text-align:right">108,00 €</span>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 300px;gap:32px;padding-top:12px">
+            <div style="background:#C0D4C9;padding:24px;display:flex;flex-direction:column;gap:8px">
+              <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:16px">Retrait au showroom</span>
+              <p style="margin:0;font-size:13.5px;line-height:1.6;color:rgba(27,42,65,.78)">Gratuit à Rambouillet. À choisir à l'étape suivante.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;justify-content:space-between;font-size:14.5px"><span style="color:rgba(27,42,65,.7)">Sous-total</span><span>197,00 €</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:14.5px"><span style="color:rgba(27,42,65,.7)">Livraison</span><span>8,90 €</span></div>
+              <div style="height:1px;background:rgba(27,42,65,.15)"></div>
+              <div style="display:flex;justify-content:space-between;font-size:19px;font-weight:500"><span>Total</span><span>205,90 €</span></div>
+              <span style="text-align:center;padding:17px;background:#7FA6A2;color:#F4EDDE;font-size:15px;letter-spacing:.03em;margin-top:6px">Passer commande</span>
+              <span style="text-align:center;font-size:12.5px;color:rgba(27,42,65,.55)">Maquette — aucun paiement réel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 7-9. ADMIN ============ -->
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:baseline;gap:16px">
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#7FA6A2">07 · 08 · 09</span>
+      <h2 style="font-family:'Libre Baskerville',Georgia,serif;font-size:26px;margin:0;font-weight:400">Espace administrateur</h2>
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.45)">contenu modifiable, mise en page verrouillée</span>
+    </div>
+
+    <div style="width:1440px;background:#F4EDDE;box-shadow:0 24px 60px rgba(27,42,65,.14);display:grid;grid-template-columns:252px 1fr">
+      <div style="background:#1B2A41;color:#F4EDDE;padding:32px 24px;display:flex;flex-direction:column;gap:40px;min-height:820px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <img src="assets/logo-atelier-clair.png" alt="Logo L'Atelier du Bout d'à Haut" style="width:52px;height:52px;object-fit:contain;margin-bottom:6px"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:16px;line-height:1.4">L'Atelier du Bout d'à Haut</span>
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;color:#C0D4C9">ADMINISTRATION</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:14px">
+          <span style="padding:12px 14px;background:rgba(192,212,201,.16);color:#F4EDDE">Tableau de bord</span>
+          <span style="padding:12px 14px;color:rgba(244,237,222,.68)">Produits boutique</span>
+          <span style="padding:12px 14px;color:rgba(244,237,222,.68)">Posts vitrine</span>
+          <span style="padding:12px 14px;color:rgba(244,237,222,.68)">Catégories et filtres</span>
+          <span style="padding:12px 14px;color:rgba(244,237,222,.68)">Commandes</span>
+          <span style="padding:12px 14px;color:rgba(244,237,222,.68)">Messages de contact</span>
+        </div>
+        <div style="margin-top:auto;border-top:1px solid rgba(244,237,222,.16);padding-top:20px;display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:13.5px">Valérie · atelier</span>
+          <span style="font-size:12.5px;color:rgba(244,237,222,.55)">Se déconnecter</span>
+        </div>
+      </div>
+
+      <div style="padding:44px 48px;display:flex;flex-direction:column;gap:40px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:32px;margin:0;font-weight:400">Bonjour Valérie</h3>
+          <p style="margin:0;font-size:15px;color:rgba(27,42,65,.7)">Vous gérez le contenu du site. La mise en page et les couleurs sont fixées par la charte : rien à régler de ce côté.</p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div style="background:#C0D4C9;padding:34px;display:flex;flex-direction:column;gap:16px">
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:24px">Ajouter un produit boutique</span>
+            <p style="margin:0;font-size:14.5px;line-height:1.7;color:rgba(27,42,65,.78)">Photos, titre, prix, description, stock. Mis en ligne immédiatement.</p>
+            <span style="align-self:flex-start;padding:14px 24px;background:#1B2A41;color:#F4EDDE;font-size:14px;margin-top:6px">Nouveau produit</span>
+          </div>
+          <div style="background:#F4EDDE;border:1px solid rgba(27,42,65,.18);padding:34px;display:flex;flex-direction:column;gap:16px">
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:24px">Ajouter un post vitrine</span>
+            <p style="margin:0;font-size:14.5px;line-height:1.7;color:rgba(27,42,65,.78)">Photos avant / après, titre et récit du projet. Pas de prix.</p>
+            <span style="align-self:flex-start;padding:14px 24px;background:#7FA6A2;color:#F4EDDE;font-size:14px;margin-top:6px">Nouveau post</span>
+          </div>
+        </div>
+
+
+        <div style="display:flex;flex-direction:column;gap:20px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18);padding:32px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:24px">Catégories et filtres</span>
+              <p style="margin:0;font-size:14.5px;line-height:1.7;color:rgba(27,42,65,.75);max-width:620px">Vous pouvez créer, renommer, réordonner ou masquer autant de catégories et de filtres que vous voulez. La boutique et la vitrine les affichent automatiquement dans la mise en page existante.</p>
+            </div>
+            <span style="padding:13px 22px;background:#1B2A41;color:#F4EDDE;font-size:14px;white-space:nowrap">Ajouter une catégorie</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;padding-top:8px;border-top:1px solid rgba(27,42,65,.12)">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Catégories boutique</span>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <span style="display:flex;align-items:center;gap:10px;padding:9px 13px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18);font-size:13.5px">Abat-jour<span style="color:rgba(27,42,65,.4);font-size:12px">modifier</span></span><span style="display:flex;align-items:center;gap:10px;padding:9px 13px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18);font-size:13.5px">Lampes<span style="color:rgba(27,42,65,.4);font-size:12px">modifier</span></span><span style="display:flex;align-items:center;gap:10px;padding:9px 13px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18);font-size:13.5px">Coussins<span style="color:rgba(27,42,65,.4);font-size:12px">modifier</span></span><span style="display:flex;align-items:center;gap:10px;padding:9px 13px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18);font-size:13.5px">Rideaux<span style="color:rgba(27,42,65,.4);font-size:12px">modifier</span></span>
+                <span style="display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px dashed rgba(27,42,65,.4);font-size:13.5px;color:rgba(27,42,65,.6)">+ Nouvelle</span>
+              </div>
+              <span style="font-size:12.5px;color:rgba(27,42,65,.55);line-height:1.6">Glisser pour réordonner. Une catégorie vide reste masquée du site.</span>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Filtres de la boutique</span>
+              <div style="display:flex;flex-direction:column;gap:8px;font-size:13.5px">
+                <span style="display:flex;justify-content:space-between;align-items:center;padding:11px 13px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18)">Prix — 3 tranches<span style="color:rgba(27,42,65,.4);font-size:12px">modifier</span></span>
+                <span style="display:flex;justify-content:space-between;align-items:center;padding:11px 13px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18)">Disponibilité — 2 choix<span style="color:rgba(27,42,65,.4);font-size:12px">modifier</span></span>
+                <span style="display:flex;justify-content:space-between;align-items:center;padding:11px 13px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18);color:rgba(27,42,65,.5)">Couleur — masqué<span style="color:#7FA6A2;font-size:12px">afficher</span></span>
+                <span style="display:flex;align-items:center;gap:8px;padding:11px 13px;border:1px dashed rgba(27,42,65,.4);color:rgba(27,42,65,.6)">+ Nouveau filtre</span>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Savoir-faire (vitrine)</span>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <span style="display:flex;align-items:center;gap:10px;padding:9px 13px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18);font-size:13.5px">Tapisserie<span style="color:rgba(27,42,65,.4);font-size:12px">modifier</span></span><span style="display:flex;align-items:center;gap:10px;padding:9px 13px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18);font-size:13.5px">Couture d'ameublement<span style="color:rgba(27,42,65,.4);font-size:12px">modifier</span></span><span style="display:flex;align-items:center;gap:10px;padding:9px 13px;background:#F4EDDE;border:1px solid rgba(27,42,65,.18);font-size:13.5px">Abat-jour sur mesure<span style="color:rgba(27,42,65,.4);font-size:12px">modifier</span></span>
+                <span style="display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px dashed rgba(27,42,65,.4);font-size:13.5px;color:rgba(27,42,65,.6)">+ Nouveau</span>
+              </div>
+              <div style="background:#C0D4C9;padding:14px 16px;font-size:13px;line-height:1.6">Ces libellés servent de filtres sur la vitrine et de choix dans le formulaire de post.</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Derniers produits</span><span style="font-size:13px;color:#7FA6A2">Tout voir</span></div>
+            <div style="display:flex;flex-direction:column">
+              <div style="display:grid;grid-template-columns:52px 1fr auto auto;gap:16px;align-items:center;padding:14px 0;border-top:1px solid rgba(27,42,65,.12)">
+                <div style="height:52px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+                <span style="font-size:14.5px">Abat-jour conique, lin naturel</span><span style="font-size:13.5px;color:rgba(27,42,65,.6)">Stock 1</span><span style="font-size:14px;font-weight:500">89,00 €</span>
+              </div>
+              <div style="display:grid;grid-template-columns:52px 1fr auto auto;gap:16px;align-items:center;padding:14px 0;border-top:1px solid rgba(27,42,65,.12)">
+                <div style="height:52px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+                <span style="font-size:14.5px">Coussin passepoilé, velours vert</span><span style="font-size:13.5px;color:rgba(27,42,65,.6)">Stock 4</span><span style="font-size:14px;font-weight:500">54,00 €</span>
+              </div>
+              <div style="display:grid;grid-template-columns:52px 1fr auto auto;gap:16px;align-items:center;padding:14px 0;border-top:1px solid rgba(27,42,65,.12)">
+                <div style="height:52px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+                <span style="font-size:14.5px">Lampe de chevet chinée</span><span style="font-size:13.5px;color:rgba(27,42,65,.6)">Stock 1</span><span style="font-size:14px;font-weight:500">145,00 €</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Derniers posts vitrine</span><span style="font-size:13px;color:#7FA6A2">Tout voir</span></div>
+            <div style="display:flex;flex-direction:column">
+              <div style="display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:14px 0;border-top:1px solid rgba(27,42,65,.12)">
+                <div style="height:52px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+                <span style="font-size:14.5px">Bergère Louis XV, velours vert de gris</span><span style="font-size:13px;color:rgba(27,42,65,.6)">En ligne</span>
+              </div>
+              <div style="display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:14px 0;border-top:1px solid rgba(27,42,65,.12)">
+                <div style="height:52px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+                <span style="font-size:14.5px">Rideaux doublés, salon de Rambouillet</span><span style="font-size:13px;color:rgba(27,42,65,.6)">En ligne</span>
+              </div>
+              <div style="display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:14px 0;border-top:1px solid rgba(27,42,65,.12)">
+                <div style="height:52px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+                <span style="font-size:14.5px">Six chaises de salle à manger</span><span style="font-size:13px;color:#7FA6A2">Brouillon</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- deux formulaires -->
+    <div style="display:flex;gap:40px;align-items:flex-start;margin-top:20px;width:max-content">
+      <div style="flex:0 0 auto;width:700px;background:#F4EDDE;box-shadow:0 24px 60px rgba(27,42,65,.14)">
+        <div style="background:#1B2A41;color:#F4EDDE;padding:22px 32px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:19px">Ajouter un produit boutique</span>
+          <span style="font-size:13px;color:rgba(244,237,222,.6)">Annuler</span>
+        </div>
+        <div style="padding:32px;display:flex;flex-direction:column;gap:26px">
+          <div style="background:#C0D4C9;padding:16px 18px;font-size:13.5px;line-height:1.6">Vous remplissez le contenu ; la fiche produit se met en page automatiquement.</div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:13px;font-weight:500">Photos <span style="color:rgba(27,42,65,.5);font-weight:400">— 4 maximum, la première sert de vignette</span></span>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+              <div style="height:112px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="height:112px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="height:112px;border:1px dashed rgba(27,42,65,.35);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(27,42,65,.5);text-align:center;padding:8px">Glisser une photo</div>
+              <div style="height:112px;border:1px dashed rgba(27,42,65,.35);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(27,42,65,.5)">+</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:13px;font-weight:500">Titre</span>
+            <div style="border:1px solid rgba(27,42,65,.25);padding:14px 16px;font-size:15px;background:#FBF7EC">Abat-jour conique, lin naturel</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px">
+            <div style="display:flex;flex-direction:column;gap:9px"><span style="font-size:13px;font-weight:500">Prix</span><div style="border:1px solid rgba(27,42,65,.25);padding:14px 16px;font-size:15px;background:#FBF7EC;display:flex;justify-content:space-between">89,00 <span style="color:rgba(27,42,65,.45)">€</span></div></div>
+            <div style="display:flex;flex-direction:column;gap:9px"><span style="font-size:13px;font-weight:500">Stock</span><div style="border:1px solid rgba(27,42,65,.25);padding:14px 16px;font-size:15px;background:#FBF7EC">1</div></div>
+            <div style="display:flex;flex-direction:column;gap:9px"><span style="font-size:13px;font-weight:500">Catégorie</span><div style="border:1px solid rgba(27,42,65,.25);padding:14px 16px;font-size:15px;background:#FBF7EC;display:flex;justify-content:space-between">Abat-jour<span style="color: rgb(127, 166, 162);">▾</span></div><span style="font-size:12px;color:#7FA6A2">+ Créer une catégorie</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:13px;font-weight:500">Description <span style="color:rgba(27,42,65,.5);font-weight:400">— matières, dimensions, entretien</span></span>
+            <div style="border:1px solid rgba(27,42,65,.25);padding:14px 16px;font-size:15px;line-height:1.7;background:#FBF7EC;min-height:120px;color:rgba(27,42,65,.85)">Monté à la main sur carcasse laiton, doublure blanche pour une lumière chaude. Lin belge non traité, couture rentrée.</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid rgba(27,42,65,.12)">
+            <span style="font-size:13px;color:rgba(27,42,65,.55)">Champs obligatoires : titre, prix, une photo</span>
+            <div style="display:flex;gap:12px"><span style="padding:14px 22px;border:1px solid rgba(27,42,65,.25);font-size:14px">Brouillon</span><span style="padding:14px 26px;background:#7FA6A2;color:#F4EDDE;font-size:14px">Publier</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:0 0 auto;width:700px;background:#F4EDDE;box-shadow:0 24px 60px rgba(27,42,65,.14)">
+        <div style="background:#1B2A41;color:#F4EDDE;padding:22px 32px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:19px">Ajouter un post vitrine</span>
+          <span style="font-size:13px;color:rgba(244,237,222,.6)">Annuler</span>
+        </div>
+        <div style="padding:32px;display:flex;flex-direction:column;gap:26px">
+          <div style="background:#C0D4C9;padding:16px 18px;font-size:13.5px;line-height:1.6">Le récit s'affiche dans la mise en page de la vitrine : diptyque avant / après, puis texte.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <span style="font-size:13px;font-weight:500">Photo avant</span>
+              <div style="height:180px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:flex-start;padding:12px"><span style="background:#1B2A41;color:#F4EDDE;font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.14em;padding:5px 9px">AVANT</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <span style="font-size:13px;font-weight:500">Photo après</span>
+              <div style="height:180px;border:1px dashed rgba(27,42,65,.35);display:flex;align-items:center;justify-content:center;font-size:12.5px;color:rgba(27,42,65,.5)">Glisser la photo « après »</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:13px;font-weight:500">Photos de détail <span style="color:rgba(27,42,65,.5);font-weight:400">— facultatif, 3 maximum</span></span>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+              <div style="height:92px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+              <div style="height:92px;border:1px dashed rgba(27,42,65,.35);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(27,42,65,.5)">+</div>
+              <div style="height:92px;border:1px dashed rgba(27,42,65,.35);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(27,42,65,.5)">+</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 200px;gap:18px">
+            <div style="display:flex;flex-direction:column;gap:9px"><span style="font-size:13px;font-weight:500">Titre du projet</span><div style="border:1px solid rgba(27,42,65,.25);padding:14px 16px;font-size:15px;background:#FBF7EC">Bergère Louis XV, velours vert de gris</div></div>
+            <div style="display:flex;flex-direction:column;gap:9px"><span style="font-size:13px;font-weight:500">Savoir-faire</span><div style="border:1px solid rgba(27,42,65,.25);padding:14px 16px;font-size:15px;background:#FBF7EC;display:flex;justify-content:space-between">Tapisserie <span style="color:#7FA6A2">▾</span></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:13px;font-weight:500">Récit du projet</span>
+            <div style="border:1px solid rgba(27,42,65,.25);padding:14px 16px;font-size:15px;line-height:1.75;background:#FBF7EC;min-height:150px;color:rgba(27,42,65,.85)">Le dégarnissage a demandé deux jours. Sous la toile, le crin animal était encore bon : lavé, cardé, il a repris sa place…</div>
+            <span style="font-size:12.5px;color:rgba(27,42,65,.5)">Texte simple. Gras, italique et titres intermédiaires disponibles ; pas de mise en page libre.</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid rgba(27,42,65,.12)">
+            <span style="font-size:13px;color:rgba(27,42,65,.55)">Le post apparaîtra en tête de la vitrine</span>
+            <div style="display:flex;gap:12px"><span style="padding:14px 22px;border:1px solid rgba(27,42,65,.25);font-size:14px">Brouillon</span><span style="padding:14px 26px;background:#7FA6A2;color:#F4EDDE;font-size:14px">Publier</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 10. MOBILE ============ -->
+  <sc-if value="{{ showMobile }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:baseline;gap:16px">
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.16em;color:#7FA6A2">10</span>
+      <h2 style="font-family:'Libre Baskerville',Georgia,serif;font-size:26px;margin:0;font-weight:400">Mobile — accueil, vitrine, fiche produit, admin</h2>
+      <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(27,42,65,.45)">390 px</span>
+    </div>
+
+    <div style="display:flex;gap:36px;align-items:flex-start;width:max-content">
+      <!-- mobile accueil -->
+      <div style="flex:0 0 auto;width:390px;background:#F4EDDE;box-shadow:0 20px 48px rgba(27,42,65,.14)">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid rgba(27,42,65,.1)">
+          <span style="display:flex;align-items:center;gap:10px"><img src="assets/logo-atelier.png" alt="Logo L'Atelier du Bout d'à Haut" style="width:34px;height:34px;object-fit:contain;flex:0 0 auto"><span style="font-family:'Libre Baskerville',Georgia,serif;font-size:15px;line-height:1.3">L'Atelier<br>du Bout d'à Haut</span></span>
+          <div style="display:flex;flex-direction:column;gap:5px;width:24px"><span style="height:1.5px;background:#1B2A41"></span><span style="height:1.5px;background:#1B2A41"></span></div>
+        </div>
+        <div style="height:400px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:flex-end;padding:16px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;color:rgba(27,42,65,.5);background:#F4EDDE;padding:6px 9px">hero — fauteuil restauré</span></div>
+        <div style="padding:28px 20px 24px;display:flex;flex-direction:column;gap:18px">
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7FA6A2">Gallardon · Rambouillet</span>
+          <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:32px;line-height:1.15;margin:0;font-weight:400">Redonner vie aux sièges <em style="color:#7FA6A2">qui ont une histoire.</em></h3>
+          <p style="margin:0;font-size:15px;line-height:1.75;color:rgba(27,42,65,.78)">Tapissière-garnisseuse. Restauration de fauteuils, couture d'ameublement, abat-jour sur mesure.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+            <span style="display:flex;justify-content:space-between;padding:18px 20px;background:#1B2A41;color:#F4EDDE;font-size:15px">Vitrine <span style="color:#C0D4C9">→</span></span>
+            <span style="display:flex;justify-content:space-between;padding:18px 20px;background:#C0D4C9;font-size:15px">Boutique <span>→</span></span>
+          </div>
+        </div>
+        <div style="background:#C0D4C9;padding:28px 20px;display:flex;flex-direction:column;gap:16px">
+          <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:22px">Trois savoir-faire</span>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="background:#F4EDDE;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;font-size:15px">Tapisserie <span style="color:#7FA6A2">→</span></div>
+            <div style="background:#F4EDDE;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;font-size:15px">Couture d'ameublement <span style="color:#7FA6A2">→</span></div>
+            <div style="background:#F4EDDE;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;font-size:15px">Abat-jour sur mesure <span style="color:#7FA6A2">→</span></div>
+          </div>
+        </div>
+        <div style="background:#1B2A41;color:rgba(244,237,222,.72);padding:28px 20px;font-size:13.5px;line-height:1.8">Rénover plutôt que remplacer.<br>Atelier Gallardon · Showroom Rambouillet</div>
+      </div>
+
+      <!-- mobile vitrine -->
+      <div style="flex:0 0 auto;width:390px;background:#F4EDDE;box-shadow:0 20px 48px rgba(27,42,65,.14)">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid rgba(27,42,65,.1)">
+          <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:15px">Vitrine</span>
+          <div style="display:flex;flex-direction:column;gap:5px;width:24px"><span style="height:1.5px;background:#1B2A41"></span><span style="height:1.5px;background:#1B2A41"></span></div>
+        </div>
+        <div style="padding:24px 20px;display:flex;flex-direction:column;gap:16px">
+          <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:30px;margin:0;font-weight:400">Réalisations</h3>
+          <div style="display:flex;gap:8px;overflow:hidden">
+            <span style="padding:9px 15px;background:#1B2A41;color:#F4EDDE;font-size:12.5px;white-space:nowrap">Tout</span>
+            <span style="padding:9px 15px;border:1px solid rgba(27,42,65,.22);font-size:12.5px;white-space:nowrap">Tapisserie</span>
+            <span style="padding:9px 15px;border:1px solid rgba(27,42,65,.22);font-size:12.5px;white-space:nowrap">Couture</span>
+          </div>
+        </div>
+        <div style="padding:0 20px 28px;display:flex;flex-direction:column;gap:28px">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="height:300px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Tapisserie · 2026</span>
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:20px;line-height:1.35">Bergère Louis XV, velours vert de gris</span>
+            <span style="font-size:13px;color:#7FA6A2;border-bottom:1px solid #7FA6A2;align-self:flex-start;padding-bottom:2px">Lire le projet</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="height:260px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px)"></div>
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">Abat-jour · 2026</span>
+            <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:20px;line-height:1.35">Paire d'abat-jour coniques, lin naturel</span>
+          </div>
+          <div style="background:#C0D4C9;padding:26px 22px"><span style="font-family: &quot;Libre Baskerville&quot;, Georgia, serif; font-size: 19px; line-height: 1.5; font-style: italic;">« Un fauteuil bien garni traverse des décennies. »</span></div>
+        </div>
+      </div>
+
+      <!-- mobile fiche produit -->
+      <div style="flex:0 0 auto;width:390px;background:#F4EDDE;box-shadow:0 20px 48px rgba(27,42,65,.14)">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid rgba(27,42,65,.1)">
+          <span style="font-size:14px">← Boutique</span>
+          <span style="padding:8px 13px;background:#7FA6A2;color:#F4EDDE;font-size:12.5px">Panier · 2</span>
+        </div>
+        <div style="height:360px;background:repeating-linear-gradient(135deg,#E7DEC9 0 10px,#F0E8D6 10px 20px);display:flex;align-items:flex-end;justify-content:center;padding:14px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;color:rgba(27,42,65,.5);background:#F4EDDE;padding:5px 9px">1 / 4</span></div>
+        <div style="padding:24px 20px;display:flex;flex-direction:column;gap:16px">
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7FA6A2">Abat-jour · pièce unique</span>
+          <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:26px;line-height:1.25;margin:0;font-weight:400">Abat-jour conique, lin naturel</h3>
+          <span style="font-size:22px;font-weight:500">89,00 €</span>
+          <p style="margin:0;font-size:14.5px;line-height:1.75;color:rgba(27,42,65,.78)">Monté à la main sur carcasse laiton, doublure blanche. Lin belge non traité. Ø 25 cm, h. 18 cm.</p>
+          <div style="display:flex;gap:9px;align-items:center;font-size:13px;color:#7FA6A2"><span style="width:7px;height:7px;background:#7FA6A2;border-radius:50%"></span>En stock — 1 exemplaire</div>
+          <div style="display:flex;flex-direction:column;gap:10px;padding-top:8px;font-size:13.5px;color:rgba(27,42,65,.7);border-top:1px solid rgba(27,42,65,.12)">
+            <span>Expédition sous 5 jours</span><span>Retrait au showroom de Rambouillet</span>
+          </div>
+        </div>
+        <div style="position:sticky;bottom:0;padding:14px 20px;border-top:1px solid rgba(27,42,65,.12);display:flex;gap:12px;background:#F4EDDE">
+          <div style="display:flex;align-items:center;border:1px solid rgba(27,42,65,.22)"><span style="padding:14px 13px">−</span><span style="padding:14px 4px">1</span><span style="padding:14px 13px">+</span></div>
+          <span style="flex:1;display:flex;align-items:center;justify-content:center;background:#7FA6A2;color:#F4EDDE;font-size:15px">Ajouter au panier</span>
+        </div>
+      </div>
+
+      <!-- mobile admin -->
+      <div style="flex:0 0 auto;width:390px;background:#F4EDDE;box-shadow:0 20px 48px rgba(27,42,65,.14)">
+        <div style="background:#1B2A41;color:#F4EDDE;padding:18px 20px;display:flex;justify-content:space-between;align-items:center">
+          <span style="display:flex;align-items:center;gap:10px"><img src="assets/logo-atelier-clair.png" alt="Logo" style="width:26px;height:26px;object-fit:contain"><span style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.16em">ADMINISTRATION</span></span>
+          <span style="font-size:12.5px;color:rgba(244,237,222,.65)">Valérie</span>
+        </div>
+        <div style="padding:24px 20px;display:flex;flex-direction:column;gap:20px">
+          <h3 style="font-family:'Libre Baskerville',Georgia,serif;font-size:26px;margin:0;font-weight:400">Bonjour Valérie</h3>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="background:#C0D4C9;padding:22px;display:flex;flex-direction:column;gap:10px">
+              <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:19px">Ajouter un produit</span>
+              <span style="font-size:13.5px;color:rgba(27,42,65,.75)">Photos, titre, prix, stock</span>
+              <span style="align-self:flex-start;padding:12px 20px;background:#1B2A41;color:#F4EDDE;font-size:13.5px;margin-top:4px">Commencer</span>
+            </div>
+            <div style="border:1px solid rgba(27,42,65,.18);padding:22px;display:flex;flex-direction:column;gap:10px">
+              <span style="font-family:'Libre Baskerville',Georgia,serif;font-size:19px">Ajouter un post vitrine</span>
+              <span style="font-size:13.5px;color:rgba(27,42,65,.75)">Avant / après et récit</span>
+              <span style="align-self:flex-start;padding:12px 20px;background:#7FA6A2;color:#F4EDDE;font-size:13.5px;margin-top:4px">Commencer</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#7FA6A2">À traiter</span>
+            <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(27,42,65,.12);font-size:14px">2 commandes à expédier <span style="color:#7FA6A2">→</span></div>
+            <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(27,42,65,.12);font-size:14px">3 messages de contact <span style="color:#7FA6A2">→</span></div>
+            <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(27,42,65,.12);font-size:14px">1 post en brouillon <span style="color:#7FA6A2">→</span></div>
+            <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(27,42,65,.12);font-size:14px">Catégories et filtres <span style="color:#7FA6A2">→</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showMobile&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Écrans&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return { showMobile: this.props.showMobile ?? true };
+  }
+}
+</script>
+</body>
+</html>

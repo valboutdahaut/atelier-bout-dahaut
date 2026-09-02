@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Textes du site — Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/admin.css">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body data-admin-guard="true">
+
+<div class="admin-layout">
+  <div data-include="sidebar-admin"></div>
+
+  <main class="admin-main">
+    <h1 style="font-size:30px">Textes du site</h1>
+    <p style="color:var(--color-text-muted);max-width:640px">Ces textes apparaissent sur la page d'accueil et le pied de page. Vous modifiez le contenu, la mise en page ne bouge pas.</p>
+
+    <form class="form-panel" id="form-textes" style="max-width:700px">
+      <div class="form-panel-body">
+        <div class="field"><label for="hero-titre">Titre principal (accueil)</label><textarea id="hero-titre" name="hero-titre" style="min-height:70px"></textarea><span class="hint">Le retour à la ligne (Entrée) est conservé tel quel.</span></div>
+        <div class="field"><label for="hero-soustitre">Sous-titre (accueil)</label><textarea id="hero-soustitre" name="hero-soustitre"></textarea></div>
+        <div class="field"><label for="bio-titre">Titre de la présentation</label><input id="bio-titre" name="bio-titre"></div>
+        <div class="field"><label for="bio-texte">Texte de présentation de l'artisane</label><textarea id="bio-texte" name="bio-texte" style="min-height:120px"></textarea></div>
+        <div class="field"><label for="footer-texte">Texte du pied de page</label><textarea id="footer-texte" name="footer-texte"></textarea></div>
+        <div class="field"><label for="contact-adresses">Adresses (page Contact)</label><textarea id="contact-adresses" name="contact-adresses" placeholder="Atelier — Gallardon (28)..."></textarea><span class="hint">Le retour à la ligne (Entrée) n'est pas conservé ici : utilisez &lt;br&gt; pour sauter une ligne.</span></div>
+        <div class="field"><label for="contact-reseaux">Réseaux sociaux (page Contact)</label><textarea id="contact-reseaux" name="contact-reseaux" placeholder='&lt;a href="https://instagram.com/...">Instagram&lt;/a&gt;'></textarea><span class="hint">Un lien HTML par réseau, ex&nbsp;: &lt;a href="https://...">Instagram&lt;/a&gt;</span></div>
+
+        <div id="statut-textes" class="status-msg success" hidden>Enregistré.</div>
+
+        <div class="form-panel-footer">
+          <span></span>
+          <button type="submit" class="btn btn-accent">Enregistrer</button>
+        </div>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script type="module" src="/js/pages/admin/textes.js"></script>
+</body>
+</html>

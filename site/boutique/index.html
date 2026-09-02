@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boutique — L'Atelier du Bout d'à Haut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body data-nav-section="boutique">
+
+<div data-include="header-public"></div>
+
+<nav class="container" style="padding:16px 0;font-size:13px;color:var(--color-text-muted)">
+  <a href="/index.html">Accueil</a> / <span style="color:var(--color-text)">Boutique</span>
+</nav>
+
+<main class="container shop-layout" style="padding-bottom:96px">
+  <aside>
+    <div class="filter-group">
+      <h3>Catégorie</h3>
+      <div id="filtres-categories">
+        <div class="filter-row" style="font-weight:500"><button class="btn-link" data-cat="" style="all:unset;cursor:pointer;font-weight:500">Tout</button></div>
+      </div>
+    </div>
+    <div style="height:1px;background:var(--color-border);margin-bottom:24px"></div>
+    <div class="filter-group">
+      <h3>Prix</h3>
+      <label class="filter-row checkbox"><input type="radio" name="prix" value="" checked> Tous les prix</label>
+      <label class="filter-row checkbox"><input type="radio" name="prix" value="0-50"> Moins de 50 €</label>
+      <label class="filter-row checkbox"><input type="radio" name="prix" value="50-120"> 50 – 120 €</label>
+      <label class="filter-row checkbox"><input type="radio" name="prix" value="120-"> Plus de 120 €</label>
+    </div>
+    <div class="admin-card highlight" style="padding:20px">
+      <span style="font-family:var(--font-title);font-size:16px">Sur mesure ?</span>
+      <p style="margin:0;font-size:13.5px;line-height:1.6;color:var(--color-text-muted)">Abat-jour ou coussins dans votre tissu : passez par la page contact.</p>
+    </div>
+  </aside>
+
+  <div>
+    <div class="section-heading" style="border-bottom:1px solid rgba(27,42,65,.12);padding-bottom:20px;margin-bottom:32px">
+      <div>
+        <h1 style="font-size:32px">Boutique</h1>
+        <span id="compteur-produits" style="font-size:13.5px;color:var(--color-text-muted)">Chargement…</span>
+      </div>
+      <select id="tri" style="border:1px solid rgba(27,42,65,.22);padding:10px 16px;font-size:13.5px;background:var(--color-bg)">
+        <option value="recent">Trier : nouveautés</option>
+        <option value="prix-asc">Prix croissant</option>
+        <option value="prix-desc">Prix décroissant</option>
+      </select>
+    </div>
+
+    <div class="shop-grid" id="grille-produits">
+      <p class="empty-state">Chargement des produits…</p>
+    </div>
+  </div>
+</main>
+
+<div data-include="footer"></div>
+
+<template id="tpl-carte-produit">
+  <article class="card">
+    <a class="placeholder-img" href="#" style="min-height:220px"></a>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <a class="card-title" href="#" style="color:var(--color-text)"></a>
+      <span class="card-meta" data-slot="sous-titre"></span>
+      <span class="card-price" data-slot="prix"></span>
+    </div>
+  </article>
+</template>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/boutique-liste.js"></script>
+</body>
+</html>

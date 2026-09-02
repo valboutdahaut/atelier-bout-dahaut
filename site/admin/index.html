@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tableau de bord — Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/admin.css">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body data-admin-guard="true">
+
+<div class="admin-layout">
+  <div data-include="sidebar-admin"></div>
+
+  <main class="admin-main">
+    <div>
+      <h1 style="font-size:32px">Bonjour</h1>
+      <p style="color:var(--color-text-muted)">Vous gérez le contenu du site. La mise en page et les couleurs sont fixées par la charte : rien à régler de ce côté.</p>
+    </div>
+
+    <div class="admin-cards">
+      <div class="admin-card highlight">
+        <span style="font-family:var(--font-title);font-size:24px">Ajouter un produit boutique</span>
+        <p style="margin:0;color:var(--color-text-muted)">Photos, titre, prix, description, stock. Mis en ligne immédiatement.</p>
+        <a class="btn btn-primary" style="align-self:flex-start;margin-top:6px" href="/admin/produits/nouveau.html">Nouveau produit</a>
+      </div>
+      <div class="admin-card outline">
+        <span style="font-family:var(--font-title);font-size:24px">Ajouter un post vitrine</span>
+        <p style="margin:0;color:var(--color-text-muted)">Photos avant / après, titre et récit du projet. Pas de prix.</p>
+        <a class="btn btn-accent" style="align-self:flex-start;margin-top:6px" href="/admin/posts/nouveau.html">Nouveau post</a>
+      </div>
+    </div>
+
+    <div class="admin-card outline">
+      <div class="section-heading">
+        <span style="font-family:var(--font-title);font-size:20px">À traiter</span>
+      </div>
+      <div class="stat-list" id="a-traiter">
+        <span class="empty-state">Chargement…</span>
+      </div>
+    </div>
+
+    <div class="admin-cards">
+      <div>
+        <div class="section-heading"><span class="eyebrow">Derniers produits</span><a class="link" href="/admin/produits/index.html">Tout voir</a></div>
+        <table class="admin-table" id="table-derniers-produits" style="margin-top:12px">
+          <tbody><tr><td colspan="3" class="empty-state">Chargement…</td></tr></tbody>
+        </table>
+      </div>
+      <div>
+        <div class="section-heading"><span class="eyebrow">Derniers posts vitrine</span><a class="link" href="/admin/posts/index.html">Tout voir</a></div>
+        <table class="admin-table" id="table-derniers-posts" style="margin-top:12px">
+          <tbody><tr><td colspan="2" class="empty-state">Chargement…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script type="module" src="/js/pages/admin/dashboard.js"></script>
+</body>
+</html>

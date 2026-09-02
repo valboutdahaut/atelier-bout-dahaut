@@ -1,0 +1,14 @@
+# =============================================================================
+# netlify.toml — configuration de déploiement
+# =============================================================================
+# Ce dossier est la racine du dépôt Git du site. Lors de la création du site
+# sur Netlify (New site from Git), il n'y a donc AUCUN "Base directory" à
+# renseigner : ce fichier suffit, Netlify publie le contenu de site/.
+# =============================================================================
+
+[build]
+  publish = "site"
+  command = "echo 'Rien à builder : HTML/CSS/JS statique.'"
+
+[build.environment]
+  NODE_VERSION = "20"

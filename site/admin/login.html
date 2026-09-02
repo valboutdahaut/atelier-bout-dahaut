@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connexion admin — L'Atelier du Bout d'à Haut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body data-admin-login="true" style="background:var(--color-text)">
+
+<div class="login-screen">
+  <div class="login-card">
+    <img src="/assets/logo-atelier-clair.png" alt="" style="width:56px;height:56px;object-fit:contain;margin:0 auto">
+    <h1 style="color:var(--color-bg);font-size:26px">Administration</h1>
+    <p style="color:rgba(244,237,222,.7)">L'Atelier du Bout d'à Haut</p>
+    <button class="btn btn-accent" id="login-btn" style="align-self:center">Se connecter</button>
+  </div>
+</div>
+
+<script type="module" src="/js/auth.js"></script>
+</body>
+</html>

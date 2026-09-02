@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — L'Atelier du Bout d'à Haut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body data-nav-section="contact">
+
+<div data-include="header-public"></div>
+
+<main class="container" style="max-width:640px;padding:64px 0 96px">
+  <h1 style="font-size:36px;margin-bottom:12px">Me contacter</h1>
+  <p style="color:var(--color-text-muted);margin-bottom:32px">Un projet de restauration, une question sur une pièce de la boutique, ou une envie de sur-mesure&nbsp;: écrivez-moi, je réponds sous 48h.</p>
+
+  <form id="form-contact">
+    <div class="form-row form-row-2">
+      <div class="field"><label for="nom">Nom</label><input id="nom" name="nom" required></div>
+      <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required></div>
+    </div>
+    <div class="field"><label for="telephone">Téléphone <span class="hint">— facultatif</span></label><input id="telephone" name="telephone" type="tel"></div>
+    <div class="field"><label for="sujet">Sujet</label><input id="sujet" name="sujet"></div>
+    <div class="field"><label for="message">Message</label><textarea id="message" name="message" required></textarea></div>
+
+    <div id="statut-contact" class="status-msg" hidden></div>
+
+    <button type="submit" class="btn btn-accent" id="btn-envoyer">Envoyer</button>
+  </form>
+
+  <div style="margin-top:56px;padding-top:40px;border-top:1px solid var(--color-border);display:flex;flex-direction:column;gap:28px">
+    <div>
+      <h2 style="font-size:18px;margin-bottom:10px">Nous trouver</h2>
+      <div id="contact-adresses" style="font-size:14.5px;line-height:1.8;color:var(--color-text-muted)"></div>
+    </div>
+    <div>
+      <h2 style="font-size:18px;margin-bottom:10px">Suivre l'atelier</h2>
+      <div id="contact-reseaux" style="font-size:14.5px;line-height:1.8"></div>
+    </div>
+  </div>
+</main>
+
+<div data-include="footer"></div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/contact.js"></script>
+</body>
+</html>

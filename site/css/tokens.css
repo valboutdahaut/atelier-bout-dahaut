@@ -1,0 +1,38 @@
+/* =============================================================================
+   tokens.css — source unique de vérité pour la "forme" du site
+   =============================================================================
+   Couleurs et typographie validées avec Tom (voir ../README.md).
+   L'admin peut modifier le FOND (textes, photos, produits) mais jamais
+   ces valeurs : elles ne sont éditables que par le développeur, ici.
+   ========================================================================== */
+
+:root {
+  /* Couleurs */
+  --color-bg: #F4EDDE;           /* Blanc cassé — fond des pages */
+  --color-canvas: #E9E2D2;       /* Fond derrière les cartes (sections alternées) */
+  --color-accent: #C0D4C9;       /* Ile de Malte — aplats doux, fonds de section */
+  --color-accent-deep: #7FA6A2;  /* Vert profond — boutons, hover, liens */
+  --color-text: #1B2A41;         /* Bleu marine — texte principal */
+  --color-text-muted: rgba(27, 42, 65, .72);
+  --color-text-faint: rgba(27, 42, 65, .5);
+  --color-border: rgba(27, 42, 65, .15);
+  --color-input-bg: #FBF7EC;
+  --color-placeholder-a: #E7DEC9;
+  --color-placeholder-b: #F0E8D6;
+
+  /* Typographie */
+  --font-title: 'Libre Baskerville', Georgia, serif;
+  --font-body: 'Work Sans', system-ui, sans-serif;
+  --font-mono: ui-monospace, Menlo, monospace;
+
+  /* Rythme */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 96px;
+
+  --shadow-card: 0 24px 60px rgba(27, 42, 65, .14);
+  --radius: 0; /* le design mockup n'utilise aucun arrondi, volontairement */
+}

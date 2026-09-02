@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title id="page-title">Réalisation — L'Atelier du Bout d'à Haut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body data-nav-section="vitrine">
+
+<div data-include="header-public"></div>
+
+<main id="contenu-projet">
+  <p class="empty-state" style="padding:96px 0">Chargement…</p>
+</main>
+
+<div data-include="footer"></div>
+
+<template id="tpl-projet">
+  <div class="article-hero">
+    <span class="eyebrow" data-slot="eyebrow"></span>
+    <h1 data-slot="titre"></h1>
+    <p style="font-size:18px;font-style:italic;color:var(--color-text-muted);max-width:640px" data-slot="resume"></p>
+  </div>
+
+  <div class="before-after">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="placeholder-img" data-slot="photo-avant" style="align-items:flex-start"><span class="badge badge-dark">AVANT</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="placeholder-img" data-slot="photo-apres" style="align-items:flex-start"><span class="badge">APRÈS</span></div>
+    </div>
+  </div>
+
+  <div class="article-body">
+    <dl class="article-meta">
+      <dt>Savoir-faire</dt><dd data-slot="savoir-faire"></dd>
+      <dt>Tissu</dt><dd data-slot="tissu"></dd>
+      <dt>Durée</dt><dd data-slot="duree"></dd>
+      <dt>Matières réemployées</dt><dd data-slot="matieres"></dd>
+    </dl>
+    <div class="article-text" data-slot="recit"></div>
+  </div>
+
+  <div style="background:var(--color-accent);padding:64px 56px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:520px">
+      <h3 style="font-size:28px">Vous avez un siège dans ce cas ?</h3>
+      <p style="font-size:15px;line-height:1.7;color:var(--color-text-muted)">Envoyez-moi des photos et vos dimensions, je vous réponds avec une estimation.</p>
+    </div>
+    <a class="btn btn-primary" data-slot="lien-contact" href="/contact.html">Me contacter pour un projet similaire</a>
+  </div>
+
+  <div class="container" style="padding:56px 0">
+    <span class="eyebrow">À lire aussi</span>
+    <div class="gallery-grid" style="margin-top:24px" data-slot="autres-posts"></div>
+  </div>
+</template>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/vitrine-projet.js"></script>
+</body>
+</html>

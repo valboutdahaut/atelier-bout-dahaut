@@ -1,0 +1,37 @@
+/* =============================================================================
+   admin.css — compléments spécifiques aux écrans du back-office
+   (la grille de la sidebar/dashboard est dans layout.css, ici : formulaires
+   admin et petits éléments propres au back-office)
+   ========================================================================== */
+
+.form-panel { background: var(--color-bg); box-shadow: var(--shadow-card); max-width: 760px; }
+.form-panel-header {
+  background: var(--color-text); color: var(--color-bg);
+  padding: 22px 32px; display: flex; justify-content: space-between; align-items: center;
+}
+.form-panel-header h2 { font-size: 19px; color: var(--color-bg); }
+.form-panel-header a { color: rgba(244,237,222,.6); font-size: 13px; }
+.form-panel-body { padding: 32px; display: flex; flex-direction: column; gap: 26px; }
+.form-panel-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: var(--space-sm); border-top: 1px solid rgba(27,42,65,.12);
+  font-size: 13px; color: var(--color-text-muted); gap: var(--space-sm); flex-wrap: wrap;
+}
+.form-panel-footer .actions { display: flex; gap: 12px; }
+
+.photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.photo-grid .placeholder-img, .photo-grid .dropzone { height: 112px; }
+.photo-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.photo-grid-2 .placeholder-img, .photo-grid-2 .dropzone { height: 180px; }
+.photo-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.photo-grid-3 .placeholder-img, .photo-grid-3 .dropzone { height: 92px; }
+
+.stat-list { display: flex; flex-direction: column; gap: 10px; }
+.stat-list a { display: flex; justify-content: space-between; padding: 14px 0; border-top: 1px solid rgba(27,42,65,.12); font-size: 14px; color: var(--color-text); }
+
+.section-heading { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-sm); flex-wrap: wrap; }
+.section-heading a, .section-heading .link { font-size: 13px; color: var(--color-accent-deep); }
+
+.status-pill { font-size: 12.5px; padding: 3px 9px; display: inline-block; }
+.status-pill.publie { color: var(--color-accent-deep); }
+.status-pill.brouillon { color: var(--color-text-faint); }

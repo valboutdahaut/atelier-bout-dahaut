@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title id="page-title">Produit — L'Atelier du Bout d'à Haut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body data-nav-section="boutique">
+
+<div data-include="header-public"></div>
+
+<nav class="container" style="padding:16px 0;font-size:13px;color:var(--color-text-muted)" id="fil-ariane">
+  <a href="/boutique/index.html">Boutique</a>
+</nav>
+
+<main class="container" id="contenu-produit" style="padding-bottom:96px">
+  <p class="empty-state" style="padding:96px 0">Chargement…</p>
+</main>
+
+<div data-include="footer"></div>
+
+<template id="tpl-produit">
+  <div class="product-layout">
+    <div>
+      <div class="placeholder-img product-gallery-main" data-slot="photo-principale"></div>
+      <div class="product-thumbs" data-slot="miniatures"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <span class="eyebrow" data-slot="categorie"></span>
+      <h1 style="font-size:30px;line-height:1.25" data-slot="titre"></h1>
+      <span class="product-price" data-slot="prix"></span>
+      <p style="font-size:15px;line-height:1.8;color:var(--color-text-muted)" data-slot="description"></p>
+      <div style="display:flex;gap:10px;align-items:center;font-size:13.5px;color:var(--color-accent-deep)" data-slot="stock"></div>
+      <div style="display:flex;gap:14px;align-items:stretch;margin-top:6px">
+        <div class="qty-input">
+          <button type="button" data-action="moins">−</button>
+          <span data-slot="quantite">1</span>
+          <button type="button" data-action="plus">+</button>
+        </div>
+        <button type="button" class="btn btn-accent" style="flex:1" id="btn-ajouter-panier">Ajouter au panier</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1px solid rgba(27,42,65,.12);font-size:13.5px;color:var(--color-text-muted)">
+        <span>Expédition sous 5 jours ouvrés</span>
+        <span>Retrait possible au showroom de Rambouillet</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/boutique-produit.js"></script>
+</body>
+</html>

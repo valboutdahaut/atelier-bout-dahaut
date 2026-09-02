@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panier — L'Atelier du Bout d'à Haut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body data-nav-section="boutique">
+
+<div data-include="header-public"></div>
+
+<main class="container" style="max-width:900px;padding-bottom:96px">
+  <div class="checkout-steps">
+    <span class="step active"><span class="num">1</span>Panier</span>
+    <span class="line"></span>
+    <span class="step"><span class="num">2</span>Livraison</span>
+    <span class="line"></span>
+    <span class="step"><span class="num">3</span>Confirmation</span>
+  </div>
+
+  <h1 style="font-size:30px;margin-bottom:24px">Votre panier</h1>
+
+  <div id="lignes-panier"></div>
+
+  <div class="cart-summary" style="padding-top:32px" id="resume-panier" hidden>
+    <div class="admin-card highlight">
+      <span style="font-family:var(--font-title);font-size:16px">Retrait au showroom</span>
+      <p style="margin:0;font-size:13.5px;line-height:1.6;color:var(--color-text-muted)">Gratuit à Rambouillet. À choisir à l'étape suivante.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="summary-row"><span style="color:var(--color-text-muted)">Sous-total</span><span id="sous-total">—</span></div>
+      <div class="summary-total"><span>Total estimé</span><span id="total">—</span></div>
+      <a class="btn btn-accent btn-block" href="/boutique/commande.html" style="margin-top:6px">Passer commande</a>
+      <span style="text-align:center;font-size:12.5px;color:var(--color-text-faint)">Maquette — aucun paiement réel</span>
+    </div>
+  </div>
+</main>
+
+<div data-include="footer"></div>
+
+<template id="tpl-ligne-panier">
+  <div class="cart-line">
+    <div class="placeholder-img" data-slot="photo"></div>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <a class="card-title" data-slot="titre" href="#" style="color:var(--color-text)"></a>
+      <span class="card-meta" data-slot="meta"></span>
+      <button type="button" data-slot="retirer" style="all:unset;cursor:pointer;font-size:12.5px;color:var(--color-accent-deep)">Retirer</button>
+    </div>
+    <div class="qty-input">
+      <button type="button" data-action="moins">−</button>
+      <span data-slot="quantite"></span>
+      <button type="button" data-action="plus">+</button>
+    </div>
+    <span style="font-size:16px;font-weight:500;min-width:84px;text-align:right" data-slot="sous-total"></span>
+  </div>
+</template>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/panier.js"></script>
+</body>
+</html>

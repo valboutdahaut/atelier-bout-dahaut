@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Produits boutique — Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/admin.css">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body data-admin-guard="true">
+
+<div class="admin-layout">
+  <div data-include="sidebar-admin"></div>
+
+  <main class="admin-main">
+    <div class="section-heading">
+      <h1 style="font-size:30px">Produits boutique</h1>
+      <a class="btn btn-primary" href="/admin/produits/nouveau.html">Nouveau produit</a>
+    </div>
+
+    <table class="admin-table">
+      <thead><tr><th></th><th>Titre</th><th>Catégorie</th><th>Prix</th><th>Stock</th><th>Statut</th><th></th></tr></thead>
+      <tbody id="table-produits">
+        <tr><td colspan="7" class="empty-state">Chargement…</td></tr>
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script type="module" src="/js/pages/admin/produits-liste.js"></script>
+</body>
+</html>

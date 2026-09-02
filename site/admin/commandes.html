@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commandes — Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/admin.css">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body data-admin-guard="true">
+
+<div class="admin-layout">
+  <div data-include="sidebar-admin"></div>
+
+  <main class="admin-main">
+    <h1 style="font-size:30px">Commandes</h1>
+    <p style="color:var(--color-text-muted)">Aucune facturation ni paiement réel ne transite ici — c'est le suivi de préparation.</p>
+
+    <div id="liste-commandes">
+      <p class="empty-state">Chargement…</p>
+    </div>
+  </main>
+</div>
+
+<template id="tpl-commande">
+  <div class="admin-card outline" style="cursor:pointer" data-slot="resume">
+    <div class="section-heading">
+      <span style="font-family:var(--font-title);font-size:18px" data-slot="numero"></span>
+      <span class="status-pill" data-slot="statut-badge"></span>
+    </div>
+    <span data-slot="client" style="font-size:14px;color:var(--color-text-muted)"></span>
+    <span data-slot="total" style="font-size:15px;font-weight:500"></span>
+  </div>
+  <div class="admin-card outline" data-slot="detail" hidden style="margin-top:-16px">
+    <table class="admin-table" data-slot="lignes"></table>
+    <div class="form-row form-row-2" style="margin-top:12px">
+      <div><span class="eyebrow">Coordonnées</span><p data-slot="coordonnees" style="margin:8px 0 0;font-size:14px"></p></div>
+      <div>
+        <span class="eyebrow">Statut</span>
+        <div style="display:flex;gap:12px;margin-top:8px">
+          <select data-slot="select-statut" style="border:1px solid rgba(27,42,65,.25);padding:10px 14px">
+            <option value="nouvelle">Nouvelle</option>
+            <option value="en_preparation">En préparation</option>
+            <option value="expediee">Expédiée</option>
+            <option value="retiree">Retirée</option>
+            <option value="annulee">Annulée</option>
+          </select>
+          <button type="button" class="btn btn-accent" data-action="enregistrer-statut">Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script type="module" src="/js/pages/admin/commandes.js"></script>
+</body>
+</html>

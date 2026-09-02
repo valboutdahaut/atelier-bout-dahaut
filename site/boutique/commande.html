@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commande — L'Atelier du Bout d'à Haut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body data-nav-section="boutique">
+
+<div data-include="header-public"></div>
+
+<main class="container" style="max-width:700px;padding-bottom:96px">
+  <div class="checkout-steps">
+    <span class="step"><span class="num">1</span>Panier</span>
+    <span class="line"></span>
+    <span class="step active"><span class="num">2</span>Livraison</span>
+    <span class="line"></span>
+    <span class="step"><span class="num">3</span>Confirmation</span>
+  </div>
+
+  <h1 style="font-size:30px;margin-bottom:8px">Vos coordonnées</h1>
+  <p style="color:var(--color-text-muted);font-size:14.5px;margin-bottom:32px">Aucun paiement réel n'est demandé sur cette maquette — la commande est bien enregistrée, à titre de démonstration.</p>
+
+  <form id="form-commande">
+    <div class="form-row form-row-2">
+      <div class="field"><label for="nom">Nom complet</label><input id="nom" name="nom" required></div>
+      <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required></div>
+    </div>
+    <div class="field"><label for="telephone">Téléphone</label><input id="telephone" name="telephone" type="tel"></div>
+
+    <div class="field">
+      <label>Mode de récupération</label>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+        <label class="filter-row checkbox"><input type="radio" name="mode_retrait" value="retrait_showroom" checked> Retrait au showroom de Rambouillet — gratuit</label>
+        <label class="filter-row checkbox"><input type="radio" name="mode_retrait" value="livraison"> Livraison à domicile — 8,90 €</label>
+      </div>
+    </div>
+
+    <div class="field" id="champ-adresse" hidden>
+      <label for="adresse">Adresse de livraison</label>
+      <textarea id="adresse" name="adresse"></textarea>
+    </div>
+
+    <div id="erreur-commande" class="status-msg error" hidden></div>
+
+    <div class="cart-summary" style="padding-top:12px">
+      <div></div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="summary-row"><span style="color:var(--color-text-muted)">Sous-total</span><span id="sous-total">—</span></div>
+        <div class="summary-row"><span style="color:var(--color-text-muted)">Livraison</span><span id="frais-livraison">—</span></div>
+        <div class="summary-total"><span>Total</span><span id="total">—</span></div>
+        <button type="submit" class="btn btn-accent btn-block" id="btn-valider" style="margin-top:6px">Passer commande</button>
+        <span style="text-align:center;font-size:12.5px;color:var(--color-text-faint)">Maquette — aucun paiement réel</span>
+      </div>
+    </div>
+  </form>
+</main>
+
+<div data-include="footer"></div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/commande.js"></script>
+</body>
+</html>

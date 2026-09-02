@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title id="page-title">Modifier le produit — Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/admin.css">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body data-admin-guard="true">
+
+<div class="admin-layout">
+  <div data-include="sidebar-admin"></div>
+
+  <main class="admin-main">
+    <form class="form-panel" id="form-produit">
+      <div class="form-panel-header">
+        <h2 id="form-titre">Modifier le produit</h2>
+        <a href="/admin/produits/index.html">Annuler</a>
+      </div>
+      <div class="form-panel-body">
+        <div class="form-note">Vous remplissez le contenu ; la fiche produit se met en page automatiquement.</div>
+
+        <div class="field">
+          <label>Photos <span class="hint">— 4 maximum, la première sert de vignette</span></label>
+          <div class="photo-grid" id="zone-photos">
+            <div class="dropzone" data-slot-photo>Glisser une photo<input type="file" accept="image/*" hidden></div>
+          </div>
+        </div>
+
+        <div class="field"><label for="titre">Titre</label><input id="titre" name="titre" required></div>
+
+        <div class="form-row form-row-3">
+          <div class="field"><label for="prix">Prix (€)</label><input id="prix" name="prix" type="number" step="0.01" min="0" required></div>
+          <div class="field"><label for="stock">Stock</label><input id="stock" name="stock" type="number" min="0" required></div>
+          <div class="field">
+            <label for="categorie">Catégorie</label>
+            <select id="categorie" name="categorie_id" required></select>
+          </div>
+        </div>
+
+        <div class="field"><label for="sous_titre">Sous-titre <span class="hint">— ex. "Ø 25 cm · monté main"</span></label><input id="sous_titre" name="sous_titre"></div>
+
+        <div class="field">
+          <label><input type="checkbox" id="piece_unique" name="piece_unique"> Pièce unique</label>
+        </div>
+
+        <div class="field"><label for="description">Description <span class="hint">— matières, dimensions, entretien</span></label><textarea id="description" name="description"></textarea></div>
+
+        <div id="erreur-produit" class="status-msg error" hidden></div>
+
+        <div class="form-panel-footer">
+          <a href="#" id="btn-supprimer" style="color:#7A2E2E">Supprimer ce produit</a>
+          <div class="actions">
+            <button type="submit" class="btn btn-outline" name="statut" value="brouillon">Dépublier</button>
+            <button type="submit" class="btn btn-accent" name="statut" value="publie">Enregistrer et publier</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script type="module" src="/js/pages/admin/produit-form.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catégories et filtres — Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/admin.css">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body data-admin-guard="true">
+
+<div class="admin-layout">
+  <div data-include="sidebar-admin"></div>
+
+  <main class="admin-main">
+    <h1 style="font-size:30px">Catégories et filtres</h1>
+    <p style="color:var(--color-text-muted);max-width:640px">Vous pouvez créer, renommer, réordonner ou masquer des catégories. La boutique et la vitrine les affichent automatiquement dans la mise en page existante. Les filtres (prix, disponibilité) restent fixes : seules les catégories sont modifiables ici.</p>
+
+    <div class="admin-card outline">
+      <div class="section-heading">
+        <span style="font-family:var(--font-title);font-size:20px">Catégories boutique</span>
+        <button class="btn btn-primary" id="btn-ajout-boutique">Ajouter une catégorie</button>
+      </div>
+      <div class="tag-list" id="liste-boutique" style="margin-top:16px"></div>
+    </div>
+
+    <div class="admin-card outline">
+      <div class="section-heading">
+        <span style="font-family:var(--font-title);font-size:20px">Savoir-faire (vitrine)</span>
+        <button class="btn btn-accent" id="btn-ajout-savoir-faire">Ajouter</button>
+      </div>
+      <p style="font-size:13px;color:var(--color-text-muted)">Ces libellés servent de filtres sur la vitrine et de choix dans le formulaire de post.</p>
+      <div class="tag-list" id="liste-savoir-faire" style="margin-top:8px"></div>
+    </div>
+  </main>
+</div>
+
+<template id="tpl-tag">
+  <span class="tag-pill">
+    <span data-slot="nom"></span>
+    <button type="button" data-action="haut" title="Monter" style="all:unset;cursor:pointer">↑</button>
+    <button type="button" data-action="bas" title="Descendre" style="all:unset;cursor:pointer">↓</button>
+    <button type="button" data-action="renommer" style="all:unset;cursor:pointer;color:var(--color-text-faint)">renommer</button>
+    <button type="button" data-action="visibilite" style="all:unset;cursor:pointer;color:var(--color-accent-deep)"></button>
+  </span>
+</template>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script type="module" src="/js/pages/admin/categories.js"></script>
+</body>
+</html>

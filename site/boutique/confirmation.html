@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commande confirmée — L'Atelier du Bout d'à Haut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body data-nav-section="boutique">
+
+<div data-include="header-public"></div>
+
+<main class="container" style="max-width:600px;padding:80px 0 96px;text-align:center">
+  <div class="checkout-steps" style="justify-content:center">
+    <span class="step active"><span class="num">✓</span>Confirmation</span>
+  </div>
+  <div id="contenu-confirmation">
+    <h1 style="font-size:30px;margin:24px 0 12px">Merci !</h1>
+    <p style="color:var(--color-text-muted)">Chargement du récapitulatif…</p>
+  </div>
+</main>
+
+<div data-include="footer"></div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/confirmation.js"></script>
+</body>
+</html>

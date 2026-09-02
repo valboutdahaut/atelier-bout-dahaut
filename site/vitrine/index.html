@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vitrine — L'Atelier du Bout d'à Haut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body data-nav-section="vitrine">
+
+<div data-include="header-public"></div>
+
+<main class="container" style="padding-top:64px;padding-bottom:96px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:48px;flex-wrap:wrap;margin-bottom:40px">
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:620px">
+      <h1 style="font-size:44px;line-height:1.12">Vitrine</h1>
+      <p style="font-size:16.5px;line-height:1.75;color:var(--color-text-muted)">Réalisations effectuées pour des clients qui souhaitaient rénover et embellir leurs biens.</p>
+    </div>
+    <div class="tag-list" id="filtres-savoir-faire">
+      <button class="btn btn-primary" data-filtre="">Tout</button>
+      <!-- les autres filtres (Tapisserie, Couture d'ameublement, Abat-jour) sont injectés
+           depuis la table categories (type=savoir_faire) par vitrine-liste.js -->
+    </div>
+  </div>
+
+  <div class="gallery-grid" id="galerie">
+    <p class="empty-state">Chargement des réalisations…</p>
+  </div>
+
+  <div style="background:var(--color-accent);padding:48px;text-align:center;margin-top:48px">
+    <p style="font-family:var(--font-title);font-size:26px;font-style:italic;max-width:640px;margin:0 auto;line-height:1.4">« Un fauteuil bien garni traverse des décennies. »</p>
+    <span class="eyebrow" style="display:block;margin-top:16px;color:rgba(27,42,65,.5)">Économie circulaire — la rénovation d'abord</span>
+  </div>
+</main>
+
+<div data-include="footer"></div>
+
+<template id="tpl-carte-post">
+  <article class="card">
+    <a class="placeholder-img" style="min-height:260px" href="#"><span></span></a>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span class="eyebrow"></span>
+      <a class="card-title" href="#" style="color:var(--color-text)"></a>
+    </div>
+  </article>
+</template>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/vitrine-liste.js"></script>
+</body>
+</html>

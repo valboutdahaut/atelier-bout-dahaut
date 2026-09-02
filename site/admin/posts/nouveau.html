@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nouveau post vitrine — Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/admin.css">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body data-admin-guard="true">
+
+<div class="admin-layout">
+  <div data-include="sidebar-admin"></div>
+
+  <main class="admin-main">
+    <form class="form-panel" id="form-post" style="max-width:800px">
+      <div class="form-panel-header">
+        <h2>Ajouter un post vitrine</h2>
+        <a href="/admin/posts/index.html">Annuler</a>
+      </div>
+      <div class="form-panel-body">
+        <div class="form-note">Le récit s'affiche dans la mise en page de la vitrine&nbsp;: diptyque avant / après, puis texte.</div>
+
+        <div class="photo-grid-2">
+          <div class="field"><label>Photo avant</label><div class="dropzone" data-slot-photo="avant">Glisser la photo « avant »<input type="file" accept="image/*" hidden></div></div>
+          <div class="field"><label>Photo après</label><div class="dropzone" data-slot-photo="apres">Glisser la photo « après »<input type="file" accept="image/*" hidden></div></div>
+        </div>
+
+        <div class="field">
+          <label>Photos de détail <span class="hint">— facultatif, 3 maximum</span></label>
+          <div class="photo-grid-3" id="zone-detail">
+            <div class="dropzone" data-slot-photo="detail">+<input type="file" accept="image/*" hidden></div>
+          </div>
+        </div>
+
+        <div class="form-row form-row-2">
+          <div class="field"><label for="titre">Titre du projet</label><input id="titre" name="titre" required></div>
+          <div class="field"><label for="savoir_faire">Savoir-faire</label><select id="savoir_faire" name="savoir_faire_id" required></select></div>
+        </div>
+        <div class="form-row form-row-3">
+          <div class="field"><label for="lieu">Lieu</label><input id="lieu" name="lieu" placeholder="Gallardon"></div>
+          <div class="field"><label for="date_projet">Date</label><input id="date_projet" name="date_projet" type="date" required></div>
+          <div class="field"><label for="duree">Durée</label><input id="duree" name="duree" placeholder="Trois semaines d'atelier"></div>
+        </div>
+        <div class="form-row form-row-2">
+          <div class="field"><label for="tissu">Tissu</label><input id="tissu" name="tissu"></div>
+          <div class="field"><label for="matieres">Matières réemployées</label><input id="matieres" name="matieres_reemployees"></div>
+        </div>
+
+        <div class="field"><label for="resume">Résumé <span class="hint">— une phrase, affichée en italique en tête d'article</span></label><textarea id="resume" name="resume" style="min-height:60px"></textarea></div>
+
+        <div class="field">
+          <label for="recit">Récit du projet</label>
+          <textarea id="recit" name="recit" style="min-height:180px" required></textarea>
+          <span class="hint">Texte simple. **gras**, *italique* et ## sous-titres disponibles ; pas de mise en page libre.</span>
+        </div>
+
+        <div class="field">
+          <label><input type="checkbox" id="mise_en_avant" name="mise_en_avant"> Mettre en avant dans la galerie (carte plus grande)</label>
+        </div>
+
+        <div id="erreur-post" class="status-msg error" hidden></div>
+
+        <div class="form-panel-footer">
+          <span>Le post apparaîtra en tête de la vitrine une fois publié</span>
+          <div class="actions">
+            <button type="submit" class="btn btn-outline" name="statut" value="brouillon">Brouillon</button>
+            <button type="submit" class="btn btn-accent" name="statut" value="publie">Publier</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script type="module" src="/js/pages/admin/post-form.js"></script>
+</body>
+</html>
