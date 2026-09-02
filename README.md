@@ -19,7 +19,7 @@ Trois parties, plus un espace d'administration à liberté totale sur le fond (j
 ## Structure du dossier
 
 ```
-vitrine-atelier-bout-dahaut/
+atelier-bout-dahaut/
 ├── Atelier du Bout d'a Haut.dc.html   Maquette Claude Design (référence visuelle, ne pas déployer)
 ├── support.js, uploads/, assets/       Fichiers du canvas de design (référence)
 ├── supabase/                           Scripts SQL à exécuter une fois (voir plus bas)
