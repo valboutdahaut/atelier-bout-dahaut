@@ -50,7 +50,7 @@ Puis ouvrir l'URL affichée (ex. http://localhost:3000). Sans configuration Supa
 ## Mettre en place Supabase
 
 1. Créer un projet sur [supabase.com](https://supabase.com)
-2. Dans le SQL Editor, exécuter dans l'ordre : `supabase/schema.sql`, puis `supabase/policies.sql` **après avoir remplacé `valerie@EXEMPLE.fr` par la vraie adresse email de Valérie**, puis `supabase/functions.sql`, puis `supabase/storage.sql`. `supabase/seed.sql` est optionnel, utile pour tester.
+2. Dans le SQL Editor, exécuter dans l'ordre : `supabase/schema.sql`, `supabase/policies.sql`, `supabase/functions.sql`, `supabase/storage.sql`. `supabase/seed.sql` est optionnel, utile pour tester. L'adresse email qui a le droit d'administrer le site est fixée dans `policies.sql` (fonction `est_admin()`), actuellement `atelierduboutdahaut@gmail.com`.
 3. Copier l'URL et la clé anon publique du projet (Project Settings > API) dans `site/js/config.js`
 4. **Point d'attention** : pour que `est_admin()` reconnaisse Valérie une fois connectée via Netlify Identity, il faut copier le secret de signature JWT de Netlify Identity (Site settings > Identity, une fois le site Netlify créé) dans Supabase (Project Settings > API > JWT Settings, secret "legacy"). À tester avant de considérer l'admin fonctionnel — si ce réglage n'est plus disponible sur les projets Supabase récents, revenir vers Claude pour une solution alternative (petite fonction Netlify comme pont d'auth).
 

@@ -3,10 +3,10 @@
 -- =============================================================================
 -- À exécuter après schema.sql.
 --
--- ⚠️ AVANT D'EXÉCUTER : remplacer 'valerie@EXEMPLE.fr' ci-dessous par la
--- vraie adresse email du compte Netlify Identity de Valérie. C'est le SEUL
--- endroit à modifier, la fonction est_admin() est utilisée par toutes les
--- policies plus bas.
+-- L'adresse email ci-dessous est celle qui aura le droit d'administrer le
+-- site. Elle doit correspondre exactement au compte Netlify Identity de
+-- Valérie. Si elle change un jour, c'est le SEUL endroit à modifier : la
+-- fonction est_admin() est utilisée par toutes les policies plus bas.
 --
 -- Prérequis : le secret JWT de Netlify Identity doit être configuré dans
 -- Supabase (Project Settings > API > JWT Settings) pour qu'auth.jwt() sache
@@ -18,7 +18,7 @@ returns boolean
 language sql
 stable
 as $$
-  select coalesce(auth.jwt() ->> 'email', '') = 'valerie@EXEMPLE.fr';
+  select coalesce(auth.jwt() ->> 'email', '') = 'atelierduboutdahaut@gmail.com';
 $$;
 
 -- --- categories ---------------------------------------------------------------
