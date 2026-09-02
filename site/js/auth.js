@@ -59,9 +59,15 @@ async function protegerPage() {
     }
   };
 
-  // La barre latérale est injectée par include.js, donc après le chargement.
-  document.addEventListener('includes:ready', afficherCompte);
-  if (document.getElementById('admin-user-email')) afficherCompte();
+  // La barre latérale est injectée par include.js. Ce module dépendant de la
+  // bibliothèque Supabase (chargée depuis un CDN), il peut arriver après
+  // l'injection : on teste l'indicateur plutôt que de s'abonner à un
+  // évènement potentiellement déjà passé.
+  if (window.__includesReady) {
+    afficherCompte();
+  } else {
+    document.addEventListener('includes:ready', afficherCompte);
+  }
 }
 
 async function preparerPageConnexion() {

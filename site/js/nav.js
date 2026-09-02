@@ -26,12 +26,22 @@ function updateCartBadge() {
   if (el) el.textContent = String(getCartCount());
 }
 
-document.addEventListener('includes:ready', () => {
+function initialiserEntete() {
   markActiveLink();
   wireMobileToggle();
   updateCartBadge();
   appliquerContenuSite();
-});
+}
+
+// Ce module dépend de la bibliothèque Supabase, chargée depuis un CDN : il
+// peut donc finir de se charger APRÈS que include.js a injecté le header et
+// émis son évènement. On teste donc l'indicateur avant de s'abonner, sinon on
+// s'abonnerait à un évènement déjà passé.
+if (window.__includesReady) {
+  initialiserEntete();
+} else {
+  document.addEventListener('includes:ready', initialiserEntete);
+}
 
 // Le panier peut changer sans rechargement de page (ajout depuis produit.html) :
 // on écoute un évènement custom "cart:changed" émis par cart.js.

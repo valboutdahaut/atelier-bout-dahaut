@@ -24,6 +24,11 @@
         }
       })
     );
+    // Indicateur global en plus de l'évènement : un module qui finit de se
+    // charger APRÈS l'injection (typiquement nav.js, qui doit d'abord
+    // télécharger la bibliothèque Supabase depuis un CDN) manquerait sinon
+    // l'évènement et ne s'exécuterait jamais.
+    window.__includesReady = true;
     document.dispatchEvent(new CustomEvent('includes:ready'));
   }
 
