@@ -19,6 +19,8 @@ export async function appliquerContenuSite() {
   }
   for (const { cle, valeur } of data ?? []) {
     const el = document.getElementById(cle);
-    if (el) el.innerHTML = valeur;
+    // Les retours à la ligne tapés dans l'admin (touche Entrée) doivent
+    // apparaître comme tels sur le site : en HTML ils sont sinon ignorés.
+    if (el) el.innerHTML = (valeur ?? '').replace(/\r?\n/g, '<br>');
   }
 }
