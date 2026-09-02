@@ -65,8 +65,22 @@
   font-size: 13px;
   letter-spacing: .04em;
 }
-.nav-toggle { display: none; flex-direction: column; gap: 5px; width: 24px; background: none; border: none; cursor: pointer; }
-.nav-toggle span { height: 1.5px; background: var(--color-text); }
+/* Zone cliquable de 44px minimum (recommandation d'accessibilité tactile),
+   tout en gardant l'apparence de deux traits fins de la maquette. */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  padding: 0 10px;
+  margin-right: -10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.nav-toggle span { display: block; height: 2px; width: 100%; background: var(--color-text); }
 
 @media (max-width: 900px) {
   .site-nav { display: none; }
