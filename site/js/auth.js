@@ -1,73 +1,117 @@
-// auth.js — garde d'accès admin via Netlify Identity.
+// auth.js — garde d'accès de l'espace d'administration.
 //
-// Nécessite <script src="https://identity.netlify.com/v1/netlify-identity-widget.js">
-// dans le <head> de la page (voir admin/login.html et les pages admin/*.html).
+// Authentification par lien magique (Supabase Auth) : Valérie saisit son
+// adresse email, reçoit un lien, clique dessus, elle est connectée. Aucun mot
+// de passe à retenir.
 //
-// Deux usages :
-//  - Sur les pages protégées : <body data-admin-guard="true"> redirige vers
-//    login.html si personne n'est connecté, sinon affiche l'email dans la
-//    sidebar et branche le lien "Se déconnecter".
-//  - Sur admin/login.html : <body data-admin-login="true"> ouvre le widget de
-//    connexion et redirige vers le dashboard une fois connecté.
+// Deux usages, pilotés par un attribut sur <body> :
+//  - <body data-admin-guard="true">  : page protégée. Redirige vers la page de
+//    connexion si personne n'est connecté, sinon affiche l'email dans la
+//    barre latérale et branche le lien "Se déconnecter".
+//  - <body data-admin-login="true">  : page de connexion.
+
+import { supabase } from './supabase-client.js';
 
 const LOGIN_PAGE = '/admin/login.html';
 const DASHBOARD_PAGE = '/admin/index.html';
 
-function waitForIdentity() {
+// Au retour d'un lien magique, le jeton arrive dans l'adresse de la page et le
+// SDK doit d'abord le traiter. getSession() attend normalement ce traitement,
+// mais on prévoit un filet : si l'adresse contient un jeton et qu'aucune
+// session n'est encore établie, on attend le premier évènement de connexion.
+async function recupererSession() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) return session;
+
+  const jetonDansUrl = window.location.hash.includes('access_token');
+  if (!jetonDansUrl) return null;
+
   return new Promise((resolve) => {
-    if (window.netlifyIdentity) return resolve(window.netlifyIdentity);
-    document.addEventListener('DOMContentLoaded', () => resolve(window.netlifyIdentity), { once: true });
+    const minuteur = setTimeout(() => resolve(null), 5000);
+    supabase.auth.onAuthStateChange((_evenement, sessionRecue) => {
+      if (sessionRecue) {
+        clearTimeout(minuteur);
+        resolve(sessionRecue);
+      }
+    });
   });
 }
 
-async function guardAdminPage() {
-  const identity = await waitForIdentity();
-  if (!identity) {
-    console.error("Netlify Identity ne s'est pas chargé (widget bloqué ou script manquant).");
-    return;
-  }
-  identity.init();
+async function protegerPage() {
+  const session = await recupererSession();
 
-  const user = identity.currentUser();
-  if (!user) {
+  if (!session) {
     window.location.replace(LOGIN_PAGE);
     return;
   }
 
-  document.addEventListener('includes:ready', () => {
+  const afficherCompte = () => {
     const emailEl = document.getElementById('admin-user-email');
-    if (emailEl) emailEl.textContent = user.email;
-    const logoutLink = document.getElementById('admin-logout');
-    if (logoutLink) {
-      logoutLink.addEventListener('click', (e) => {
+    if (emailEl) emailEl.textContent = session.user.email;
+
+    const lienDeconnexion = document.getElementById('admin-logout');
+    if (lienDeconnexion) {
+      lienDeconnexion.addEventListener('click', async (e) => {
         e.preventDefault();
-        identity.logout();
+        await supabase.auth.signOut();
+        window.location.replace(LOGIN_PAGE);
       });
     }
-  });
+  };
 
-  identity.on('logout', () => window.location.replace(LOGIN_PAGE));
+  // La barre latérale est injectée par include.js, donc après le chargement.
+  document.addEventListener('includes:ready', afficherCompte);
+  if (document.getElementById('admin-user-email')) afficherCompte();
 }
 
-async function wireLoginPage() {
-  const identity = await waitForIdentity();
-  if (!identity) return;
-  identity.init();
-
-  if (identity.currentUser()) {
+async function preparerPageConnexion() {
+  const session = await recupererSession();
+  if (session) {
     window.location.replace(DASHBOARD_PAGE);
     return;
   }
 
-  identity.on('login', () => window.location.replace(DASHBOARD_PAGE));
+  const formulaire = document.getElementById('login-form');
+  const champEmail = document.getElementById('login-email');
+  const bouton = document.getElementById('login-btn');
+  const message = document.getElementById('login-message');
+  if (!formulaire) return;
 
-  const btn = document.getElementById('login-btn');
-  if (btn) btn.addEventListener('click', () => identity.open('login'));
+  const afficherMessage = (texte, type) => {
+    if (!message) return;
+    message.textContent = texte;
+    message.className = `status-msg ${type}`;
+    message.hidden = false;
+  };
+
+  formulaire.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = champEmail.value.trim();
+    if (!email) return;
+
+    bouton.disabled = true;
+    bouton.textContent = 'Envoi en cours...';
+
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: `${window.location.origin}${DASHBOARD_PAGE}` },
+    });
+
+    bouton.disabled = false;
+    bouton.textContent = 'Recevoir le lien de connexion';
+
+    if (error) {
+      afficherMessage(`Envoi impossible : ${error.message}`, 'error');
+      return;
+    }
+
+    afficherMessage(
+      `Un lien de connexion vient d'être envoyé à ${email}. Ouvrez votre boîte mail et cliquez dessus pour accéder à l'administration.`,
+      'success'
+    );
+    formulaire.reset();
+  });
 }
 
-if (document.body.dataset.adminGuard === 'true') {
-  guardAdminPage();
-}
-if (document.body.dataset.adminLogin === 'true') {
-  wireLoginPage();
-}
+if (document.body.dataset.adminGuard === 'true') protegerPage();
+if (document.body.dataset.adminLogin === 'true') preparerPageConnexion();

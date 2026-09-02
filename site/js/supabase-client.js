@@ -2,28 +2,31 @@
 //
 // On charge le SDK Supabase JS depuis un CDN en ESM (esm.sh). Pas de npm/bundler
 // puisque la stack choisie est HTML/CSS/JS simple.
+//
+// L'authentification de l'admin passe par Supabase Auth (lien magique envoyé
+// par email). Le SDK gère lui-même la session : une fois Valérie connectée,
+// le même client `supabase` envoie automatiquement son jeton à chaque requête,
+// et les policies RLS (voir supabase/policies.sql) la reconnaissent via
+// auth.jwt() ->> 'email'.
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 
-// Client "public" : lecture du contenu publié, insertion de messages de
-// contact, appel de la fonction RPC creer_commande. Couvert par les policies
-// RLS "lecture publique du publié" — voir supabase/policies.sql.
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true,      // garde la session entre deux visites
+    autoRefreshToken: true,    // renouvelle le jeton avant expiration
+    detectSessionInUrl: true,  // indispensable au retour du lien magique
+  },
+});
 
-// Client "admin" : à utiliser uniquement sur les pages /admin/*, une fois
-// Valérie connectée via Netlify Identity. On reconstruit le header
-// Authorization à chaque appel (pas un client mis en cache une fois pour
-// toutes) car le jeton Netlify Identity expire et doit être rafraîchi.
-export function getAuthenticatedClient() {
-  const user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
-  if (!user) {
-    throw new Error('Aucun utilisateur admin connecté (getAuthenticatedClient appelé hors session).');
+// Utilisé par toutes les pages d'administration avant d'écrire en base.
+// Renvoie le client seulement si une session est active ; sinon lève une
+// erreur, ce qui évite d'envoyer des requêtes vouées à être refusées.
+export async function getAuthenticatedClient() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    throw new Error('Aucune session administrateur active. Reconnectez-vous.');
   }
-  const jwt = user.jwt(); // rafraîchit le token si besoin, retourne une Promise
-  return jwt.then((token) =>
-    createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      global: { headers: { Authorization: `Bearer ${token}` } },
-    })
-  );
+  return supabase;
 }

@@ -27,7 +27,7 @@ atelier-bout-dahaut/
 └── site/                               LE SITE RÉEL — tout ce qui est déployé sur Netlify
 ```
 
-Stack : HTML/CSS/JS simple, sans framework ni étape de build. Les données (produits, posts, commandes) vivent dans Supabase, interrogées directement depuis le JS du navigateur. L'admin est protégé par Netlify Identity.
+Stack : HTML/CSS/JS simple, sans framework ni étape de build. Les données (produits, posts, commandes) vivent dans Supabase, interrogées directement depuis le JS du navigateur. L'admin est protégé par Supabase Auth, en connexion par lien magique (aucun mot de passe).
 
 ## Dépôt Git
 
@@ -52,14 +52,19 @@ Puis ouvrir l'URL affichée (ex. http://localhost:3000). Sans configuration Supa
 1. Créer un projet sur [supabase.com](https://supabase.com)
 2. Dans le SQL Editor, exécuter dans l'ordre : `supabase/schema.sql`, `supabase/policies.sql`, `supabase/functions.sql`, `supabase/storage.sql`. `supabase/seed.sql` est optionnel, utile pour tester. L'adresse email qui a le droit d'administrer le site est fixée dans `policies.sql` (fonction `est_admin()`), actuellement `atelierduboutdahaut@gmail.com`.
 3. Copier l'URL et la clé anon publique du projet (Project Settings > API) dans `site/js/config.js`
-4. **Point d'attention** : pour que `est_admin()` reconnaisse Valérie une fois connectée via Netlify Identity, il faut copier le secret de signature JWT de Netlify Identity (Site settings > Identity, une fois le site Netlify créé) dans Supabase (Project Settings > API > JWT Settings, secret "legacy"). À tester avant de considérer l'admin fonctionnel — si ce réglage n'est plus disponible sur les projets Supabase récents, revenir vers Claude pour une solution alternative (petite fonction Netlify comme pont d'auth).
+4. Dans **Authentication > Users**, créer l'utilisateur `atelierduboutdahaut@gmail.com` (bouton "Add user", option "Auto Confirm User")
+5. Dans **Authentication > Sign In / Providers > Email**, désactiver **"Allow new users to sign up"**. Sans ça, n'importe qui pourrait se créer un compte. Il ne pourrait rien modifier (les policies ne reconnaissent que l'adresse de l'atelier), mais autant fermer la porte.
+6. Dans **Authentication > URL Configuration**, renseigner l'adresse du site en **Site URL** et l'ajouter aux **Redirect URLs** (ex. `https://atelier-bout-dahaut.netlify.app/**`). C'est ce qui autorise le retour du lien magique.
+
+**Note historique** : l'authentification devait initialement passer par Netlify Identity, avec un pont de secret JWT vers Supabase. Cette approche n'est plus viable : depuis octobre 2025, Supabase signe ses jetons avec des clés asymétriques et n'accepte des identités externes que via un fournisseur exposant une découverte OIDC, ce que Netlify Identity ne fait pas. On utilise donc Supabase Auth, plus simple et mieux intégré puisque les données sont déjà chez Supabase.
 
 ## Mettre en place Netlify
 
 1. New site from Git, sélectionner le dépôt de ce site
 2. Aucun **Base directory** à renseigner : ce dossier est la racine du dépôt, `netlify.toml` fait le reste (il publie `site/`)
-3. Site settings > Identity > Enable Identity, puis inviter l'email de Valérie
-4. Vérifier le point d'attention Supabase ci-dessus
+3. Rien à configurer côté authentification : elle est entièrement gérée par Supabase Auth
+
+**Limite à connaître (offre gratuite)** : sur un dépôt **privé**, Netlify n'autorise qu'un seul contributeur Git. Si le compte Netlify appartient au client et que le prestataire pousse le code, les déploiements sont bloqués ("unrecognized Git contributor"). Trois issues : rendre le dépôt public, héberger le site sur le compte Netlify du prestataire, ou passer le client en offre Pro.
 
 ## Décisions de scope prises pendant l'implémentation
 
@@ -149,8 +154,9 @@ plus sobre/fonctionnel, style back-office). Responsive mobile + desktop.
 
 ## Prochaine étape
 
-1. Créer le projet Supabase et exécuter les scripts SQL (voir plus haut)
-2. Remplir `site/js/config.js`
-3. Créer le site Netlify, activer Identity, inviter Valérie
-4. Vérifier le pont d'authentification Netlify Identity ↔ Supabase
+1. ✅ Créer le projet Supabase et exécuter les scripts SQL (voir plus haut)
+2. ✅ Remplir `site/js/config.js`
+3. ✅ Créer le site Netlify et déployer
+4. Créer l'utilisateur admin dans Supabase Auth, fermer les inscriptions publiques, autoriser l'adresse de redirection
 5. Remplacer les placeholders photo par de vraies photos une fois le catalogue réel saisi
+6. Brancher un vrai nom de domaine
