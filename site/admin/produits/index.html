@@ -24,6 +24,49 @@
       <a class="btn btn-primary" href="/admin/produits/nouveau.html">Nouveau produit</a>
     </div>
 
+    <div class="admin-filtres">
+      <div class="filtre">
+        <label for="f-recherche">Rechercher</label>
+        <input id="f-recherche" type="search" placeholder="Titre du produit…">
+      </div>
+      <div class="filtre">
+        <label for="f-categorie">Catégorie</label>
+        <select id="f-categorie"><option value="">Toutes</option></select>
+      </div>
+      <div class="filtre">
+        <label for="f-statut">Statut</label>
+        <select id="f-statut">
+          <option value="">Tous</option>
+          <option value="publie">En ligne</option>
+          <option value="brouillon">Brouillon</option>
+        </select>
+      </div>
+      <div class="filtre filtre-prix">
+        <label for="f-prix-min">Prix (€)</label>
+        <div class="paire-champs">
+          <input id="f-prix-min" type="number" min="0" step="1" placeholder="de" aria-label="Prix minimum">
+          <span>à</span>
+          <input id="f-prix-max" type="number" min="0" step="1" placeholder="à" aria-label="Prix maximum">
+        </div>
+      </div>
+      <div class="filtre">
+        <label for="f-tri">Trier par</label>
+        <select id="f-tri">
+          <option value="recent">Ajout le plus récent</option>
+          <option value="ancien">Ajout le plus ancien</option>
+          <option value="titre-az">Titre A → Z</option>
+          <option value="titre-za">Titre Z → A</option>
+          <option value="prix-asc">Prix croissant</option>
+          <option value="prix-desc">Prix décroissant</option>
+          <option value="stock-asc">Stock croissant</option>
+          <option value="stock-desc">Stock décroissant</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-outline btn-reinit" id="f-reset">Réinitialiser</button>
+    </div>
+
+    <p class="compteur-resultats" id="compteur-produits">Chargement…</p>
+
     <table class="admin-table">
       <thead><tr><th></th><th>Titre</th><th>Catégorie</th><th>Prix</th><th>Stock</th><th>Statut</th><th></th></tr></thead>
       <tbody id="table-produits">

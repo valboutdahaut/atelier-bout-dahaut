@@ -26,6 +26,110 @@
 .photo-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .photo-grid-3 .placeholder-img, .photo-grid-3 .dropzone { height: 92px; }
 
+/* --- Barre de filtres des listes admin ------------------------------------ */
+.admin-filtres {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 20px;
+  background: var(--color-canvas);
+}
+.admin-filtres .filtre { display: flex; flex-direction: column; gap: 6px; }
+.admin-filtres label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-accent-deep);
+}
+.admin-filtres input, .admin-filtres select {
+  border: 1px solid rgba(27, 42, 65, .22);
+  background: var(--color-bg);
+  padding: 9px 12px;
+  font-size: 14px;
+  min-width: 160px;
+}
+.admin-filtres .paire-champs { display: flex; align-items: center; gap: 8px; }
+/* Les deux bornes tiennent côte à côte : elles forment une seule idée, et des
+   champs pleine largeur les feraient passer pour deux filtres distincts. */
+.admin-filtres .paire-champs input { min-width: 90px; }
+.admin-filtres .paire-champs span { font-size: 13px; color: var(--color-text-muted); }
+.admin-filtres .btn-reinit { padding: 9px 16px; font-size: 13px; margin-left: auto; }
+
+.compteur-resultats {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  margin: var(--space-sm) 0;
+}
+
+@media (max-width: 700px) {
+  .admin-filtres { flex-direction: column; align-items: stretch; }
+  .admin-filtres input, .admin-filtres select { min-width: 0; width: 100%; }
+  .admin-filtres .btn-reinit { margin-left: 0; }
+}
+
+/* --- Onglets de formulaire ------------------------------------------------ */
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  background: var(--color-canvas);
+  border-bottom: 1px solid var(--color-border);
+}
+.admin-tab {
+  padding: 15px 22px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.admin-tab:hover { color: var(--color-text); }
+.admin-tab.active {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-weight: 500;
+  border-bottom-color: var(--color-accent-deep);
+}
+.admin-tab:focus-visible { outline: 2px solid var(--color-text); outline-offset: -2px; }
+
+/* --- Panneaux et blocs de texte ------------------------------------------- */
+.panneau-entete {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--space-sm); flex-wrap: wrap;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-lg);
+}
+.panneau-entete h2 { font-size: 22px; }
+.panneau-entete a { font-size: 13px; color: var(--color-accent-deep); }
+
+/* Chaque bloc est nettement détaché du suivant : sans cet écart, une page de
+   six champs se lit comme une seule liste et on ne voit plus quel texte
+   correspond à quelle partie du site. */
+.bloc-texte { margin-bottom: var(--space-xl); }
+.bloc-texte:last-child { margin-bottom: 0; }
+.bloc-texte h3 {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--color-accent-deep);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.bloc-aide {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-md);
+  max-width: 560px;
+}
+.bloc-texte .field:last-child { margin-bottom: 0; }
+
 /* --- Vignettes photo des formulaires ------------------------------------- */
 .photo-vignette { position: relative; }
 .photo-supprimer {

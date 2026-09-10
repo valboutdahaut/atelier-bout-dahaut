@@ -20,38 +20,109 @@
 
   <main class="admin-main">
     <h1 style="font-size:30px">Textes du site</h1>
-    <p style="color:var(--color-text-muted);max-width:640px">Ces textes apparaissent sur la page d'accueil, la page À propos, la page Contact et le pied de page. Vous modifiez le contenu, la mise en page ne bouge pas.</p>
+    <p style="color:var(--color-text-muted);max-width:660px">Choisissez une page, modifiez ses textes, puis enregistrez. La mise en page ne bouge jamais&nbsp;: vous changez le contenu, pas la forme. Le bouton Enregistrer sauvegarde toutes les pages d'un coup, pas seulement celle affichée.</p>
 
-    <form class="form-panel" id="form-textes" style="max-width:700px">
+    <form class="form-panel" id="form-textes" style="max-width:760px">
+
+      <nav class="admin-tabs" id="onglets-textes">
+        <button type="button" class="admin-tab active" data-onglet="accueil">Accueil</button>
+        <button type="button" class="admin-tab" data-onglet="apropos">À propos</button>
+        <button type="button" class="admin-tab" data-onglet="contact">Contact</button>
+        <button type="button" class="admin-tab" data-onglet="pied">Pied de page</button>
+      </nav>
+
       <div class="form-panel-body">
-        <div class="field"><label for="hero-titre">Titre principal (accueil)</label><textarea id="hero-titre" name="hero-titre" style="min-height:70px"></textarea><span class="hint">Le retour à la ligne (Entrée) est conservé tel quel.</span></div>
-        <div class="field"><label for="hero-soustitre">Sous-titre (accueil)</label><textarea id="hero-soustitre" name="hero-soustitre"></textarea></div>
-        <div class="field"><label for="bio-titre">Titre de la présentation</label><input id="bio-titre" name="bio-titre"></div>
-        <div class="field"><label for="bio-texte">Texte de présentation de l'artisane</label><textarea id="bio-texte" name="bio-texte" style="min-height:120px"></textarea></div>
 
-        <h2 style="font-size:19px;margin:var(--space-md) 0 4px">Page À propos</h2>
-        <div class="field"><label for="apropos-titre">Titre de la page À propos</label><input id="apropos-titre" name="apropos-titre"></div>
-        <div class="field"><label for="apropos-intro">Votre parcours, votre histoire</label><textarea id="apropos-intro" name="apropos-intro" style="min-height:180px"></textarea><span class="hint">Le texte long qui ouvre la page. Le retour à la ligne (Entrée) est conservé tel quel.</span></div>
-        <div class="field">
-          <label for="apropos-formations">Formations et certifications</label>
-          <textarea id="apropos-formations" name="apropos-formations" style="min-height:160px" placeholder="2019 | CAP Tapissier d'ameublement | Greta de Chartres"></textarea>
-          <span class="hint">
-            <strong>Une ligne par formation.</strong> Appuyez sur Entrée pour passer à la suivante.<br>
-            Pour afficher l'année à part, séparez avec une barre verticale&nbsp;:
-            <code>2019 | CAP Tapissier d'ameublement | Greta de Chartres</code><br>
-            Une ligne écrite normalement, sans barre, s'affiche telle quelle. Les deux écritures peuvent cohabiter.
-          </span>
-        </div>
+        <!-- ACCUEIL ------------------------------------------------------- -->
+        <section data-panneau="accueil">
+          <div class="panneau-entete">
+            <h2>Page d'accueil</h2>
+            <a href="/index.html" target="_blank" rel="noopener">Voir la page ↗</a>
+          </div>
 
-        <h2 style="font-size:19px;margin:var(--space-md) 0 4px">Pied de page et contact</h2>
-        <div class="field"><label for="footer-texte">Texte du pied de page</label><textarea id="footer-texte" name="footer-texte"></textarea></div>
-        <div class="field"><label for="contact-adresses">Adresses (page Contact)</label><textarea id="contact-adresses" name="contact-adresses" placeholder="Atelier — Gallardon (28)..."></textarea><span class="hint">Appuyez sur Entrée pour passer à la ligne, les sauts de ligne sont conservés sur le site.</span></div>
-        <div class="field"><label for="contact-reseaux">Réseaux sociaux (page Contact)</label><textarea id="contact-reseaux" name="contact-reseaux" placeholder='&lt;a href="https://instagram.com/...">Instagram&lt;/a&gt;'></textarea><span class="hint">Un lien HTML par réseau, ex&nbsp;: &lt;a href="https://...">Instagram&lt;/a&gt;</span></div>
+          <div class="bloc-texte">
+            <h3>Le grand titre du haut</h3>
+            <p class="bloc-aide">La première chose que voit un visiteur, en haut de la page d'accueil.</p>
+            <div class="field"><label for="hero-titre">Titre principal</label><textarea id="hero-titre" name="hero-titre" style="min-height:80px"></textarea><span class="hint">Appuyez sur Entrée pour couper la ligne où vous le souhaitez, la coupure est conservée telle quelle.</span></div>
+            <div class="field"><label for="hero-soustitre">Phrase sous le titre</label><textarea id="hero-soustitre" name="hero-soustitre"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Votre présentation</h3>
+            <p class="bloc-aide">Le bloc au milieu de la page d'accueil, à côté de la photo, sous la mention «&nbsp;L'artisane&nbsp;».</p>
+            <div class="field"><label for="bio-titre">Titre de la présentation</label><input id="bio-titre" name="bio-titre"></div>
+            <div class="field"><label for="bio-texte">Texte de présentation</label><textarea id="bio-texte" name="bio-texte" style="min-height:130px"></textarea></div>
+          </div>
+        </section>
+
+        <!-- À PROPOS ------------------------------------------------------ -->
+        <section data-panneau="apropos" hidden>
+          <div class="panneau-entete">
+            <h2>Page À propos</h2>
+            <a href="/apropos.html" target="_blank" rel="noopener">Voir la page ↗</a>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Votre parcours</h3>
+            <p class="bloc-aide">Le titre et le texte qui ouvrent la page.</p>
+            <div class="field"><label for="apropos-titre">Titre de la page</label><input id="apropos-titre" name="apropos-titre"></div>
+            <div class="field"><label for="apropos-intro">Votre parcours, votre histoire</label><textarea id="apropos-intro" name="apropos-intro" style="min-height:190px"></textarea><span class="hint">Les retours à la ligne sont conservés.</span></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Formations et certifications</h3>
+            <p class="bloc-aide">Cette section disparaît entièrement du site tant qu'elle est vide.</p>
+            <div class="field">
+              <label for="apropos-formations">Une ligne par formation</label>
+              <textarea id="apropos-formations" name="apropos-formations" style="min-height:170px" placeholder="2019 | CAP Tapissier d'ameublement | Greta de Chartres"></textarea>
+              <span class="hint">
+                Appuyez sur Entrée pour passer à la formation suivante.<br>
+                Pour détacher l'année, séparez avec une barre verticale&nbsp;:<br>
+                <code>2019 | CAP Tapissier d'ameublement | Greta de Chartres</code><br>
+                Une ligne écrite normalement, sans barre, s'affiche telle quelle. Les deux écritures peuvent se mélanger.
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTACT ------------------------------------------------------- -->
+        <section data-panneau="contact" hidden>
+          <div class="panneau-entete">
+            <h2>Page Contact</h2>
+            <a href="/contact.html" target="_blank" rel="noopener">Voir la page ↗</a>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Où vous trouver</h3>
+            <p class="bloc-aide">Affiché sous le formulaire de contact, dans «&nbsp;Nous trouver&nbsp;».</p>
+            <div class="field"><label for="contact-adresses">Adresses et horaires</label><textarea id="contact-adresses" name="contact-adresses" style="min-height:130px" placeholder="Atelier — Gallardon (28)&#10;Sur rendez-vous"></textarea><span class="hint">Appuyez sur Entrée pour passer à la ligne.</span></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Réseaux sociaux</h3>
+            <p class="bloc-aide">Affiché sous «&nbsp;Suivre l'atelier&nbsp;». Demandez à Tom si vous n'êtes pas à l'aise avec le format.</p>
+            <div class="field"><label for="contact-reseaux">Liens vers vos réseaux</label><textarea id="contact-reseaux" name="contact-reseaux" placeholder='&lt;a href="https://instagram.com/...">Instagram&lt;/a&gt;'></textarea><span class="hint">Un lien par ligne, au format&nbsp;: &lt;a href="https://...">Instagram&lt;/a&gt;</span></div>
+          </div>
+        </section>
+
+        <!-- PIED DE PAGE -------------------------------------------------- -->
+        <section data-panneau="pied" hidden>
+          <div class="panneau-entete">
+            <h2>Pied de page</h2>
+            <a href="/index.html" target="_blank" rel="noopener">Voir la page ↗</a>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>La phrase du bas</h3>
+            <p class="bloc-aide">Elle apparaît tout en bas de chaque page du site, à côté du logo. Les adresses de l'atelier et du showroom qui l'accompagnent ne se modifient pas ici, demandez à Tom.</p>
+            <div class="field"><label for="footer-texte">Texte du pied de page</label><textarea id="footer-texte" name="footer-texte"></textarea></div>
+          </div>
+        </section>
 
         <div id="statut-textes" class="status-msg success" hidden>Enregistré.</div>
 
         <div class="form-panel-footer">
-          <span></span>
+          <span>Enregistre les textes de toutes les pages</span>
           <button type="submit" class="btn btn-accent">Enregistrer</button>
         </div>
       </div>

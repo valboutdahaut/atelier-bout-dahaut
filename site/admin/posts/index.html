@@ -24,6 +24,47 @@
       <a class="btn btn-accent" href="/admin/posts/nouveau.html">Nouveau post</a>
     </div>
 
+    <div class="admin-filtres">
+      <div class="filtre">
+        <label for="f-recherche">Rechercher</label>
+        <input id="f-recherche" type="search" placeholder="Titre du projet…">
+      </div>
+      <div class="filtre">
+        <label for="f-savoir-faire">Savoir-faire</label>
+        <select id="f-savoir-faire"><option value="">Tous</option></select>
+      </div>
+      <div class="filtre">
+        <label for="f-statut">Statut</label>
+        <select id="f-statut">
+          <option value="">Tous</option>
+          <option value="publie">En ligne</option>
+          <option value="brouillon">Brouillon</option>
+        </select>
+      </div>
+      <div class="filtre filtre-prix">
+        <label for="f-date-min">Date du projet</label>
+        <div class="paire-champs">
+          <input id="f-date-min" type="date" aria-label="À partir du">
+          <span>au</span>
+          <input id="f-date-max" type="date" aria-label="Jusqu'au">
+        </div>
+      </div>
+      <div class="filtre">
+        <label for="f-tri">Trier par</label>
+        <select id="f-tri">
+          <option value="date-desc">Projet le plus récent</option>
+          <option value="date-asc">Projet le plus ancien</option>
+          <option value="titre-az">Titre A → Z</option>
+          <option value="titre-za">Titre Z → A</option>
+          <option value="recent">Ajout le plus récent</option>
+          <option value="ancien">Ajout le plus ancien</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-outline btn-reinit" id="f-reset">Réinitialiser</button>
+    </div>
+
+    <p class="compteur-resultats" id="compteur-posts">Chargement…</p>
+
     <table class="admin-table">
       <thead><tr><th></th><th>Titre</th><th>Savoir-faire</th><th>Date</th><th>Statut</th><th></th></tr></thead>
       <tbody id="table-posts">
