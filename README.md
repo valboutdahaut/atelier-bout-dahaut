@@ -62,7 +62,7 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 
 | Script | Effet | Exécuté ? |
 | --- | --- | --- |
-| `migration-2026-09-10-apropos.sql` | Crée les trois textes de la page À propos dans `contenu_site` | à faire |
+| `migration-2026-09-10-apropos.sql` | Crée les trois textes de la page À propos dans `contenu_site` | fait le 10/09/2026 |
 
 **Note historique** : l'authentification devait initialement passer par Netlify Identity, avec un pont de secret JWT vers Supabase. Cette approche n'est plus viable : depuis octobre 2025, Supabase signe ses jetons avec des clés asymétriques et n'accepte des identités externes que via un fournisseur exposant une découverte OIDC, ce que Netlify Identity ne fait pas. On utilise donc Supabase Auth, plus simple et mieux intégré puisque les données sont déjà chez Supabase.
 
