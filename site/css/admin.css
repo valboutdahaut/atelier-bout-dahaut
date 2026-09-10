@@ -26,6 +26,42 @@
 .photo-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .photo-grid-3 .placeholder-img, .photo-grid-3 .dropzone { height: 92px; }
 
+/* --- Vignettes photo des formulaires ------------------------------------- */
+.photo-vignette { position: relative; }
+.photo-supprimer {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: rgba(244, 237, 222, .92);
+  color: var(--color-text);
+  font-size: 18px;
+  line-height: 1;
+  box-shadow: 0 1px 4px rgba(27, 42, 65, .25);
+}
+.photo-supprimer:hover { background: #F6DEDA; color: #7A2E2E; }
+.photo-supprimer:focus-visible { outline: 2px solid var(--color-text); outline-offset: 2px; }
+
+/* Rappel discret que la première photo sert de vignette sur le site. */
+.photo-badge {
+  position: absolute;
+  left: 0; bottom: 0;
+  padding: 3px 8px;
+  background: var(--color-text);
+  color: var(--color-bg);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* Zone de dépôt "avant"/"après" une fois remplie : elle garde son input, donc
+   un clic sur la photo permet de la remplacer, et la croix de la retirer. */
+.dropzone.dropzone-remplie { border-style: solid; border-color: transparent; }
+
 .stat-list { display: flex; flex-direction: column; gap: 10px; }
 .stat-list a { display: flex; justify-content: space-between; padding: 14px 0; border-top: 1px solid rgba(27,42,65,.12); font-size: 14px; color: var(--color-text); }
 

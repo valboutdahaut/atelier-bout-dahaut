@@ -3,6 +3,7 @@
 import { getAuthenticatedClient } from '../../supabase-client.js';
 import { uploadPhoto } from '../../lib/upload.js';
 import { slugify } from '../../lib/slugify.js';
+import { creerVignette, creerCroix } from '../../lib/vignette-photo.js';
 
 const idPost = new URLSearchParams(location.search).get('id');
 const estEdition = Boolean(idPost);
@@ -16,26 +17,41 @@ let photoApres = null;
 let photosDetail = [];
 let client;
 
+// Les zones "avant" et "après" n'accueillent qu'une photo : au lieu de créer
+// une vignette à côté, on habille la zone de dépôt elle-même. L'input de
+// fichier est conservé, ce qui permet de remplacer la photo en cliquant
+// dessus, et la croix permet de la retirer complètement.
 function rendreDropzoneUnique(nom, url) {
   const dz = document.querySelector(`[data-slot-photo="${nom}"]`);
-  dz.classList.remove('dropzone');
-  dz.classList.add('placeholder-img');
-  dz.style.background = `center/cover no-repeat url("${url}")`;
-  dz.querySelector('input')?.remove();
-  dz.textContent = '';
+  dz.classList.add('photo-vignette', 'dropzone-remplie');
+  dz.style.background = `center/cover no-repeat url("${String(url).replace(/"/g, '%22')}")`;
+  // Retire le libellé ("Glisser la photo « avant »") sans toucher à l'input :
+  // le supprimer rendrait la photo impossible à remplacer par la suite.
+  for (const noeud of Array.from(dz.childNodes)) {
+    if (noeud.nodeType === Node.TEXT_NODE) noeud.remove();
+  }
+  dz.querySelector('.photo-supprimer')?.remove();
+  dz.appendChild(creerCroix(() => viderDropzoneUnique(nom)));
+}
+
+function viderDropzoneUnique(nom) {
+  const dz = document.querySelector(`[data-slot-photo="${nom}"]`);
+  dz.classList.remove('photo-vignette', 'dropzone-remplie');
+  dz.style.background = '';
+  dz.querySelector('.photo-supprimer')?.remove();
+  dz.insertBefore(
+    document.createTextNode(nom === 'avant' ? 'Glisser la photo « avant »' : 'Glisser la photo « après »'),
+    dz.firstChild
+  );
+  if (nom === 'avant') photoAvant = null; else photoApres = null;
 }
 
 function rendreDetail() {
   zoneDetail.querySelectorAll('[data-photo-detail]').forEach((el) => el.remove());
   const dropzone = zoneDetail.querySelector('[data-slot-photo="detail"]');
   photosDetail.forEach((url, i) => {
-    const div = document.createElement('div');
-    div.className = 'placeholder-img';
+    const div = creerVignette(url, () => { photosDetail.splice(i, 1); rendreDetail(); });
     div.dataset.photoDetail = 'true';
-    div.style.background = `center/cover no-repeat url("${url}")`;
-    div.style.cursor = 'pointer';
-    div.title = 'Cliquer pour retirer';
-    div.addEventListener('click', () => { photosDetail.splice(i, 1); rendreDetail(); });
     zoneDetail.insertBefore(div, dropzone);
   });
   dropzone.style.display = photosDetail.length >= 3 ? 'none' : 'flex';

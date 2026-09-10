@@ -12,7 +12,12 @@
 // 1600 px couvre la plus grande zone du site (le bandeau d'accueil) même sur
 // un écran à haute densité, où le navigateur affiche deux pixels d'image par
 // pixel d'écran. Au-delà, le poids augmente sans rien apporter de visible.
-const LARGEUR_MAX = 1600;
+//
+// La limite porte sur le plus grand côté, pas sur la largeur : une photo prise
+// en portrait a son grand côté à la verticale, et ne plafonner que la largeur
+// la laisserait à plus de 2000 px de haut, soit près du double de pixels à
+// télécharger pour un affichage identique.
+const COTE_MAX = 1600;
 
 // 0.82 est le palier au-delà duquel le poids grimpe vite alors que l'oeil ne
 // distingue plus rien sur une photo d'atelier.
@@ -32,14 +37,15 @@ export async function redimensionner(file) {
 
     // Une photo déjà petite est renvoyée telle quelle : la réencoder ne ferait
     // que dégrader l'image sans gain de poids.
-    if (bitmap.width <= LARGEUR_MAX) {
+    const grandCote = Math.max(bitmap.width, bitmap.height);
+    if (grandCote <= COTE_MAX) {
       bitmap.close();
       return file;
     }
 
-    const echelle = LARGEUR_MAX / bitmap.width;
+    const echelle = COTE_MAX / grandCote;
     const canvas = document.createElement('canvas');
-    canvas.width = LARGEUR_MAX;
+    canvas.width = Math.round(bitmap.width * echelle);
     canvas.height = Math.round(bitmap.height * echelle);
 
     const ctx = canvas.getContext('2d');

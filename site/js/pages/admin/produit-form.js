@@ -4,6 +4,7 @@
 import { getAuthenticatedClient } from '../../supabase-client.js';
 import { uploadPhoto } from '../../lib/upload.js';
 import { slugify } from '../../lib/slugify.js';
+import { creerVignette } from '../../lib/vignette-photo.js';
 
 const idProduit = new URLSearchParams(location.search).get('id');
 const estEdition = Boolean(idProduit);
@@ -21,13 +22,16 @@ function rendrePhotos() {
   const dropzone = zonePhotos.querySelector('[data-slot-photo]');
 
   photos.forEach((url, i) => {
-    const div = document.createElement('div');
-    div.className = 'placeholder-img';
+    const div = creerVignette(url, () => { photos.splice(i, 1); rendrePhotos(); });
     div.dataset.photo = 'true';
-    div.style.background = `center/cover no-repeat url("${url}")`;
-    div.style.cursor = 'pointer';
-    div.title = 'Cliquer pour retirer';
-    div.addEventListener('click', () => { photos.splice(i, 1); rendrePhotos(); });
+    // La première photo sert de vignette sur le site : le rappeler ici évite
+    // d'avoir à deviner laquelle sera reprise dans la grille de la boutique.
+    if (i === 0) {
+      const etiquette = document.createElement('span');
+      etiquette.className = 'photo-badge';
+      etiquette.textContent = 'Vignette';
+      div.appendChild(etiquette);
+    }
     zonePhotos.insertBefore(div, dropzone);
   });
 
