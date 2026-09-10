@@ -2,6 +2,8 @@
 
 import { supabase } from '../supabase-client.js';
 import { formatAnnee } from '../lib/format.js';
+import { monterCarrousel } from '../lib/carrousel-carte.js';
+import { photosDuPost } from '../lib/photos-post.js';
 
 const galerieEl = document.getElementById('galerie');
 const filtresEl = document.getElementById('filtres-savoir-faire');
@@ -42,7 +44,7 @@ async function chargerFiltres() {
 async function chargerPosts() {
   const { data, error } = await supabase
     .from('posts_vitrine')
-    .select('id, titre, slug, resume, photo_apres_url, date_projet, mise_en_avant, savoir_faire_id, categories(nom)')
+    .select('id, titre, slug, resume, photo_apres_url, photo_avant_url, photos_detail, date_projet, mise_en_avant, savoir_faire_id, categories(nom)')
     .eq('statut', 'publie')
     .order('date_projet', { ascending: false });
 
@@ -68,19 +70,21 @@ function afficherGalerie() {
   for (const post of items) {
     const node = template.content.cloneNode(true);
     const article = node.querySelector('article');
-    const lien1 = node.querySelector('.placeholder-img');
-    const lien2 = node.querySelector('.card-title');
+    const media = node.querySelector('.card-media');
+    const lienTitre = node.querySelector('.card-title');
     const eyebrow = node.querySelector('.eyebrow');
 
     if (post.mise_en_avant) article.classList.add('span-2');
     const href = `/vitrine/projet.html?slug=${encodeURIComponent(post.slug)}`;
-    lien1.href = href;
-    lien2.href = href;
-    lien1.style.backgroundImage = post.photo_apres_url ? `url("${post.photo_apres_url}")` : '';
-    if (post.photo_apres_url) { lien1.style.background = `center/cover no-repeat url("${post.photo_apres_url}")`; lien1.textContent = ''; }
-    else { lien1.querySelector('span').textContent = 'photo à venir'; }
+    media.querySelector('.card-media-link').href = href;
+    lienTitre.href = href;
+
+    const photos = photosDuPost(post);
+    if (photos.length === 0) media.querySelector('.card-media-img').textContent = 'photo à venir';
+    monterCarrousel(media, photos);
+
     eyebrow.textContent = `${post.categories?.nom ?? 'Réalisation'} · ${formatAnnee(post.date_projet)}`;
-    lien2.textContent = post.titre;
+    lienTitre.textContent = post.titre;
 
     galerieEl.appendChild(node);
   }

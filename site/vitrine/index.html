@@ -43,7 +43,11 @@
 
 <template id="tpl-carte-post">
   <article class="card">
-    <a class="placeholder-img" style="min-height:260px" href="#"><span></span></a>
+    <div class="card-media">
+      <a class="card-media-link" href="#"><span class="card-media-img placeholder-img"></span></a>
+      <button class="card-media-nav" type="button" data-dir="-1" aria-label="Photo précédente">‹</button>
+      <button class="card-media-nav" type="button" data-dir="1" aria-label="Photo suivante">›</button>
+    </div>
     <div style="display:flex;flex-direction:column;gap:8px">
       <span class="eyebrow"></span>
       <a class="card-title" href="#" style="color:var(--color-text)"></a>

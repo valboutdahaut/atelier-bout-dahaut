@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>À propos — L'Atelier du Bout d'à Haut</title>
+<meta name="description" content="Le parcours de l'artisane tapissière-garnisseuse de L'Atelier du Bout d'à Haut, ses formations et ses certifications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body data-nav-section="apropos">
+
+<div data-include="header-public"></div>
+
+<nav class="container" style="padding:16px 0;font-size:13px;color:var(--color-text-muted)">
+  <a href="/index.html">Accueil</a> / <span style="color:var(--color-text)">À propos</span>
+</nav>
+
+<main class="container apropos" style="padding-bottom:96px">
+
+  <header class="apropos-entete">
+    <span class="eyebrow">L'artisane</span>
+    <h1 id="apropos-titre">Un métier appris à l'établi, transmis par la main.</h1>
+  </header>
+
+  <!-- Parcours / histoire : texte long, éditable depuis Administration > Textes du site.
+       La mise en forme ne bouge pas, seul le contenu est remplacé (voir site-content.js). -->
+  <section class="apropos-recit">
+    <p id="apropos-intro">Formée à la tapisserie d'ameublement traditionnelle et contemporaine, j'accompagne chaque pièce du dégarnissage à la finition : sanglage, guindage, garniture, couture. Le choix du tissu se fait ensemble, à l'atelier ou au showroom.</p>
+  </section>
+
+  <!-- Formations et certifications : une ligne par entrée, remplies depuis l'admin
+       et mises en page par apropos.js. -->
+  <section class="apropos-formations">
+    <h2>Formations et certifications</h2>
+    <ul id="formations-liste">
+      <li class="empty-state" style="text-align:left">Chargement…</li>
+    </ul>
+  </section>
+
+  <aside class="apropos-cta">
+    <div>
+      <span class="eyebrow" style="color:rgba(27,42,65,.5)">Un projet ?</span>
+      <p>Restauration d'un siège de famille, rideaux sur mesure ou abat-jour dessiné pour l'occasion : parlons-en.</p>
+    </div>
+    <a class="btn btn-primary" href="/contact.html">Me contacter <span style="color:var(--color-accent)">→</span></a>
+  </aside>
+
+</main>
+
+<div data-include="footer"></div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/apropos.js"></script>
+</body>
+</html>

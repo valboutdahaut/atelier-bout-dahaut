@@ -65,7 +65,11 @@
 
 <template id="tpl-carte-produit">
   <article class="card">
-    <a class="placeholder-img" href="#" style="min-height:220px"></a>
+    <div class="card-media">
+      <a class="card-media-link" href="#"><span class="card-media-img placeholder-img"></span></a>
+      <button class="card-media-nav" type="button" data-dir="-1" aria-label="Photo précédente">‹</button>
+      <button class="card-media-nav" type="button" data-dir="1" aria-label="Photo suivante">›</button>
+    </div>
     <div style="display:flex;flex-direction:column;gap:5px">
       <a class="card-title" href="#" style="color:var(--color-text)"></a>
       <span class="card-meta" data-slot="sous-titre"></span>

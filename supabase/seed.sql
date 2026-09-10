@@ -12,6 +12,12 @@ insert into contenu_site (cle, valeur) values
   ('bio-titre', 'Un métier de patience, de crin et de fil.'),
   ('bio-texte', 'Formée à la tapisserie d''ameublement traditionnelle et contemporaine, j''accompagne chaque pièce du dégarnissage à la finition : sanglage, guindage, garniture, couture. Le choix du tissu se fait ensemble, à l''atelier ou au showroom.'),
   ('footer-texte', 'Rénover plutôt que remplacer : chaque siège remis en état est un meuble qui ne part pas à la déchetterie.'),
+  -- Page À propos (voir site/apropos.html et site/js/pages/apropos.js)
+  ('apropos-titre', 'Un métier appris à l''établi, transmis par la main.'),
+  ('apropos-intro', 'Formée à la tapisserie d''ameublement traditionnelle et contemporaine, j''accompagne chaque pièce du dégarnissage à la finition : sanglage, guindage, garniture, couture. Le choix du tissu se fait ensemble, à l''atelier ou au showroom.'),
+  -- Une ligne par formation. Le format "année | intitulé | organisme" est
+  -- facultatif : une ligne sans barre verticale s'affiche telle quelle.
+  ('apropos-formations', ''),
   -- Ces deux-là sont volontairement vides : à remplir depuis admin/textes.html
   -- une fois les vraies adresses et les liens réseaux sociaux disponibles.
   ('contact-adresses', ''),

@@ -4,6 +4,7 @@
 
 import { supabase } from '../supabase-client.js';
 import { formatPrix } from '../lib/format.js';
+import { monterCarrousel } from '../lib/carrousel-carte.js';
 
 const grilleEl = document.getElementById('grille-produits');
 const compteurEl = document.getElementById('compteur-produits');
@@ -84,9 +85,11 @@ function afficher() {
   for (const p of items) {
     const node = template.content.cloneNode(true);
     const href = `/boutique/produit.html?slug=${encodeURIComponent(p.slug)}`;
-    const photo = node.querySelector('.placeholder-img');
-    photo.href = href;
-    if (p.photos?.[0]) photo.style.background = `center/cover no-repeat url("${p.photos[0]}")`;
+    const media = node.querySelector('.card-media');
+    media.querySelector('.card-media-link').href = href;
+    // Toutes les photos du produit sont parcourables depuis la grille, sans
+    // avoir à ouvrir la fiche.
+    monterCarrousel(media, p.photos);
     const titre = node.querySelector('.card-title');
     titre.href = href;
     titre.textContent = p.titre;

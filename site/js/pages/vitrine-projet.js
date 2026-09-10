@@ -3,6 +3,8 @@
 import { supabase } from '../supabase-client.js';
 import { formatAnnee } from '../lib/format.js';
 import { rendreMarkdownLite } from '../lib/markdown-lite.js';
+import { monterCarrousel } from '../lib/carrousel-carte.js';
+import { photosDuPost } from '../lib/photos-post.js';
 
 const contenuEl = document.getElementById('contenu-projet');
 const slug = new URLSearchParams(location.search).get('slug');
@@ -22,19 +24,33 @@ async function afficherAutresPosts(idActuel) {
   const conteneur = document.querySelector('[data-slot="autres-posts"]');
   const { data } = await supabase
     .from('posts_vitrine')
-    .select('titre, slug, photo_apres_url')
+    .select('titre, slug, photo_apres_url, photo_avant_url, photos_detail')
     .eq('statut', 'publie')
     .neq('id', idActuel)
     .order('date_projet', { ascending: false })
     .limit(3);
 
   for (const post of data ?? []) {
+    const href = `/vitrine/projet.html?slug=${encodeURIComponent(post.slug)}`;
     const article = document.createElement('article');
     article.className = 'card';
+    // Même structure que le template de la galerie (vitrine/index.html) : zoom
+    // au survol et flèches de parcours des photos, posées par monterCarrousel.
     article.innerHTML = `
-      <a class="placeholder-img" href="/vitrine/projet.html?slug=${encodeURIComponent(post.slug)}" style="min-height:220px;background:${post.photo_apres_url ? `center/cover no-repeat url('${post.photo_apres_url}')` : ''}"></a>
-      <a class="card-title" href="/vitrine/projet.html?slug=${encodeURIComponent(post.slug)}" style="color:var(--color-text)">${post.titre}</a>
+      <div class="card-media">
+        <a class="card-media-link" href="${href}"><span class="card-media-img placeholder-img"></span></a>
+        <button class="card-media-nav" type="button" data-dir="-1" aria-label="Photo précédente">‹</button>
+        <button class="card-media-nav" type="button" data-dir="1" aria-label="Photo suivante">›</button>
+      </div>
+      <a class="card-title" href="${href}" style="color:var(--color-text)"></a>
     `;
+    // Le titre vient de l'admin : posé en texte, jamais interprété comme du HTML.
+    article.querySelector('.card-title').textContent = post.titre;
+
+    const photos = photosDuPost(post);
+    if (photos.length === 0) article.querySelector('.card-media-img').textContent = 'photo à venir';
+    monterCarrousel(article.querySelector('.card-media'), photos);
+
     conteneur.appendChild(article);
   }
 }

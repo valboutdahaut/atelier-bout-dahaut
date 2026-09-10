@@ -56,6 +56,14 @@ Puis ouvrir l'URL affichée (ex. http://localhost:3000). Sans configuration Supa
 5. Dans **Authentication > Sign In / Providers > Email**, désactiver **"Allow new users to sign up"**. Sans ça, n'importe qui pourrait se créer un compte. Il ne pourrait rien modifier (les policies ne reconnaissent que l'adresse de l'atelier), mais autant fermer la porte.
 6. Dans **Authentication > URL Configuration**, renseigner l'adresse du site en **Site URL** et l'ajouter aux **Redirect URLs** (ex. `https://atelier-bout-dahaut.netlify.app/**`). C'est ce qui autorise le retour du lien magique.
 
+### Migrations (base déjà en service)
+
+Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en production**, une fois chacun, dans le SQL Editor. Ne pas relancer `seed.sql` à leur place : il réinsérerait les catégories et échouerait sur la contrainte d'unicité.
+
+| Script | Effet | Exécuté ? |
+| --- | --- | --- |
+| `migration-2026-09-10-apropos.sql` | Crée les trois textes de la page À propos dans `contenu_site` | à faire |
+
 **Note historique** : l'authentification devait initialement passer par Netlify Identity, avec un pont de secret JWT vers Supabase. Cette approche n'est plus viable : depuis octobre 2025, Supabase signe ses jetons avec des clés asymétriques et n'accepte des identités externes que via un fournisseur exposant une découverte OIDC, ce que Netlify Identity ne fait pas. On utilise donc Supabase Auth, plus simple et mieux intégré puisque les données sont déjà chez Supabase.
 
 ## Mettre en place Netlify

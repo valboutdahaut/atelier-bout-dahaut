@@ -109,6 +109,10 @@
 .site-footer .brand { display: flex; align-items: center; gap: 14px; font-family: var(--font-title); font-size: 22px; color: var(--color-bg); }
 .site-footer .brand img { width: 46px; height: 46px; object-fit: contain; }
 .site-footer h5 { color: var(--color-accent); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-family: var(--font-mono); margin-bottom: 6px; }
+/* "Atelier" et "Showroom" mènent à la page Contact. Le lien reprend la couleur
+   du titre (sinon il hériterait du vert des liens) et ne se souligne qu'au survol. */
+.site-footer h5 a { color: inherit; border-bottom: 1px solid transparent; padding-bottom: 2px; }
+.site-footer h5 a:hover { color: var(--color-bg); border-bottom-color: currentColor; }
 .site-footer p, .site-footer span { color: rgba(244, 237, 222, .7); font-size: 14px; line-height: 1.8; }
 @media (max-width: 800px) {
   .site-footer { grid-template-columns: 1fr; gap: var(--space-md); }
@@ -120,6 +124,62 @@
 .card-title { font-family: var(--font-title); font-size: 18px; }
 .card-price { font-size: 15px; font-weight: 500; margin-top: 4px; }
 .card-meta { font-size: 13px; color: var(--color-text-muted); }
+
+/* --- Média de carte : zoom au survol + flèches photo -------------------------*/
+/* Réservé aux grilles Vitrine et Boutique. Le cadre ne bouge pas : c'est le
+   calque interne qui grandit, débordement masqué. */
+.card-media {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-placeholder-a);
+}
+.card-media-link { display: block; width: 100%; height: 100%; }
+.card-media-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: transform .5s cubic-bezier(.2, .6, .2, 1);
+}
+.card-media:hover .card-media-img { transform: scale(1.05); }
+/* Tant qu'aucune photo n'est posée, le calque garde le motif de remplissage
+   et son texte ("photo à venir") aligné en bas, comme partout ailleurs. */
+.card-media-img.placeholder-img { display: flex; align-items: flex-end; background-size: auto; background-repeat: repeat; }
+
+.card-media-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: rgba(244, 237, 222, .9);
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.card-media-nav[data-dir="-1"] { left: 10px; }
+.card-media-nav[data-dir="1"] { right: 10px; }
+.card-media-nav:hover { background: var(--color-bg); }
+.card-media:hover .card-media-nav { opacity: 1; }
+/* Au clavier, la flèche doit apparaître dès qu'elle reçoit le focus, sinon
+   elle serait activable sans être visible. */
+.card-media-nav:focus-visible { opacity: 1; outline: 2px solid var(--color-text); outline-offset: 2px; }
+/* Sans survol possible (tactile), les flèches restent visibles en permanence. */
+@media (hover: none) {
+  .card-media-nav { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-media-img { transition: none; }
+  .card-media:hover .card-media-img { transform: none; }
+}
 
 /* --- Formulaires ------------------------------------------------------------*/
 .field { display: flex; flex-direction: column; gap: 9px; margin-bottom: var(--space-md); }

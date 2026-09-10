@@ -48,10 +48,56 @@
 .split-cta > div { background: var(--color-bg); padding: var(--space-xl) var(--space-lg); display: flex; flex-direction: column; gap: var(--space-sm); }
 @media (max-width: 800px) { .split-cta { grid-template-columns: 1fr; } }
 
+/* --- À propos ---------------------------------------------------------------*/
+/* Page en une seule colonne étroite : le contenu est du texte long, la
+   largeur de lecture prime sur l'occupation de l'écran. */
+.apropos { max-width: 820px; }
+.apropos-entete { display: flex; flex-direction: column; gap: 18px; padding: var(--space-lg) 0 var(--space-md); }
+.apropos-entete h1 { font-size: 40px; line-height: 1.2; }
+.apropos-recit p { font-size: 17px; line-height: 1.9; color: var(--color-text-muted); }
+.apropos-formations { margin-top: var(--space-xl); }
+.apropos-formations h2 { font-size: 26px; margin-bottom: var(--space-sm); }
+
+/* Une entrée = une ligne réglée. La colonne de gauche accueille l'année,
+   absente des lignes saisies sans séparateur (classe .pleine). */
+.formation-ligne {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 4px 28px;
+  align-items: baseline;
+  padding: 20px 0;
+  border-top: 1px solid var(--color-border);
+}
+.formation-ligne:last-child { border-bottom: 1px solid var(--color-border); }
+.formation-ligne.pleine { grid-template-columns: 1fr; }
+.formation-date { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; color: var(--color-accent-deep); }
+.formation-titre { font-family: var(--font-title); font-size: 18px; line-height: 1.45; }
+.formation-lieu { grid-column: 2; font-size: 14px; color: var(--color-text-muted); }
+
+.apropos-cta {
+  margin-top: var(--space-xl);
+  background: var(--color-accent);
+  padding: var(--space-lg);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-md); flex-wrap: wrap;
+}
+.apropos-cta p { font-size: 15.5px; line-height: 1.75; max-width: 420px; margin-top: 10px; }
+
+@media (max-width: 640px) {
+  .apropos-entete h1 { font-size: 30px; }
+  .formation-ligne, .formation-ligne.pleine { grid-template-columns: 1fr; gap: 6px; }
+  .formation-lieu { grid-column: 1; }
+  .apropos-cta { padding: var(--space-md); }
+}
+
 /* --- Grilles galerie / boutique -------------------------------------------*/
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 28px; }
 .gallery-grid .span-2 { grid-column: span 2; }
 .gallery-grid .placeholder-img { min-height: 260px; }
+/* Hauteur ferme (et non min-height) : le calque photo se dimensionne en % de
+   son cadre, ce qui suppose une hauteur définie. Toutes les vignettes
+   s'alignent au passage. */
+.gallery-grid .card-media { height: 260px; }
 @media (max-width: 900px) {
   .gallery-grid { grid-template-columns: 1fr; }
   .gallery-grid .span-2 { grid-column: span 1; }
@@ -59,6 +105,7 @@
 
 .shop-layout { display: grid; grid-template-columns: 248px 1fr; gap: var(--space-lg); }
 .shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 24px; }
+.shop-grid .card-media { height: 220px; }
 @media (max-width: 900px) {
   .shop-layout { grid-template-columns: 1fr; }
   .shop-grid { grid-template-columns: repeat(2, 1fr); }

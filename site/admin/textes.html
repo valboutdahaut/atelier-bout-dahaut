@@ -20,7 +20,7 @@
 
   <main class="admin-main">
     <h1 style="font-size:30px">Textes du site</h1>
-    <p style="color:var(--color-text-muted);max-width:640px">Ces textes apparaissent sur la page d'accueil et le pied de page. Vous modifiez le contenu, la mise en page ne bouge pas.</p>
+    <p style="color:var(--color-text-muted);max-width:640px">Ces textes apparaissent sur la page d'accueil, la page À propos, la page Contact et le pied de page. Vous modifiez le contenu, la mise en page ne bouge pas.</p>
 
     <form class="form-panel" id="form-textes" style="max-width:700px">
       <div class="form-panel-body">
@@ -28,6 +28,22 @@
         <div class="field"><label for="hero-soustitre">Sous-titre (accueil)</label><textarea id="hero-soustitre" name="hero-soustitre"></textarea></div>
         <div class="field"><label for="bio-titre">Titre de la présentation</label><input id="bio-titre" name="bio-titre"></div>
         <div class="field"><label for="bio-texte">Texte de présentation de l'artisane</label><textarea id="bio-texte" name="bio-texte" style="min-height:120px"></textarea></div>
+
+        <h2 style="font-size:19px;margin:var(--space-md) 0 4px">Page À propos</h2>
+        <div class="field"><label for="apropos-titre">Titre de la page À propos</label><input id="apropos-titre" name="apropos-titre"></div>
+        <div class="field"><label for="apropos-intro">Votre parcours, votre histoire</label><textarea id="apropos-intro" name="apropos-intro" style="min-height:180px"></textarea><span class="hint">Le texte long qui ouvre la page. Le retour à la ligne (Entrée) est conservé tel quel.</span></div>
+        <div class="field">
+          <label for="apropos-formations">Formations et certifications</label>
+          <textarea id="apropos-formations" name="apropos-formations" style="min-height:160px" placeholder="2019 | CAP Tapissier d'ameublement | Greta de Chartres"></textarea>
+          <span class="hint">
+            <strong>Une ligne par formation.</strong> Appuyez sur Entrée pour passer à la suivante.<br>
+            Pour afficher l'année à part, séparez avec une barre verticale&nbsp;:
+            <code>2019 | CAP Tapissier d'ameublement | Greta de Chartres</code><br>
+            Une ligne écrite normalement, sans barre, s'affiche telle quelle. Les deux écritures peuvent cohabiter.
+          </span>
+        </div>
+
+        <h2 style="font-size:19px;margin:var(--space-md) 0 4px">Pied de page et contact</h2>
         <div class="field"><label for="footer-texte">Texte du pied de page</label><textarea id="footer-texte" name="footer-texte"></textarea></div>
         <div class="field"><label for="contact-adresses">Adresses (page Contact)</label><textarea id="contact-adresses" name="contact-adresses" placeholder="Atelier — Gallardon (28)..."></textarea><span class="hint">Appuyez sur Entrée pour passer à la ligne, les sauts de ligne sont conservés sur le site.</span></div>
         <div class="field"><label for="contact-reseaux">Réseaux sociaux (page Contact)</label><textarea id="contact-reseaux" name="contact-reseaux" placeholder='&lt;a href="https://instagram.com/...">Instagram&lt;/a&gt;'></textarea><span class="hint">Un lien HTML par réseau, ex&nbsp;: &lt;a href="https://...">Instagram&lt;/a&gt;</span></div>
