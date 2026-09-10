@@ -35,12 +35,13 @@
   </section>
 
   <!-- Formations et certifications : une ligne par entrée, remplies depuis l'admin
-       et mises en page par apropos.js. -->
-  <section class="apropos-formations">
+       et mises en page par apropos.js.
+       Masquée par défaut : elle n'apparaît que si au moins une formation est
+       saisie. Un visiteur ne peut donc jamais tomber sur un titre suivi d'un
+       vide, ni sur un "Chargement…" figé si le script n'aboutit pas. -->
+  <section class="apropos-formations" hidden>
     <h2>Formations et certifications</h2>
-    <ul id="formations-liste">
-      <li class="empty-state" style="text-align:left">Chargement…</li>
-    </ul>
+    <ul id="formations-liste"></ul>
   </section>
 
   <aside class="apropos-cta">

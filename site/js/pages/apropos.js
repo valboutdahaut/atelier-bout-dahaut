@@ -65,9 +65,10 @@ async function afficherFormations() {
     .eq('cle', 'apropos-formations')
     .maybeSingle();
 
+  // La section reste masquée en cas d'échec : un message d'erreur technique
+  // n'apprendrait rien au visiteur, la trace console suffit au développeur.
   if (error) {
     console.error('apropos.js : impossible de charger les formations', error);
-    listeEl.innerHTML = '<li class="empty-state" style="text-align:left">Impossible de charger cette section pour le moment.</li>';
     return;
   }
 
@@ -76,15 +77,13 @@ async function afficherFormations() {
     .map((l) => l.trim())
     .filter(Boolean);
 
-  // Tant qu'aucune formation n'est saisie, la section entière disparaît :
-  // mieux vaut une page plus courte qu'un titre suivi d'un vide.
-  if (lignes.length === 0) {
-    sectionEl.hidden = true;
-    return;
-  }
+  // Tant qu'aucune formation n'est saisie, la section reste masquée : mieux
+  // vaut une page plus courte qu'un titre suivi d'un vide.
+  if (lignes.length === 0) return;
 
   listeEl.innerHTML = '';
   for (const ligne of lignes) listeEl.append(creerLigne(ligne));
+  sectionEl.hidden = false;
 }
 
 afficherFormations();
