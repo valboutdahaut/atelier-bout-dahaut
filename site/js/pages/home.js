@@ -1,11 +1,17 @@
 // home.js — page d'accueil.
 //
 // Les textes génériques (hero, bio, footer) sont déjà hydratés pour toutes
-// les pages publiques par site-content.js (appelé depuis nav.js). Les trois
-// cartes "savoir-faire" restent un contenu éditorial fixe (photos + textes
-// courts pensés ensemble), pas branché sur la table categories : voir la
-// décision de scope dans le plan d'implémentation du projet.
+// les pages publiques par site-content.js (appelé depuis nav.js).
 //
-// Rien de spécifique à faire ici pour l'instant — fichier gardé pour la
-// cohérence de structure et une éventuelle évolution future (ex. mettre en
-// avant le dernier post vitrine publié).
+// Les cinq zones images de la page (grand bandeau, présentation de l'artisane
+// et les trois vignettes savoir-faire) ne portent aucune photo en dur : elles
+// font défiler les pièces réellement visibles sur le site, boutique en stock
+// et réalisations de la vitrine. Voir lib/roulement-photos.js pour les règles.
+//
+// Tant qu'aucune photo n'est publiée, les zones gardent le motif de
+// remplissage et leur légende : la page reste donc lisible en attendant.
+
+import { supabase } from '../supabase-client.js';
+import { chargerPhotosPrincipales, demarrerRoulement } from '../lib/roulement-photos.js';
+
+chargerPhotosPrincipales(supabase).then(demarrerRoulement);

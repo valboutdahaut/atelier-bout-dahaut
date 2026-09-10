@@ -19,7 +19,9 @@
 
 <main>
   <section class="hero">
-    <div class="hero-visual placeholder-img"><span>photo — fauteuil crapaud restauré, plein cadre</span></div>
+    <!-- data-roulement sans valeur : cette zone puise dans toutes les pièces
+         du site, sans filtre de catégorie (voir js/lib/roulement-photos.js). -->
+    <div class="hero-visual placeholder-img" data-roulement><span>photo — fauteuil crapaud restauré, plein cadre</span></div>
     <div class="hero-content">
       <div style="display:flex;flex-direction:column;gap:26px">
         <span class="eyebrow">Atelier à Gallardon · Showroom à Rambouillet</span>
@@ -34,7 +36,7 @@
   </section>
 
   <section class="artisan-section">
-    <div class="placeholder-img"><span>portrait — l'artisane à l'atelier</span></div>
+    <div class="placeholder-img" data-roulement><span>portrait — l'artisane à l'atelier</span></div>
     <div style="display:flex;flex-direction:column;gap:24px;max-width:520px">
       <span class="eyebrow">L'artisane</span>
       <h2 id="bio-titre" style="font-size:32px;line-height:1.25">Un métier de patience, de crin et de fil.</h2>
@@ -47,21 +49,23 @@
     <h2 style="font-size:30px">Trois savoir-faire</h2>
     <div class="savoir-faire-grid">
       <article class="savoir-faire-card">
-        <div class="placeholder-img" style="align-items:center;justify-content:center"><span>photo — tapisserie</span></div>
+        <!-- Chaque vignette est limitée aux catégories qui correspondent à sa
+             légende, sinon un abat-jour pourrait s'afficher sous "Tapisserie". -->
+        <div class="placeholder-img" style="align-items:center;justify-content:center" data-roulement="tapisserie"><span>photo — tapisserie</span></div>
         <div class="body">
           <span style="font-family:var(--font-title);font-size:21px">Tapisserie</span>
           <p style="font-size:14.5px;line-height:1.7;color:var(--color-text-muted)">Fauteuils, canapés et chaises restaurés selon les techniques traditionnelles et contemporaines.</p>
         </div>
       </article>
       <article class="savoir-faire-card">
-        <div class="placeholder-img" style="align-items:center;justify-content:center"><span>photo — couture</span></div>
+        <div class="placeholder-img" style="align-items:center;justify-content:center" data-roulement="couture-ameublement coussins rideaux"><span>photo — couture</span></div>
         <div class="body">
           <span style="font-family:var(--font-title);font-size:21px">Couture d'ameublement</span>
           <p style="font-size:14.5px;line-height:1.7;color:var(--color-text-muted)">Rideaux, stores, coussins et housses sur mesure.</p>
         </div>
       </article>
       <article class="savoir-faire-card">
-        <div class="placeholder-img" style="align-items:center;justify-content:center"><span>photo — abat-jour</span></div>
+        <div class="placeholder-img" style="align-items:center;justify-content:center" data-roulement="abat-jour-sur-mesure abat-jour lampes"><span>photo — abat-jour</span></div>
         <div class="body">
           <span style="font-family:var(--font-title);font-size:21px">Abat-jour sur mesure</span>
           <p style="font-size:14.5px;line-height:1.7;color:var(--color-text-muted)">Formes classiques ou dessinées pour l'occasion, montées à la main.</p>

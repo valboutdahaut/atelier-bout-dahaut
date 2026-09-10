@@ -181,6 +181,28 @@
   .card-media:hover .card-media-img { transform: none; }
 }
 
+/* --- Roulement de photos (page d'accueil) -----------------------------------*/
+/* La photo est portée par un calque superposé au motif de remplissage, jamais
+   par la zone elle-même : si aucune photo n'est publiée, ou le temps qu'elles
+   arrivent, la zone garde son apparence d'origine sans rien casser. */
+.roulement-zone { position: relative; overflow: hidden; }
+.roulement-img {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity .7s ease;
+  pointer-events: none;
+}
+.roulement-img.visible { opacity: 1; }
+/* Mouvement réduit : le fondu disparaît, la photo change d'un coup. Le
+   défilement lui-même est conservé, c'est du contenu et non une décoration. */
+@media (prefers-reduced-motion: reduce) {
+  .roulement-img { transition: none; }
+}
+
 /* --- Formulaires ------------------------------------------------------------*/
 .field { display: flex; flex-direction: column; gap: 9px; margin-bottom: var(--space-md); }
 .field label { font-size: 13px; font-weight: 500; }
