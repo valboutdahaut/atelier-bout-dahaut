@@ -25,10 +25,10 @@ stable
 as $$
   select coalesce(auth.jwt() ->> 'email', '') = any (array[
     'atelierduboutdahaut@gmail.com',  -- l'artisane, propriétaire du site
-    'tom.blndeau@gmail.com'           -- le prestataire  <-- VÉRIFIER CETTE LIGNE
+    'tomblndeau@gmail.com'            -- le prestataire (adresse sans point)
   ]);
 $$;
 
--- Vérification : doit renvoyer les deux adresses autorisées.
-select unnest(regexp_matches(prosrc, '''([^'']+@[^'']+)''', 'g')) as adresse_autorisee
-from pg_proc where proname = 'est_admin';
+-- Vérification : affiche le corps de la fonction, où les deux adresses
+-- autorisées doivent apparaître.
+select prosrc as fonction_est_admin from pg_proc where proname = 'est_admin';

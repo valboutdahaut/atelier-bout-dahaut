@@ -24,7 +24,7 @@ stable
 as $$
   select coalesce(auth.jwt() ->> 'email', '') = any (array[
     'atelierduboutdahaut@gmail.com',  -- l'artisane, propriétaire du site
-    'tom.blndeau@gmail.com'           -- le prestataire
+    'tomblndeau@gmail.com'            -- le prestataire
   ]);
 $$;
 
