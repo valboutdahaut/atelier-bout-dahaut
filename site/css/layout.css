@@ -90,6 +90,47 @@
   .apropos-cta { padding: var(--space-md); }
 }
 
+/* --- Contact : carte et réseaux sociaux -------------------------------------*/
+.carte-lieu { margin: var(--space-md) 0 0; }
+.carte-lieu iframe {
+  display: block;
+  width: 100%;
+  height: 300px;
+  border: 1px solid var(--color-border);
+  /* Le fond de carte est clair et lumineux, le reste du site est crème :
+     un voile très léger l'accorde sans le rendre illisible. */
+  filter: saturate(.88);
+}
+.carte-lieu figcaption {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--space-sm); flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+}
+
+.reseaux-liste { display: flex; flex-direction: column; gap: 4px; }
+.reseau-lien {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  /* Toute la ligne est cliquable, pas seulement le logo : une cible de 20 px
+     est difficile à viser au doigt. */
+  padding: 9px 10px 9px 0;
+  font-size: 15px;
+  color: var(--color-text);
+  align-self: flex-start;
+}
+.reseau-lien svg { width: 20px; height: 20px; flex: 0 0 auto; color: var(--color-accent-deep); }
+.reseau-lien span { border-bottom: 1px solid transparent; }
+.reseau-lien:hover { color: var(--color-accent-deep); }
+.reseau-lien:hover span { border-bottom-color: currentColor; }
+.reseau-lien:focus-visible { outline: 2px solid var(--color-text); outline-offset: 3px; }
+
+@media (max-width: 640px) {
+  .carte-lieu iframe { height: 240px; }
+}
+
 /* --- Grilles galerie / boutique -------------------------------------------*/
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 28px; }
 .gallery-grid .span-2 { grid-column: span 2; }

@@ -34,14 +34,34 @@
     <button type="submit" class="btn btn-accent" id="btn-envoyer">Envoyer</button>
   </form>
 
-  <div style="margin-top:56px;padding-top:40px;border-top:1px solid var(--color-border);display:flex;flex-direction:column;gap:28px">
+  <div style="margin-top:56px;padding-top:40px;border-top:1px solid var(--color-border);display:flex;flex-direction:column;gap:40px">
     <div>
       <h2 style="font-size:18px;margin-bottom:10px">Nous trouver</h2>
       <div id="contact-adresses" style="font-size:14.5px;line-height:1.8;color:var(--color-text-muted)"></div>
+
+      <!-- Carte du showroom, sous les adresses.
+           OpenStreetMap plutôt que Google Maps : pas de clé à gérer, et
+           surtout aucun cookie déposé chez un tiers, ce qui éviterait sinon
+           d'avoir à demander un consentement au visiteur.
+           Pour changer d'adresse : remplacer les coordonnées dans bbox et
+           marker ci-dessous, ainsi que dans le lien d'itinéraire. -->
+      <figure class="carte-lieu">
+        <iframe
+          title="Carte du showroom, 109 rue du Général de Gaulle à Rambouillet"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=1.8183%2C48.6412%2C1.8303%2C48.6462&amp;layer=mapnik&amp;marker=48.6437%2C1.8243"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <figcaption>
+          <span>Showroom &middot; 109 rue du Général de Gaulle, Passage Fleuri, 78120 Rambouillet</span>
+          <a href="https://www.openstreetmap.org/directions?to=48.6437%2C1.8243" target="_blank" rel="noopener noreferrer">Itinéraire ↗</a>
+        </figcaption>
+      </figure>
     </div>
-    <div>
-      <h2 style="font-size:18px;margin-bottom:10px">Suivre l'atelier</h2>
-      <div id="contact-reseaux" style="font-size:14.5px;line-height:1.8"></div>
+
+    <!-- Masqué tant qu'aucun réseau n'est renseigné dans l'administration. -->
+    <div data-section="reseaux" hidden>
+      <h2 style="font-size:18px;margin-bottom:14px">Suivre l'atelier</h2>
+      <div id="reseaux-liste" class="reseaux-liste"></div>
     </div>
   </div>
 </main>
