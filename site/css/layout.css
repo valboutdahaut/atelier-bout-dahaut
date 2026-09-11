@@ -167,9 +167,25 @@
 .shop-grid .card-media {
   aspect-ratio: 1 / 1;
   height: auto;
-  background: var(--color-canvas);
+  /* Le pourtour reprend le fond de la page : la photo semble posée sur le
+     site, sans cadre ni aplat rapporté. */
+  background: var(--color-bg);
 }
-.shop-grid .card-media-img:not(.placeholder-img) { background-size: contain; }
+
+/* Au survol, la photo grandit sans jamais être coupée. Pour cela elle est
+   très légèrement réduite au repos et reprend sa taille pleine au survol,
+   plutôt que de dépasser du cadre et de se faire rogner. Le mouvement est le
+   même à l'oeil, mais l'objet reste entier du début à la fin. */
+.shop-grid .card-media-img:not(.placeholder-img) {
+  background-size: contain;
+  transform: scale(.93);
+}
+.shop-grid .card-media:hover .card-media-img:not(.placeholder-img) {
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .shop-grid .card-media:hover .card-media-img:not(.placeholder-img) { transform: scale(.93); }
+}
 @media (max-width: 900px) {
   .shop-layout { grid-template-columns: 1fr; }
   .shop-grid { grid-template-columns: repeat(2, 1fr); }
