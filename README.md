@@ -64,6 +64,8 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 | --- | --- | --- |
 | `migration-2026-09-10-apropos.sql` | Crée les trois textes de la page À propos dans `contenu_site` | fait le 10/09/2026 |
 | `migration-2026-09-10-admin-tom.sql` | Ouvre l'administration à une seconde adresse (le prestataire) | fait le 10/09/2026 |
+| `migration-2026-09-11-reseaux.sql` | Renseigne les trois réseaux sociaux affichés sur la page Contact | fait le 11/09/2026 |
+| `migration-2026-09-11-mentions.sql` | Ajoute les mentions de l'entreprise et le nom complet de la page Facebook | à faire |
 
 Après ce dernier script, créer aussi l'utilisateur dans **Authentication > Users** ("Add user", cocher "Auto Confirm User") : ajouter une adresse dans `est_admin()` lui donne les droits, mais ne crée pas le compte, les inscriptions publiques étant fermées.
 

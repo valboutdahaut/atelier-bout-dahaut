@@ -109,6 +109,19 @@
   color: var(--color-text-muted);
 }
 
+/* Mentions de l'entreprise : présentes sans capter l'attention, elles
+   n'intéressent qu'un visiteur qui les cherche. Le bloc disparaît de lui-même
+   s'il est vide, faute de contenu à afficher. */
+.mentions-legales {
+  margin-top: var(--space-md);
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+  font-size: 12.5px;
+  line-height: 1.8;
+  color: var(--color-text-faint);
+}
+.mentions-legales:empty { display: none; }
+
 .reseaux-liste { display: flex; flex-direction: column; gap: 4px; }
 .reseau-lien {
   display: inline-flex;

@@ -18,10 +18,14 @@ insert into contenu_site (cle, valeur) values
   -- Une ligne par formation. Le format "année | intitulé | organisme" est
   -- facultatif : une ligne sans barre verticale s'affiche telle quelle.
   ('apropos-formations', ''),
-  -- Ces deux-là sont volontairement vides : à remplir depuis admin/textes.html
-  -- une fois les vraies adresses et les liens réseaux sociaux disponibles.
+  -- Ceux-là sont volontairement vides : à remplir depuis admin/textes.html
+  -- une fois les vraies informations disponibles.
   ('contact-adresses', ''),
-  ('contact-reseaux', '')
+  -- Réseaux sociaux, une ligne par réseau, au format
+  -- "réseau | nom affiché | adresse" (voir site/js/lib/logos-reseaux.js).
+  ('contact-reseaux', ''),
+  -- Mentions de l'entreprise, affichées sous la carte de la page Contact.
+  ('contact-mentions', '')
 on conflict (cle) do nothing;
 
 -- --- Catégories boutique -----------------------------------------------------
