@@ -159,7 +159,17 @@
 
 .shop-layout { display: grid; grid-template-columns: 248px 1fr; gap: var(--space-lg); }
 .shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px 24px; }
-.shop-grid .card-media { height: 220px; }
+/* Boutique : la case est carrée quelles que soient les photos, ce qui aligne
+   toutes les vignettes de la grille. La photo, elle, garde ses proportions et
+   s'affiche en entier, avec du vide de part et d'autre si elle est verticale
+   ou panoramique. Un recadrage automatique couperait un pied de lampe ou le
+   haut d'un abat-jour selon la photo, sans que personne le décide. */
+.shop-grid .card-media {
+  aspect-ratio: 1 / 1;
+  height: auto;
+  background: var(--color-canvas);
+}
+.shop-grid .card-media-img:not(.placeholder-img) { background-size: contain; }
 @media (max-width: 900px) {
   .shop-layout { grid-template-columns: 1fr; }
   .shop-grid { grid-template-columns: repeat(2, 1fr); }
