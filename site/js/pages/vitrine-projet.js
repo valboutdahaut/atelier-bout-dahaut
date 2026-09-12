@@ -20,6 +20,30 @@ function setPhoto(el, url, texteVide) {
   }
 }
 
+/**
+ * Photos de détail, sous le récit. Elles n'étaient nulle part sur la fiche :
+ * seules les photos avant et après étaient affichées, les détails restaient
+ * dans la base sans jamais être vus.
+ */
+function afficherDetails(node, photos) {
+  const liste = (photos ?? []).filter(Boolean);
+  if (liste.length === 0) return; // la section reste masquée
+
+  const grille = node.querySelector('[data-slot="details-grille"]');
+  liste.forEach((url, i) => {
+    const img = document.createElement('img');
+    img.src = url;
+    // Aucune description n'est saisie dans l'admin : un texte inventé ici
+    // ("photo de détail 2") n'apprendrait rien à personne.
+    img.alt = '';
+    // Les premières sont chargées tout de suite, les suivantes à l'approche :
+    // une réalisation peut en compter beaucoup.
+    img.loading = i < 3 ? 'eager' : 'lazy';
+    grille.appendChild(img);
+  });
+  node.querySelector('[data-slot="details"]').hidden = false;
+}
+
 async function afficherAutresPosts(idActuel) {
   const conteneur = document.querySelector('[data-slot="autres-posts"]');
   const { data } = await supabase
@@ -90,6 +114,7 @@ async function charger() {
   node.querySelector('[data-slot="duree"]').textContent = post.duree ?? '—';
   node.querySelector('[data-slot="matieres"]').textContent = post.matieres_reemployees ?? '—';
   node.querySelector('[data-slot="recit"]').innerHTML = rendreMarkdownLite(post.recit);
+  afficherDetails(node, post.photos_detail);
   node.querySelector('[data-slot="lien-contact"]').href =
     `/contact.html?sujet=${encodeURIComponent('Projet similaire à : ' + post.titre)}&post=${post.id}`;
 

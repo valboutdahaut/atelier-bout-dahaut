@@ -186,9 +186,13 @@
    par la zone elle-même : si aucune photo n'est publiée, ou le temps qu'elles
    arrivent, la zone garde son apparence d'origine sans rien casser. */
 .roulement-zone { position: relative; overflow: hidden; }
+/* Une fois la première vraie photo à l'écran, le motif rayé du gabarit n'a plus
+   lieu d'être : il ne doit jamais réapparaître entre deux photos. */
+.roulement-zone.roulement-actif { background: var(--color-bg); }
 .roulement-img {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -197,6 +201,10 @@
   pointer-events: none;
 }
 .roulement-img.visible { opacity: 1; }
+/* Deux calques par zone : celui qui arrive passe au-dessus de celui qu'il
+   remplace, donc la photo précédente reste opaque pendant tout le fondu et
+   rien ne transparaît derrière. */
+.roulement-img.dessus { z-index: 2; }
 /* Mouvement réduit : le fondu disparaît, la photo change d'un coup. Le
    défilement lui-même est conservé, c'est du contenu et non une décoration. */
 @media (prefers-reduced-motion: reduce) {

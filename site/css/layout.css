@@ -214,6 +214,17 @@
 .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); padding: var(--space-xl) var(--space-lg); }
 .before-after .placeholder-img { min-height: 420px; align-items: flex-start; }
 .article-body { display: grid; grid-template-columns: 220px 1fr; gap: var(--space-xl); padding: 0 var(--space-lg) var(--space-2xl); }
+/* Photos de détail d'une réalisation, sous le récit. Même parti pris que la
+   boutique : case carrée pour que la grille reste alignée, photo entière à
+   l'intérieur, et le vide reprend le fond de la page. Un recadrage couperait
+   justement le détail que la photo est censée montrer. */
+.section-details { display: flex; flex-direction: column; gap: var(--space-md); padding: 0 var(--space-lg) var(--space-2xl); }
+.section-details[hidden] { display: none; }
+.details-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.details-grid img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; background: var(--color-bg); }
+@media (max-width: 900px) { .details-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .details-grid { grid-template-columns: 1fr; } }
+
 .article-meta dt { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--color-accent-deep); margin-bottom: 4px; }
 .article-meta dd { margin: 0 0 var(--space-md); font-size: 14px; }
 .article-text p { font-size: 17px; line-height: 1.85; color: var(--color-text-muted); margin-bottom: var(--space-md); }

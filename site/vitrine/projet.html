@@ -48,6 +48,12 @@
     <div class="article-text" data-slot="recit"></div>
   </div>
 
+  <!-- Photos de détail : masqué tant que la réalisation n'en a pas. -->
+  <section class="section-details" data-slot="details" hidden>
+    <span class="eyebrow">Les détails</span>
+    <div class="details-grid" data-slot="details-grille"></div>
+  </section>
+
   <div style="background:var(--color-accent);padding:64px 56px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap">
     <div style="display:flex;flex-direction:column;gap:12px;max-width:520px">
       <h3 style="font-size:28px">Vous avez un siège dans ce cas ?</h3>
