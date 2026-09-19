@@ -25,7 +25,17 @@ insert into contenu_site (cle, valeur) values
   -- "réseau | nom affiché | adresse" (voir site/js/lib/logos-reseaux.js).
   ('contact-reseaux', ''),
   -- Mentions de l'entreprise, affichées sous la carte de la page Contact.
-  ('contact-mentions', '')
+  ('contact-mentions', ''),
+  -- Pages légales, accessibles depuis le pied de page. Le texte de départ est
+  -- posé par migration-2026-09-19-pages-legales.sql, pour ne l'écrire qu'à un
+  -- seul endroit. Tant que ces clés sont vides, chaque page affiche la version
+  -- de secours inscrite dans son HTML (voir site/js/pages/legal.js).
+  ('mentions-titre', 'Mentions légales'),
+  ('mentions-contenu', ''),
+  ('confidentialite-titre', 'Politique de confidentialité'),
+  ('confidentialite-contenu', ''),
+  ('cgu-cgv-titre', 'Conditions générales d''utilisation et de vente'),
+  ('cgu-cgv-contenu', '')
 on conflict (cle) do nothing;
 
 -- --- Catégories boutique -----------------------------------------------------

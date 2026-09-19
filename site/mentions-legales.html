@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mentions légales — L'Atelier du Bout d'à Haut</title>
+<meta name="description" content="Mentions légales de L'Atelier du Bout d'à Haut, atelier de tapisserie d'ameublement à Gallardon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body>
+
+<div data-include="header-public"></div>
+
+<nav class="container" style="padding:16px 0;font-size:13px;color:var(--color-text-muted)">
+  <a href="/index.html">Accueil</a> / <span style="color:var(--color-text)">Mentions légales</span>
+</nav>
+
+<main class="container legal" data-legal="mentions" style="padding-bottom:96px">
+
+  <header class="legal-entete">
+    <span class="eyebrow">Informations légales</span>
+    <h1 id="mentions-titre">Mentions légales</h1>
+  </header>
+
+  <!-- Le contenu est remplacé par la version enregistrée en base (voir
+       js/pages/legal.js). Ce qui suit est la version de secours, affichée si
+       la base ne répond pas : une page de mentions légales ne doit jamais
+       pouvoir se retrouver vide. Garder les deux versions cohérentes. -->
+  <div class="legal-contenu" data-slot="contenu">
+    <h3>Éditeur du site</h3>
+    <p>
+      L'Atelier du Bout d'à Haut<br>
+      Entreprise personnelle artisan<br>
+      RCS Chartres, Siren n° 839 565 397
+    </p>
+    <h3>Adresses</h3>
+    <p>
+      Atelier&nbsp;: 33 rue du Bout d'à Haut, 28320 Gallardon<br>
+      Showroom&nbsp;: 109 rue du Général De Gaulle - Passage Fleuri, 78120 Rambouillet
+    </p>
+  </div>
+
+</main>
+
+<div data-include="footer"></div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/legal.js"></script>
+</body>
+</html>

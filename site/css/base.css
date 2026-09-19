@@ -4,6 +4,11 @@
 
 html { -webkit-text-size-adjust: 100%; }
 
+/* L'en-tête est collé en haut de l'écran. Sans cette marge, un lien d'ancre
+   (par exemple vers #savoir-faire) amènerait la cible juste dessous et elle
+   serait cachée par la barre. */
+html { scroll-padding-top: 100px; }
+
 body {
   margin: 0;
   background: var(--color-bg);

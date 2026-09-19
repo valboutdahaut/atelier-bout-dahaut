@@ -38,14 +38,33 @@
 .badge-dark { background: var(--color-text); }
 
 /* --- Nav publique ---------------------------------------------------------*/
+/* Barre flottante, qui reste visible quand on descend dans la page : le menu,
+   le nom de l'atelier et le panier restent à portée sans avoir à remonter.
+   `sticky` plutôt que `fixed` : la barre garde sa place dans le flux, donc le
+   contenu n'a pas besoin d'être décalé d'une hauteur écrite en dur, qui se
+   désynchroniserait au premier changement de taille de police ou de logo.
+   Elle reste un élément positionné, le menu mobile déroulant en dessous
+   continue donc de s'ancrer sur elle.
+
+   Marge extérieure et retrait intérieur s'additionnent pour retomber sur
+   var(--space-lg), la marge de tout le contenu du site : le nom de l'atelier
+   reste donc aligné avec les titres des sections en dessous.
+
+   Fond volontairement plus clair que la page : posée sur un aplat de la même
+   couleur, la barre ne se distinguerait que par son ombre. Angles droits, le
+   design n'utilise aucun arrondi (voir --radius dans tokens.css). */
 .site-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px var(--space-lg);
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-bg);
-  position: relative;
+  margin: 14px var(--space-sm);
+  padding: 18px var(--space-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-input-bg);
+  box-shadow: var(--shadow-entete);
+  position: sticky;
+  top: 14px;
+  z-index: 50;
 }
 .site-header .brand {
   display: flex;
@@ -89,11 +108,28 @@
 @media (max-width: 900px) {
   .site-nav { display: none; }
   .nav-toggle { display: flex; }
+  /* Le menu déroulant prolonge la barre flottante vers le bas : même fond,
+     mêmes bords, même ombre, pour qu'ils forment un seul bloc. Les -1px
+     alignent ses bords latéraux sur ceux de la barre, dont le trait passerait
+     sinon à un pixel à côté. */
   .site-nav.is-open {
     display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
-    position: absolute; top: 100%; left: 0; right: 0; background: var(--color-bg);
-    padding: var(--space-sm) var(--space-lg); border-bottom: 1px solid var(--color-border);
+    position: absolute; top: 100%; left: -1px; right: -1px;
+    background: var(--color-input-bg);
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--color-border); border-top: none;
+    box-shadow: var(--shadow-entete);
     z-index: 20;
+  }
+}
+/* Sur téléphone, une barre qui ne disparaît jamais prend une part notable de
+   l'écran, et 40px de marge de chaque côté rognent une largeur précieuse.
+   On resserre les deux. */
+@media (max-width: 640px) {
+  .site-header {
+    margin: 10px;
+    padding: 12px var(--space-sm);
+    top: 10px;
   }
 }
 
@@ -114,6 +150,15 @@
 .site-footer h5 a { color: inherit; border-bottom: 1px solid transparent; padding-bottom: 2px; }
 .site-footer h5 a:hover { color: var(--color-bg); border-bottom-color: currentColor; }
 .site-footer p, .site-footer span { color: rgba(244, 237, 222, .7); font-size: 14px; line-height: 1.8; }
+/* Deux blocs empilés dans une même colonne (Showroom puis Atelier) : sans cet
+   écart, le titre du second collerait au texte du premier. */
+.footer-bloc + .footer-bloc { margin-top: var(--space-md); }
+.footer-liens { list-style: none; margin: 0; padding: 0; }
+/* Les liens du pied de page reprennent la teinte des textes qui les entourent :
+   le vert des liens du site est fait pour le fond clair, pas pour le bleu
+   marine du pied de page. */
+.footer-liens a { color: rgba(244, 237, 222, .7); font-size: 14px; line-height: 1.8; border-bottom: 1px solid transparent; }
+.footer-liens a:hover { color: var(--color-bg); border-bottom-color: currentColor; }
 @media (max-width: 800px) {
   .site-footer { grid-template-columns: 1fr; gap: var(--space-md); }
 }

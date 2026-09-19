@@ -34,5 +34,8 @@
   --space-2xl: 96px;
 
   --shadow-card: 0 24px 60px rgba(27, 42, 65, .14);
+  /* Ombre de la barre de navigation flottante : plus courte et plus discrète
+     que celle des cartes, la barre doit se détacher du fond sans peser. */
+  --shadow-entete: 0 6px 22px rgba(27, 42, 65, .10);
   --radius: 0; /* le design mockup n'utilise aucun arrondi, volontairement */
 }

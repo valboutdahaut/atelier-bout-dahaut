@@ -66,6 +66,9 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 | `migration-2026-09-10-admin-tom.sql` | Ouvre l'administration à une seconde adresse (le prestataire) | fait le 10/09/2026 |
 | `migration-2026-09-11-reseaux.sql` | Renseigne les trois réseaux sociaux affichés sur la page Contact | fait le 11/09/2026 |
 | `migration-2026-09-11-mentions.sql` | Ajoute les mentions de l'entreprise et le nom complet de la page Facebook | fait le 11/09/2026 |
+| `migration-2026-09-19-pages-legales.sql` | Crée les textes des trois pages légales (mentions, confidentialité, CGU et CGV) | fait le 19/09/2026 |
+| `migration-2026-09-19-reprise-contenu.sql` | Reprend le contenu de l'ancien projet de Londres dans celui de Paris | fait le 19/09/2026 |
+| `migration-2026-09-19-hebergement-paris.sql` | Indique Paris comme lieu d'hébergement dans la politique de confidentialité | **à exécuter** |
 
 Après ce dernier script, créer aussi l'utilisateur dans **Authentication > Users** ("Add user", cocher "Auto Confirm User") : ajouter une adresse dans `est_admin()` lui donne les droits, mais ne crée pas le compte, les inscriptions publiques étant fermées.
 

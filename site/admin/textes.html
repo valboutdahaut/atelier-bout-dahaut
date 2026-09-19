@@ -29,6 +29,9 @@
         <button type="button" class="admin-tab" data-onglet="apropos">À propos</button>
         <button type="button" class="admin-tab" data-onglet="contact">Contact</button>
         <button type="button" class="admin-tab" data-onglet="pied">Pied de page</button>
+        <button type="button" class="admin-tab" data-onglet="mentions">Mentions légales</button>
+        <button type="button" class="admin-tab" data-onglet="confidentialite">Confidentialité</button>
+        <button type="button" class="admin-tab" data-onglet="cgu-cgv">CGU et CGV</button>
       </nav>
 
       <div class="form-panel-body">
@@ -126,6 +129,73 @@
             <h3>La phrase du bas</h3>
             <p class="bloc-aide">Elle apparaît tout en bas de chaque page du site, à côté du logo. Les adresses de l'atelier et du showroom qui l'accompagnent ne se modifient pas ici, demandez à Tom.</p>
             <div class="field"><label for="footer-texte">Texte du pied de page</label><textarea id="footer-texte" name="footer-texte"></textarea></div>
+          </div>
+        </section>
+
+        <!-- MENTIONS LÉGALES ---------------------------------------------- -->
+        <section data-panneau="mentions" hidden>
+          <div class="panneau-entete">
+            <h2>Mentions légales</h2>
+            <a href="/mentions-legales.html" target="_blank" rel="noopener">Voir la page ↗</a>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Le contenu de la page</h3>
+            <p class="bloc-aide">Page accessible depuis le pied de page du site, dans «&nbsp;Légal&nbsp;». Ces informations sont <strong>obligatoires</strong> pour un site qui vend en ligne.</p>
+            <div class="field"><label for="mentions-titre">Titre de la page</label><input id="mentions-titre" name="mentions-titre"></div>
+            <div class="field">
+              <label for="mentions-contenu">Texte de la page</label>
+              <textarea id="mentions-contenu" name="mentions-contenu" style="min-height:320px"></textarea>
+              <span class="hint">
+                Laissez une <strong>ligne vide</strong> entre deux paragraphes.<br>
+                Pour un sous-titre, commencez la ligne par deux dièses&nbsp;: <code>## Éditeur du site</code><br>
+                Pour mettre en gras, encadrez de deux étoiles&nbsp;: <code>**texte**</code>
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONFIDENTIALITÉ ----------------------------------------------- -->
+        <section data-panneau="confidentialite" hidden>
+          <div class="panneau-entete">
+            <h2>Politique de confidentialité</h2>
+            <a href="/confidentialite.html" target="_blank" rel="noopener">Voir la page ↗</a>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Le contenu de la page</h3>
+            <p class="bloc-aide">Elle explique au visiteur quelles informations le site collecte, pourquoi, et comment il peut demander leur suppression.</p>
+            <div class="field"><label for="confidentialite-titre">Titre de la page</label><input id="confidentialite-titre" name="confidentialite-titre"></div>
+            <div class="field">
+              <label for="confidentialite-contenu">Texte de la page</label>
+              <textarea id="confidentialite-contenu" name="confidentialite-contenu" style="min-height:320px"></textarea>
+              <span class="hint">
+                Même mise en forme que les mentions légales&nbsp;: ligne vide entre deux paragraphes,
+                <code>## </code> pour un sous-titre, <code>**texte**</code> pour du gras.
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- CGU ET CGV ------------------------------------------------------ -->
+        <section data-panneau="cgu-cgv" hidden>
+          <div class="panneau-entete">
+            <h2>CGU et CGV</h2>
+            <a href="/cgu-cgv.html" target="_blank" rel="noopener">Voir la page ↗</a>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Le contenu de la page</h3>
+            <p class="bloc-aide">Conditions générales d'utilisation et de vente. Elles engagent l'atelier vis-à-vis des clients&nbsp;: à faire relire avant de les publier.</p>
+            <div class="field"><label for="cgu-cgv-titre">Titre de la page</label><input id="cgu-cgv-titre" name="cgu-cgv-titre"></div>
+            <div class="field">
+              <label for="cgu-cgv-contenu">Texte de la page</label>
+              <textarea id="cgu-cgv-contenu" name="cgu-cgv-contenu" style="min-height:320px"></textarea>
+              <span class="hint">
+                Même mise en forme que les mentions légales&nbsp;: ligne vide entre deux paragraphes,
+                <code>## </code> pour un sous-titre, <code>**texte**</code> pour du gras.
+              </span>
+            </div>
           </div>
         </section>
 
