@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
     // suffirait à lire le montant payé par quelqu'un d'autre.
     const { data: commande, error } = await supabase
       .from('commandes')
-      .select('id, numero, client_email, total_cents, paiement_statut')
+      .select('id, numero, client_email, total_cents, paiement_statut, jeton_client')
       .eq('numero', numero)
       .maybeSingle();
 
@@ -71,9 +71,21 @@ Deno.serve(async (req) => {
       return reponse({ erreur: 'Cette commande est déjà réglée' }, 409);
     }
 
+    // Les deux adresses de retour portent le jeton de la commande : c'est la
+    // seule preuve que le visiteur, qui n'est pas connecté, peut présenter
+    // ensuite pour savoir si son paiement a abouti, ou pour annuler.
+    const retour = `commande=${encodeURIComponent(commande.numero)}`
+      + `&jeton=${encodeURIComponent(commande.jeton_client)}`;
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       customer_email: commande.client_email,
+      locale: 'fr',
+      // payment_method_types n'est volontairement pas renseigné : Stripe
+      // propose alors les moyens de paiement cochés dans le tableau de bord.
+      // Activer la carte, PayPal ou le paiement en plusieurs fois se fait donc
+      // sans toucher à ce fichier.
+      //
       // Une seule ligne au montant total : le détail des articles vit déjà
       // dans lignes_commande, le dupliquer chez Stripe créerait deux vérités.
       line_items: [{
@@ -88,8 +100,8 @@ Deno.serve(async (req) => {
       // une pièce unique ne doit pas rester bloquée une journée entière.
       expires_at: Math.floor(Date.now() / 1000) + 60 * 60,
       metadata: { commande_id: commande.id, numero: commande.numero },
-      success_url: `${SITE}/boutique/confirmation.html?commande=${encodeURIComponent(commande.numero)}`,
-      cancel_url: `${SITE}/boutique/panier.html?paiement=annule`,
+      success_url: `${SITE}/boutique/confirmation.html?${retour}`,
+      cancel_url: `${SITE}/boutique/panier.html?paiement=annule&${retour}`,
     });
 
     await supabase

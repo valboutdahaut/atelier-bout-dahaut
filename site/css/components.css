@@ -275,12 +275,29 @@
 .field { display: flex; flex-direction: column; gap: 9px; margin-bottom: var(--space-md); }
 .field label { font-size: 13px; font-weight: 500; }
 .field .hint { color: var(--color-text-faint); font-weight: 400; font-size: 12.5px; }
-.field input, .field textarea, .field select {
+/* Les ronds et les cases sont exclus de l'habillage des champs de saisie :
+   la largeur pleine et le rembourrage, faits pour une ligne de texte,
+   étiraient le rond sur toute la largeur et rejetaient son libellé contre le
+   bord droit, où il se coupait mot par mot. */
+.field input:not([type="radio"]):not([type="checkbox"]),
+.field textarea,
+.field select {
   border: 1px solid rgba(27, 42, 65, .25);
   padding: 14px 16px;
   font-size: 15px;
   background: var(--color-input-bg);
   width: 100%;
+}
+.field input[type="radio"], .field input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--color-accent-deep);
+}
+/* Cases posées directement dans leur libellé (côté administration). Le
+   sélecteur d'enfant direct laisse de côté les choix de .liste-choix, qui
+   gèrent eux-mêmes leur écart. */
+.field > label input[type="radio"], .field > label input[type="checkbox"] {
+  margin-right: 7px;
+  vertical-align: -1px;
 }
 .field textarea { min-height: 120px; line-height: 1.7; resize: vertical; }
 .form-row { display: grid; gap: 18px; }

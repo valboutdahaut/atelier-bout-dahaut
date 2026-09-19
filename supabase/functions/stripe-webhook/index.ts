@@ -57,7 +57,13 @@ Deno.serve(async (req) => {
     const session = evenement.data.object as Stripe.Checkout.Session;
 
     if (evenement.type === 'checkout.session.completed') {
-      const { error } = await supabase.rpc('marquer_commande_payee', { p_session_id: session.id });
+      // L'identifiant de commande est transmis en second : si l'enregistrement
+      // de la session n'a pas abouti côté base, il reste le moyen de retrouver
+      // la commande et de ne pas laisser un paiement encaissé en attente.
+      const { error } = await supabase.rpc('marquer_commande_payee', {
+        p_session_id: session.id,
+        p_commande_id: session.metadata?.commande_id ?? null,
+      });
       if (error) throw error;
       console.log('Commande réglée', session.metadata?.numero);
     }

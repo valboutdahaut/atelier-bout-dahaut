@@ -5,7 +5,7 @@
 
 import { supabase } from '../supabase-client.js';
 import { formatPrix } from '../lib/format.js';
-import { getCart, clearCart } from '../cart.js';
+import { getCart } from '../cart.js';
 
 const FRAIS_LIVRAISON_CENTS = 890;
 
@@ -103,6 +103,12 @@ document.querySelectorAll('input[name="mode_retrait"]').forEach((r) => {
   });
 });
 
+// Commande déjà enregistrée en base, gardée de côté au cas où seule l'ouverture
+// de la page de paiement échoue. Sans cela, le bouton « Réessayer le paiement »
+// repasserait par creer_commande et enregistrerait une seconde commande, qui
+// retirerait une seconde fois le stock.
+let commandeEnregistree = null;
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   erreurEl.hidden = true;
@@ -112,36 +118,44 @@ form.addEventListener('submit', async (e) => {
   const donnees = new FormData(form);
   const lignes = getCart().map((l) => ({ produit_id: l.produit_id, quantite: l.quantite }));
 
-  const { data, error } = await supabase.rpc('creer_commande', {
-    p_client_nom: donnees.get('nom'),
-    p_client_email: donnees.get('email'),
-    p_client_telephone: donnees.get('telephone') || null,
-    p_mode_retrait: donnees.get('mode_retrait'),
-    p_adresse_livraison: donnees.get('mode_retrait') === 'livraison' ? adresseComplete(donnees) : null,
-    p_lignes: lignes,
-  });
+  let data = commandeEnregistree;
 
-  if (error) {
-    erreurEl.textContent = error.message?.includes('stock')
-      ? "Une des pièces de votre panier n'est plus disponible en quantité suffisante. Retournez au panier pour ajuster."
-      : "Une erreur est survenue, merci de réessayer.";
-    erreurEl.hidden = false;
-    btnValider.disabled = false;
-    btnValider.textContent = 'Passer commande';
-    console.error('commande.js', error);
-    return;
+  if (!data) {
+    const reponse = await supabase.rpc('creer_commande', {
+      p_client_nom: donnees.get('nom'),
+      p_client_email: donnees.get('email'),
+      p_client_telephone: donnees.get('telephone') || null,
+      p_mode_retrait: donnees.get('mode_retrait'),
+      p_adresse_livraison: donnees.get('mode_retrait') === 'livraison' ? adresseComplete(donnees) : null,
+      p_lignes: lignes,
+    });
+
+    if (reponse.error) {
+      erreurEl.textContent = reponse.error.message?.includes('stock')
+        ? "Une des pièces de votre panier n'est plus disponible en quantité suffisante. Retournez au panier pour ajuster."
+        : 'Une erreur est survenue, merci de réessayer.';
+      erreurEl.hidden = false;
+      btnValider.disabled = false;
+      btnValider.textContent = 'Passer commande';
+      console.error('commande.js', reponse.error);
+      return;
+    }
+    data = reponse.data;
+    commandeEnregistree = data;
   }
 
   // La commande est enregistrée et le stock réservé. Reste à la faire régler :
   // on demande au serveur de préparer le paiement, puis on confie le visiteur
   // à la page sécurisée de Stripe. Aucun numéro de carte ne transite par ce
   // site, ce qui évite d'avoir à le sécuriser pour cela.
+  //
+  // Le panier n'est PAS vidé ici : le visiteur peut encore renoncer sur la
+  // page de paiement. Il est vidé sur la page de confirmation, une fois le
+  // paiement avéré.
   btnValider.textContent = 'Redirection vers le paiement…';
-  sessionStorage.setItem('derniere-commande', JSON.stringify(data));
 
   try {
     const url = await preparerPaiement(data.numero, donnees.get('email'));
-    clearCart();
     window.location.href = url;
   } catch (err) {
     console.error('commande.js : préparation du paiement', err);

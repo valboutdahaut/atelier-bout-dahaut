@@ -9,7 +9,12 @@ async function charger() {
   const client = await getAuthenticatedClient();
 
   const [{ count: commandesNouvelles }, { count: messagesNonLus }, { data: postsBrouillons }] = await Promise.all([
-    client.from('commandes').select('id', { count: 'exact', head: true }).eq('statut', 'nouvelle'),
+    // Uniquement les commandes réglées : depuis le paiement en ligne, une
+    // commande existe dès la saisie des coordonnées, avant que l'argent
+    // n'arrive. Les paniers abandonnés sur la page de paiement ne sont pas du
+    // travail à faire, et gonfleraient ce compteur sans raison.
+    client.from('commandes').select('id', { count: 'exact', head: true })
+      .eq('statut', 'nouvelle').in('paiement_statut', ['paye', 'non_requis']),
     client.from('messages_contact').select('id', { count: 'exact', head: true }).eq('lu', false),
     client.from('posts_vitrine').select('id', { count: 'exact', head: true }).eq('statut', 'brouillon'),
   ]);

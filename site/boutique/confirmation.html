@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- L'adresse de cette page porte le jeton de suivi de la commande. Sans cette
+     consigne, le navigateur l'enverrait aux serveurs de polices dans l'en-tête
+     Referer, en même temps qu'il va y chercher les caractères. -->
+<meta name="referrer" content="same-origin">
 <title>Commande confirmée — L'Atelier du Bout d'à Haut</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

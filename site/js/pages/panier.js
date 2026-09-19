@@ -68,4 +68,47 @@ async function charger() {
   document.getElementById('total').textContent = formatPrix(sousTotal);
 }
 
-charger();
+/**
+ * Retour d'un paiement abandonné sur la page Stripe.
+ *
+ * La commande existe déjà en base et elle a réservé le stock : creer_commande
+ * retire les pièces dès l'enregistrement, pour que deux clients n'achètent pas
+ * le même fauteuil pendant qu'ils paient. Si on laissait cette réservation
+ * courir jusqu'à son expiration, le client qui vient de renoncer ne pourrait
+ * même pas se raviser : sa propre commande lui bloquerait la pièce pendant une
+ * heure. On libère donc tout de suite.
+ *
+ * Le jeton sert de preuve : il n'est connu que de ce visiteur, et la fonction
+ * n'annule que des commandes encore en attente de paiement.
+ */
+async function traiterRetourPaiement() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('paiement') !== 'annule') return;
+
+  const numero = params.get('commande');
+  const jeton = params.get('jeton');
+
+  // L'adresse est nettoyée tout de suite : le jeton ne doit rester ni dans
+  // l'historique ni dans un signet, et un rechargement ne doit pas rejouer
+  // l'annulation.
+  history.replaceState(null, '', window.location.pathname);
+
+  if (numero && jeton) {
+    const { error } = await supabase.rpc('annuler_paiement_client', {
+      p_numero: numero,
+      p_jeton: jeton,
+    });
+    if (error) console.error('panier.js : annulation', error);
+  }
+
+  const avis = document.getElementById('avis-paiement');
+  avis.className = 'status-msg success';
+  avis.textContent = 'Paiement abandonné. Rien ne vous a été débité et votre panier est intact : '
+    + 'vous pouvez reprendre votre commande quand vous voulez.';
+  avis.hidden = false;
+}
+
+// La libération du stock passe d'abord : sans cela, la page afficherait les
+// quantités plafonnées d'avant, et un article encore réservé par la commande
+// que l'on vient justement d'annuler apparaîtrait épuisé.
+traiterRetourPaiement().finally(charger);

@@ -71,7 +71,7 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 | `migration-2026-09-19-hebergement-paris.sql` | Indique Paris comme lieu d'hébergement dans la politique de confidentialité | fait le 19/09/2026 |
 | `migration-2026-09-19-legal-en-rubriques.sql` | Découpe les pages légales en rubriques, une clé et un encadré d'admin par rubrique | fait le 19/09/2026 |
 | `migration-2026-09-19-messages.sql` | Messagerie : sujet en liste, photos jointes, suivi en trois états, purge des archives | fait le 19/09/2026 |
-| `migration-2026-09-19-paiement.sql` | Suivi du paiement Stripe, libération du stock si le paiement expire | **à exécuter** |
+| `migration-2026-09-19-paiement.sql` | Suivi du paiement Stripe, preuve d'achat du visiteur, libération du stock | **à exécuter** |
 
 > ⚠️ `functions.sql` n'avait pas été rejoué lors du passage sur le projet de Paris : sans lui, `creer_commande()` n'existe pas et **toute commande échoue**. À exécuter avant la migration paiement.
 
@@ -79,19 +79,45 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 
 Le site est statique : le montant ne doit jamais venir du navigateur, sinon il est modifiable. Deux fonctions serveur (Supabase Edge Functions) s'en chargent, leur code est dans `supabase/functions/`.
 
-**Mise en place, dans l'ordre :**
+#### Comment l'argent et le stock circulent
 
-1. Créer un compte Stripe. Le **mode test** suffit pour tout développer, il ne demande aucune vérification d'identité.
-2. Supabase > Edge Functions > *Deploy a new function* > **Via Editor**, une fois par fonction, en collant le fichier correspondant :
+1. Le client valide ses coordonnées. `creer_commande()` enregistre la commande, **relit les prix réels** et **retire le stock** tout de suite, pour que deux clients n'achètent pas la même pièce unique pendant qu'ils paient.
+2. `creer-paiement` retrouve cette commande par son numéro, ouvre une session Stripe de son vrai montant, et renvoie l'adresse de la page de paiement. La session vaut **une heure**, durée de la réservation du stock.
+3. Le client paie chez Stripe. Aucun numéro de carte ne touche ce site.
+4. **Stripe prévient le serveur** (`stripe-webhook`), qui seul fait foi. Le retour du navigateur ne prouve rien : on peut ouvrir l'adresse de confirmation à la main.
+5. Si le client renonce, la page panier libère la réservation immédiatement. S'il ferme simplement l'onglet, Stripe signale l'expiration au bout d'une heure. Et si le webhook est en panne, `purger_commandes_abandonnees()` repasse derrière toutes les heures.
+
+Le visiteur n'étant pas connecté, la page de confirmation prouve son achat avec un **jeton** propre à la commande, transporté dans l'adresse de retour. Les fonctions `statut_commande()` et `annuler_paiement_client()` ne répondent que sur présentation de ce jeton, et ne renvoient aucune donnée personnelle.
+
+#### Mise en place, dans l'ordre
+
+1. **Compte Stripe au nom de l'entreprise.** Il faut le SIRET, une pièce d'identité et l'IBAN pour recevoir les virements. Le **mode test** du même compte fonctionne sans attendre cette vérification : on développe et on valide avec, puis on bascule sur les clés réelles.
+2. **Moyens de paiement** : Stripe > Settings > Payment methods. Cocher la carte, et PayPal si voulu. Le code ne fixe volontairement aucune liste (`payment_method_types` n'est pas renseigné), donc cocher une case suffit, sans redéploiement.
+3. **Déployer les fonctions** : Supabase > Edge Functions > *Deploy a new function* > **Via Editor**, une fois par fonction, en collant le fichier correspondant :
    - `creer-paiement` — laisser la vérification de jeton activée
    - `stripe-webhook` — **désactiver « Verify JWT »**, Stripe appelle sans jeton Supabase ; sa sécurité vient de la signature vérifiée dans le code
-3. Supabase > Edge Functions > Secrets, ajouter :
+4. **Secrets** : Supabase > Edge Functions > Secrets :
    - `STRIPE_SECRET_KEY` — clé secrète Stripe
    - `STRIPE_WEBHOOK_SECRET` — *signing secret* du webhook (`whsec_…`)
    - `SITE_URL` — adresse du site, sans barre oblique finale
-4. Stripe > Developers > Webhooks, ajouter l'adresse `https://<projet>.supabase.co/functions/v1/stripe-webhook` et s'abonner à **`checkout.session.completed`** et **`checkout.session.expired`**.
+5. **Webhook** : Stripe > Developers > Webhooks, adresse `https://<projet>.supabase.co/functions/v1/stripe-webhook`, abonné à **`checkout.session.completed`** et **`checkout.session.expired`**.
 
 **Ne jamais mettre la clé secrète Stripe dans `site/js/`** : tout ce qui est dans ce dossier est téléchargé par les visiteurs.
+
+#### Recette en mode test
+
+Carte de test : `4242 4242 4242 4242`, n'importe quelle date future, n'importe quel cryptogramme.
+
+- Paiement accepté → confirmation « paiement confirmé », panier vidé, commande **Payée** dans l'administration.
+- Carte refusée `4000 0000 0000 0002` → le client reste chez Stripe et peut réessayer.
+- Retour en arrière depuis la page Stripe → panier intact, message d'abandon, **stock rendu** (vérifier le stock du produit dans l'administration).
+- Onglet fermé sans payer → au bout d'une heure, la commande passe en *Abandonnée* et le stock revient.
+
+#### Passage en réel
+
+Reprendre les points 4 et 5 avec les valeurs du **mode réel** : la clé secrète change, et le webhook doit être recréé côté réel, avec un nouveau *signing secret*. Faire ensuite un achat réel de faible montant, puis le rembourser depuis le tableau de bord Stripe.
+
+**Avant d'encaisser de vrais clients** : les CGV doivent être rédigées (droit de rétractation de 14 jours et son exception pour le sur-mesure, délais de livraison, garanties), et un médiateur de la consommation désigné, obligatoire pour toute vente à des particuliers en France.
 
 Après ce dernier script, créer aussi l'utilisateur dans **Authentication > Users** ("Add user", cocher "Auto Confirm User") : ajouter une adresse dans `est_admin()` lui donne les droits, mais ne crée pas le compte, les inscriptions publiques étant fermées.
 

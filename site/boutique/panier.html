@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Au retour d'un paiement abandonné, l'adresse porte le jeton de la commande.
+     Sans cette consigne, le navigateur l'enverrait aux serveurs de polices dans
+     l'en-tête Referer, en même temps qu'il va y chercher les caractères. -->
+<meta name="referrer" content="same-origin">
 <title>Panier — L'Atelier du Bout d'à Haut</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +30,9 @@
   </div>
 
   <h1 style="font-size:30px;margin-bottom:24px">Votre panier</h1>
+
+  <!-- Message de retour d'un paiement abandonné, rempli par panier.js. -->
+  <div id="avis-paiement" class="status-msg" hidden style="margin-bottom:24px"></div>
 
   <div id="lignes-panier"></div>
 

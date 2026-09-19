@@ -20,7 +20,12 @@
 
   <main class="admin-main">
     <h1 style="font-size:30px">Commandes</h1>
-    <p style="color:var(--color-text-muted)">Aucune facturation ni paiement réel ne transite ici — c'est le suivi de préparation.</p>
+    <p style="color:var(--color-text-muted)">Ne préparez que les commandes marquées <strong>Payée</strong>. Les autres sont des paniers abandonnés sur la page de paiement.</p>
+
+    <div class="filtres-commandes">
+      <button type="button" class="btn btn-outline actif" data-filtre="payees">Payées</button>
+      <button type="button" class="btn btn-outline" data-filtre="toutes">Toutes</button>
+    </div>
 
     <div id="liste-commandes">
       <p class="empty-state">Chargement…</p>
@@ -32,15 +37,22 @@
   <div class="admin-card outline" style="cursor:pointer" data-slot="resume">
     <div class="section-heading">
       <span style="font-family:var(--font-title);font-size:18px" data-slot="numero"></span>
-      <span class="status-pill" data-slot="statut-badge"></span>
+      <span style="display:flex;gap:10px;align-items:center">
+        <span class="status-pill" data-slot="paiement-badge"></span>
+        <span class="status-pill" data-slot="statut-badge"></span>
+      </span>
     </div>
     <span data-slot="client" style="font-size:14px;color:var(--color-text-muted)"></span>
     <span data-slot="total" style="font-size:15px;font-weight:500"></span>
   </div>
   <div class="admin-card outline" data-slot="detail" hidden style="margin-top:-16px">
+    <p class="status-msg error" data-slot="alerte" hidden style="margin-bottom:14px"></p>
     <table class="admin-table" data-slot="lignes"></table>
     <div class="form-row form-row-2" style="margin-top:12px">
-      <div><span class="eyebrow">Coordonnées</span><p data-slot="coordonnees" style="margin:8px 0 0;font-size:14px"></p></div>
+      <div>
+        <span class="eyebrow">Coordonnées</span><p data-slot="coordonnees" style="margin:8px 0 0;font-size:14px"></p>
+        <span class="eyebrow" style="display:block;margin-top:14px">Paiement</span><p data-slot="paiement-detail" style="margin:8px 0 0;font-size:14px"></p>
+      </div>
       <div>
         <span class="eyebrow">Statut</span>
         <div style="display:flex;gap:12px;margin-top:8px">
