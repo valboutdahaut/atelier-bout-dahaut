@@ -21,17 +21,52 @@
   <a href="/index.html">Accueil</a> / <span style="color:var(--color-text)">Politique de confidentialité</span>
 </nav>
 
-<main class="container legal" data-legal="confidentialite" style="padding-bottom:96px">
+<main class="container legal" style="padding-bottom:96px">
 
   <header class="legal-entete">
     <span class="eyebrow">Informations légales</span>
     <h1 id="confidentialite-titre">Politique de confidentialité</h1>
   </header>
 
-  <!-- Version de secours, remplacée par le contenu enregistré en base
-       (voir js/pages/legal.js). Garder les deux versions cohérentes. -->
-  <div class="legal-contenu" data-slot="contenu">
-    <p>Cette page est en cours de rédaction.</p>
+  <!-- Voir le commentaire de mentions-legales.html : même mécanisme. -->
+  <div class="legal-contenu">
+
+    <section class="legal-section" data-cle="confidentialite-collecte">
+      <h2>Ce que ce site enregistre</h2>
+      <div data-slot="texte">
+        <p>Ce site n'utilise aucun traceur publicitaire et ne mesure pas votre navigation. Il n'enregistre que les informations que vous saisissez vous-même.</p>
+        <p><strong>Si vous envoyez un message depuis la page Contact</strong>&nbsp;: votre nom, votre adresse e-mail, votre numéro de téléphone si vous le renseignez, ainsi que le sujet et le contenu de votre message.</p>
+        <p><strong>Si vous passez une commande</strong>&nbsp;: votre nom, votre adresse e-mail, votre numéro de téléphone si vous le renseignez, votre adresse de livraison le cas échéant, et le détail de votre commande.</p>
+        <p><strong>Votre panier</strong> reste dans votre navigateur et n'est transmis à l'atelier qu'au moment où vous validez votre commande.</p>
+      </div>
+    </section>
+
+    <section class="legal-section" data-cle="confidentialite-usage">
+      <h2>À quoi servent ces informations</h2>
+      <div data-slot="texte">
+        <p>À répondre à vos demandes et à traiter vos commandes, rien d'autre. Elles ne sont ni vendues, ni transmises à des tiers à des fins commerciales.</p>
+      </div>
+    </section>
+
+    <section class="legal-section" data-cle="confidentialite-duree" hidden>
+      <h2>Combien de temps elles sont conservées</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="confidentialite-lieu">
+      <h2>Où elles sont enregistrées</h2>
+      <div data-slot="texte">
+        <p>Sur les serveurs de Supabase, le prestataire technique qui héberge la base de données du site. Les données sont stockées sur l'infrastructure Amazon Web Services située à Paris, en France.</p>
+      </div>
+    </section>
+
+    <section class="legal-section" data-cle="confidentialite-droits">
+      <h2>Vos droits</h2>
+      <div data-slot="texte">
+        <p>Vous pouvez demander à consulter, à corriger ou à supprimer les informations qui vous concernent.</p>
+      </div>
+    </section>
+
   </div>
 
 </main>

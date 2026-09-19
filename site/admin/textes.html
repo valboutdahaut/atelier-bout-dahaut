@@ -139,19 +139,41 @@
             <a href="/mentions-legales.html" target="_blank" rel="noopener">Voir la page ↗</a>
           </div>
 
+          <p class="bloc-aide" style="margin-bottom:var(--space-md)">Page accessible depuis le pied de page du site, dans «&nbsp;Légal&nbsp;». Ces informations sont <strong>obligatoires</strong> pour un site qui vend en ligne. Chaque encadré ci-dessous correspond à une rubrique de la page. <strong>Une rubrique laissée vide n'apparaît pas sur le site.</strong></p>
+
           <div class="bloc-texte">
-            <h3>Le contenu de la page</h3>
-            <p class="bloc-aide">Page accessible depuis le pied de page du site, dans «&nbsp;Légal&nbsp;». Ces informations sont <strong>obligatoires</strong> pour un site qui vend en ligne.</p>
-            <div class="field"><label for="mentions-titre">Titre de la page</label><input id="mentions-titre" name="mentions-titre"></div>
-            <div class="field">
-              <label for="mentions-contenu">Texte de la page</label>
-              <textarea id="mentions-contenu" name="mentions-contenu" style="min-height:320px"></textarea>
-              <span class="hint">
-                Laissez une <strong>ligne vide</strong> entre deux paragraphes.<br>
-                Pour un sous-titre, commencez la ligne par deux dièses&nbsp;: <code>## Éditeur du site</code><br>
-                Pour mettre en gras, encadrez de deux étoiles&nbsp;: <code>**texte**</code>
-              </span>
-            </div>
+            <h3>Titre de la page</h3>
+            <div class="field"><label for="mentions-titre">Titre affiché en haut</label><input id="mentions-titre" name="mentions-titre"></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Éditeur du site</h3>
+            <p class="bloc-aide">Qui édite le site&nbsp;: le nom de l'entreprise, son statut et son numéro d'immatriculation.</p>
+            <div class="field"><textarea id="mentions-editeur" aria-label="Éditeur du site" name="mentions-editeur" style="min-height:110px"></textarea><span class="hint">Appuyez sur Entrée pour passer à la ligne.</span></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Adresses</h3>
+            <p class="bloc-aide">Les adresses postales de l'atelier et du showroom.</p>
+            <div class="field"><textarea id="mentions-adresses" aria-label="Adresses" name="mentions-adresses" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Responsable de la publication</h3>
+            <p class="bloc-aide">La personne responsable de ce qui est publié sur le site. En pratique, vous.</p>
+            <div class="field"><textarea id="mentions-responsable" aria-label="Responsable de la publication" name="mentions-responsable" style="min-height:80px" placeholder="Prénom et nom"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Nous écrire</h3>
+            <p class="bloc-aide">Une adresse e-mail à laquelle un visiteur peut vous joindre. Elle est obligatoire sur un site marchand.</p>
+            <div class="field"><textarea id="mentions-contact" aria-label="Nous écrire" name="mentions-contact" style="min-height:80px" placeholder="contact@exemple.fr"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Hébergement du site</h3>
+            <p class="bloc-aide">Les entreprises qui stockent le site et ses données. À ne pas modifier sans en parler à Tom.</p>
+            <div class="field"><textarea id="mentions-hebergement" aria-label="Hébergement du site" name="mentions-hebergement" style="min-height:130px"></textarea></div>
           </div>
         </section>
 
@@ -162,18 +184,41 @@
             <a href="/confidentialite.html" target="_blank" rel="noopener">Voir la page ↗</a>
           </div>
 
+          <p class="bloc-aide" style="margin-bottom:var(--space-md)">Elle explique au visiteur quelles informations le site enregistre, pourquoi, et comment il peut demander leur suppression. <strong>Une rubrique laissée vide n'apparaît pas sur le site.</strong></p>
+
           <div class="bloc-texte">
-            <h3>Le contenu de la page</h3>
-            <p class="bloc-aide">Elle explique au visiteur quelles informations le site collecte, pourquoi, et comment il peut demander leur suppression.</p>
-            <div class="field"><label for="confidentialite-titre">Titre de la page</label><input id="confidentialite-titre" name="confidentialite-titre"></div>
-            <div class="field">
-              <label for="confidentialite-contenu">Texte de la page</label>
-              <textarea id="confidentialite-contenu" name="confidentialite-contenu" style="min-height:320px"></textarea>
-              <span class="hint">
-                Même mise en forme que les mentions légales&nbsp;: ligne vide entre deux paragraphes,
-                <code>## </code> pour un sous-titre, <code>**texte**</code> pour du gras.
-              </span>
-            </div>
+            <h3>Titre de la page</h3>
+            <div class="field"><label for="confidentialite-titre">Titre affiché en haut</label><input id="confidentialite-titre" name="confidentialite-titre"></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Ce que ce site enregistre</h3>
+            <p class="bloc-aide">La liste des informations collectées. Elle décrit ce que le site fait réellement&nbsp;: à ne pas modifier sans en parler à Tom.</p>
+            <div class="field"><textarea id="confidentialite-collecte" aria-label="Ce que ce site enregistre" name="confidentialite-collecte" style="min-height:220px"></textarea><span class="hint">Laissez une <strong>ligne vide</strong> entre deux paragraphes. Pour mettre en gras, encadrez de deux étoiles&nbsp;: <code>**texte**</code></span></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>À quoi servent ces informations</h3>
+            <p class="bloc-aide">L'usage que vous en faites, et l'engagement de ne pas les revendre.</p>
+            <div class="field"><textarea id="confidentialite-usage" aria-label="À quoi servent ces informations" name="confidentialite-usage" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Combien de temps elles sont conservées</h3>
+            <p class="bloc-aide">Une durée pour les messages, une autre pour les commandes. C'est un engagement de votre part, choisissez des durées que vous tiendrez.</p>
+            <div class="field"><textarea id="confidentialite-duree" aria-label="Combien de temps elles sont conservées" name="confidentialite-duree" style="min-height:110px" placeholder="Les messages sont conservés … ans.&#10;Les commandes sont conservées … ans."></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Où elles sont enregistrées</h3>
+            <p class="bloc-aide">Le prestataire technique et le pays d'hébergement. À ne pas modifier sans en parler à Tom.</p>
+            <div class="field"><textarea id="confidentialite-lieu" aria-label="Où elles sont enregistrées" name="confidentialite-lieu" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Vos droits</h3>
+            <p class="bloc-aide">Ce qu'un visiteur peut demander, et surtout à quelle adresse il doit écrire pour le faire.</p>
+            <div class="field"><textarea id="confidentialite-droits" aria-label="Vos droits" name="confidentialite-droits" style="min-height:110px"></textarea></div>
           </div>
         </section>
 
@@ -184,18 +229,53 @@
             <a href="/cgu-cgv.html" target="_blank" rel="noopener">Voir la page ↗</a>
           </div>
 
+          <p class="bloc-aide" style="margin-bottom:var(--space-md)">Ces conditions vous <strong>engagent juridiquement</strong> envers vos clients. Faites-les relire avant de les publier. Tant que tout est vide, la page affiche simplement «&nbsp;en cours de rédaction&nbsp;». <strong>Une rubrique laissée vide n'apparaît pas sur le site.</strong></p>
+
           <div class="bloc-texte">
-            <h3>Le contenu de la page</h3>
-            <p class="bloc-aide">Conditions générales d'utilisation et de vente. Elles engagent l'atelier vis-à-vis des clients&nbsp;: à faire relire avant de les publier.</p>
-            <div class="field"><label for="cgu-cgv-titre">Titre de la page</label><input id="cgu-cgv-titre" name="cgu-cgv-titre"></div>
-            <div class="field">
-              <label for="cgu-cgv-contenu">Texte de la page</label>
-              <textarea id="cgu-cgv-contenu" name="cgu-cgv-contenu" style="min-height:320px"></textarea>
-              <span class="hint">
-                Même mise en forme que les mentions légales&nbsp;: ligne vide entre deux paragraphes,
-                <code>## </code> pour un sous-titre, <code>**texte**</code> pour du gras.
-              </span>
-            </div>
+            <h3>Titre de la page</h3>
+            <div class="field"><label for="cgu-cgv-titre">Titre affiché en haut</label><input id="cgu-cgv-titre" name="cgu-cgv-titre"></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Objet</h3>
+            <p class="bloc-aide">Ce que couvrent ces conditions, et le fait que passer commande vaut acceptation.</p>
+            <div class="field"><textarea id="cgv-objet" aria-label="Objet" name="cgv-objet" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Commandes</h3>
+            <p class="bloc-aide">Comment une commande est passée, puis confirmée.</p>
+            <div class="field"><textarea id="cgv-commandes" aria-label="Commandes" name="cgv-commandes" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Prix et paiement</h3>
+            <p class="bloc-aide">Devise, TVA applicable à votre statut, et moyens de paiement acceptés.</p>
+            <div class="field"><textarea id="cgv-prix" aria-label="Prix et paiement" name="cgv-prix" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Livraison et retrait</h3>
+            <p class="bloc-aide">Délais, zones livrées, et conditions de retrait au showroom.</p>
+            <div class="field"><textarea id="cgv-livraison" aria-label="Livraison et retrait" name="cgv-livraison" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Droit de rétractation</h3>
+            <p class="bloc-aide">Le délai légal et les modalités de retour. Pensez au cas des pièces réalisées sur mesure, qui suivent une règle différente.</p>
+            <div class="field"><textarea id="cgv-retractation" aria-label="Droit de rétractation" name="cgv-retractation" style="min-height:130px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Garanties</h3>
+            <p class="bloc-aide">Ce que vous garantissez sur les pièces vendues.</p>
+            <div class="field"><textarea id="cgv-garanties" aria-label="Garanties" name="cgv-garanties" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Litiges</h3>
+            <p class="bloc-aide">Le droit applicable et le médiateur de la consommation auquel un client peut s'adresser.</p>
+            <div class="field"><textarea id="cgv-litiges" aria-label="Litiges" name="cgv-litiges" style="min-height:110px"></textarea></div>
           </div>
         </section>
 

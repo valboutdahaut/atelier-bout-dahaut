@@ -26,16 +26,33 @@ insert into contenu_site (cle, valeur) values
   ('contact-reseaux', ''),
   -- Mentions de l'entreprise, affichées sous la carte de la page Contact.
   ('contact-mentions', ''),
-  -- Pages légales, accessibles depuis le pied de page. Le texte de départ est
-  -- posé par migration-2026-09-19-pages-legales.sql, pour ne l'écrire qu'à un
-  -- seul endroit. Tant que ces clés sont vides, chaque page affiche la version
-  -- de secours inscrite dans son HTML (voir site/js/pages/legal.js).
+  -- Pages légales, accessibles depuis le pied de page. Une clé par rubrique :
+  -- le titre de chaque rubrique est fixé dans le HTML de la page, seul son
+  -- texte se modifie depuis l'admin. Une rubrique vide disparaît de la page.
+  -- Le texte de départ est posé par migration-2026-09-19-legal-en-rubriques.sql
+  -- pour ne l'écrire qu'à un seul endroit ; tant que ces clés sont vides,
+  -- chaque page affiche la version de secours inscrite dans son HTML
+  -- (voir site/js/pages/legal.js).
   ('mentions-titre', 'Mentions légales'),
-  ('mentions-contenu', ''),
+  ('mentions-editeur', ''),
+  ('mentions-adresses', ''),
+  ('mentions-responsable', ''),
+  ('mentions-contact', ''),
+  ('mentions-hebergement', ''),
   ('confidentialite-titre', 'Politique de confidentialité'),
-  ('confidentialite-contenu', ''),
+  ('confidentialite-collecte', ''),
+  ('confidentialite-usage', ''),
+  ('confidentialite-duree', ''),
+  ('confidentialite-lieu', ''),
+  ('confidentialite-droits', ''),
   ('cgu-cgv-titre', 'Conditions générales d''utilisation et de vente'),
-  ('cgu-cgv-contenu', '')
+  ('cgv-objet', ''),
+  ('cgv-commandes', ''),
+  ('cgv-prix', ''),
+  ('cgv-livraison', ''),
+  ('cgv-retractation', ''),
+  ('cgv-garanties', ''),
+  ('cgv-litiges', '')
 on conflict (cle) do nothing;
 
 -- --- Catégories boutique -----------------------------------------------------

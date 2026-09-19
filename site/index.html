@@ -30,7 +30,11 @@
       </div>
       <div class="hero-actions">
         <a class="btn btn-primary" href="/vitrine/index.html">Découvrir la vitrine <span style="color:var(--color-accent)">→</span></a>
-        <a class="btn btn-accent" href="/boutique/index.html">Visiter la boutique →</a>
+        <!-- La flèche est dans son propre span, comme au-dessus : sans lui,
+             tout le libellé ne forme qu'un seul élément et le
+             justify-content: space-between de .hero-actions .btn n'a rien à
+             écarter, la flèche reste collée au texte. -->
+        <a class="btn btn-accent" href="/boutique/index.html">Visiter la boutique <span>→</span></a>
       </div>
     </div>
   </section>

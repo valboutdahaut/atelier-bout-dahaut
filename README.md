@@ -68,7 +68,30 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 | `migration-2026-09-11-mentions.sql` | Ajoute les mentions de l'entreprise et le nom complet de la page Facebook | fait le 11/09/2026 |
 | `migration-2026-09-19-pages-legales.sql` | Crée les textes des trois pages légales (mentions, confidentialité, CGU et CGV) | fait le 19/09/2026 |
 | `migration-2026-09-19-reprise-contenu.sql` | Reprend le contenu de l'ancien projet de Londres dans celui de Paris | fait le 19/09/2026 |
-| `migration-2026-09-19-hebergement-paris.sql` | Indique Paris comme lieu d'hébergement dans la politique de confidentialité | **à exécuter** |
+| `migration-2026-09-19-hebergement-paris.sql` | Indique Paris comme lieu d'hébergement dans la politique de confidentialité | fait le 19/09/2026 |
+| `migration-2026-09-19-legal-en-rubriques.sql` | Découpe les pages légales en rubriques, une clé et un encadré d'admin par rubrique | fait le 19/09/2026 |
+| `migration-2026-09-19-messages.sql` | Messagerie : sujet en liste, photos jointes, suivi en trois états, purge des archives | fait le 19/09/2026 |
+| `migration-2026-09-19-paiement.sql` | Suivi du paiement Stripe, libération du stock si le paiement expire | **à exécuter** |
+
+> ⚠️ `functions.sql` n'avait pas été rejoué lors du passage sur le projet de Paris : sans lui, `creer_commande()` n'existe pas et **toute commande échoue**. À exécuter avant la migration paiement.
+
+### Paiement en ligne (Stripe)
+
+Le site est statique : le montant ne doit jamais venir du navigateur, sinon il est modifiable. Deux fonctions serveur (Supabase Edge Functions) s'en chargent, leur code est dans `supabase/functions/`.
+
+**Mise en place, dans l'ordre :**
+
+1. Créer un compte Stripe. Le **mode test** suffit pour tout développer, il ne demande aucune vérification d'identité.
+2. Supabase > Edge Functions > *Deploy a new function* > **Via Editor**, une fois par fonction, en collant le fichier correspondant :
+   - `creer-paiement` — laisser la vérification de jeton activée
+   - `stripe-webhook` — **désactiver « Verify JWT »**, Stripe appelle sans jeton Supabase ; sa sécurité vient de la signature vérifiée dans le code
+3. Supabase > Edge Functions > Secrets, ajouter :
+   - `STRIPE_SECRET_KEY` — clé secrète Stripe
+   - `STRIPE_WEBHOOK_SECRET` — *signing secret* du webhook (`whsec_…`)
+   - `SITE_URL` — adresse du site, sans barre oblique finale
+4. Stripe > Developers > Webhooks, ajouter l'adresse `https://<projet>.supabase.co/functions/v1/stripe-webhook` et s'abonner à **`checkout.session.completed`** et **`checkout.session.expired`**.
+
+**Ne jamais mettre la clé secrète Stripe dans `site/js/`** : tout ce qui est dans ce dossier est téléchargé par les visiteurs.
 
 Après ce dernier script, créer aussi l'utilisateur dans **Authentication > Users** ("Add user", cocher "Auto Confirm User") : ajouter une adresse dans `est_admin()` lui donne les droits, mais ne crée pas le compte, les inscriptions publiques étant fermées.
 

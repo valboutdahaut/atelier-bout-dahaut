@@ -87,6 +87,14 @@
   color: var(--color-bg);
   font-size: 13px;
   letter-spacing: .04em;
+  transition: background-color .2s ease;
+}
+/* Le panier s'assombrit au survol : c'est le seul bouton d'action de la barre,
+   il doit répondre sous la souris. Même teinte que le survol de .btn-accent,
+   pour que les deux se comportent pareil. */
+.cart-pill:hover { background: #6a8f8b; color: var(--color-bg); }
+@media (prefers-reduced-motion: reduce) {
+  .cart-pill { transition: none; }
 }
 /* Zone cliquable de 44px minimum (recommandation d'accessibilité tactile),
    tout en gardant l'apparence de deux traits fins de la maquette. */
@@ -230,6 +238,13 @@
 /* La photo est portée par un calque superposé au motif de remplissage, jamais
    par la zone elle-même : si aucune photo n'est publiée, ou le temps qu'elles
    arrivent, la zone garde son apparence d'origine sans rien casser. */
+/* Avant l'arrivée des photos, ces zones affichent un aplat neutre et non le
+   motif rayé du gabarit. Le temps d'interroger la base puis de télécharger la
+   première image, les rayures sautaient aux yeux à chaque ouverture de
+   l'accueil. L'aplat se fond dans la page et se fait oublier. Le sélecteur
+   combine un attribut et une classe, il l'emporte donc sur .placeholder-img
+   seul, quel que soit l'ordre des feuilles de style. */
+[data-roulement].placeholder-img { background: var(--color-canvas); }
 .roulement-zone { position: relative; overflow: hidden; }
 /* Une fois la première vraie photo à l'écran, le motif rayé du gabarit n'a plus
    lieu d'être : il ne doit jamais réapparaître entre deux photos. */
@@ -299,3 +314,31 @@
 .status-msg.error { background: #F6DEDA; color: #7A2E2E; }
 .status-msg.success { background: var(--color-accent); color: var(--color-text); }
 .empty-state { color: var(--color-text-muted); font-size: 14.5px; padding: var(--space-lg) 0; text-align: center; }
+
+/* --- Vignette photo avec croix de suppression -------------------------------*/
+/* Partagée par les formulaires d'administration et par le formulaire de
+   contact du site public : elle vit donc ici et non dans admin.css, que les
+   pages publiques ne chargent pas. Voir js/lib/vignette-photo.js. */
+.photo-vignette { position: relative; }
+.photo-supprimer {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: rgba(244, 237, 222, .92);
+  color: var(--color-text);
+  font-size: 18px;
+  line-height: 1;
+  box-shadow: 0 1px 4px rgba(27, 42, 65, .25);
+}
+.photo-supprimer:hover { background: #F6DEDA; color: #7A2E2E; }
+.photo-supprimer:focus-visible { outline: 2px solid var(--color-text); outline-offset: 2px; }
+
+/* Aperçu des photos jointes au formulaire de contact. Vide, la grille ne doit
+   pas creuser un espace sous le champ. */
+.apercu-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.apercu-photos:empty { display: none; }
+.apercu-photos .photo-vignette { height: 104px; }

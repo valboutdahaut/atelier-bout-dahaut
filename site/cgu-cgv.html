@@ -21,17 +21,55 @@
   <a href="/index.html">Accueil</a> / <span style="color:var(--color-text)">CGU et CGV</span>
 </nav>
 
-<main class="container legal" data-legal="cgu-cgv" style="padding-bottom:96px">
+<main class="container legal" style="padding-bottom:96px">
 
   <header class="legal-entete">
     <span class="eyebrow">Informations légales</span>
     <h1 id="cgu-cgv-titre">Conditions générales d'utilisation et de vente</h1>
   </header>
 
-  <!-- Version de secours, remplacée par le contenu enregistré en base
-       (voir js/pages/legal.js). Garder les deux versions cohérentes. -->
-  <div class="legal-contenu" data-slot="contenu">
-    <p>Cette page est en cours de rédaction.</p>
+  <!-- Toutes les rubriques sont vides au départ : des conditions de vente
+       engagent l'atelier envers ses clients, elles doivent être rédigées par
+       l'artisane. Chacune apparaîtra dès qu'elle sera remplie dans l'admin. -->
+  <div class="legal-contenu">
+
+    <p class="legal-vide" data-slot="page-vide">Ces conditions sont en cours de rédaction.</p>
+
+    <section class="legal-section" data-cle="cgv-objet" hidden>
+      <h2>Objet</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgv-commandes" hidden>
+      <h2>Commandes</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgv-prix" hidden>
+      <h2>Prix et paiement</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgv-livraison" hidden>
+      <h2>Livraison et retrait</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgv-retractation" hidden>
+      <h2>Droit de rétractation</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgv-garanties" hidden>
+      <h2>Garanties</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgv-litiges" hidden>
+      <h2>Litiges</h2>
+      <div data-slot="texte"></div>
+    </section>
+
   </div>
 
 </main>

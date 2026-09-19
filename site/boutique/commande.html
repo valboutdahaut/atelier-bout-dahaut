@@ -26,7 +26,7 @@
   </div>
 
   <h1 style="font-size:30px;margin-bottom:8px">Vos coordonnées</h1>
-  <p style="color:var(--color-text-muted);font-size:14.5px;margin-bottom:32px">Aucun paiement réel n'est demandé sur cette maquette — la commande est bien enregistrée, à titre de démonstration.</p>
+  <p style="color:var(--color-text-muted);font-size:14.5px;margin-bottom:32px">Vos coordonnées servent uniquement à préparer et à vous remettre votre commande.</p>
 
   <form id="form-commande">
     <div class="form-row form-row-2">
@@ -35,17 +35,29 @@
     </div>
     <div class="field"><label for="telephone">Téléphone</label><input id="telephone" name="telephone" type="tel"></div>
 
+    <!-- Classe dédiée plutôt que .filter-row, conçue pour la colonne de
+         filtres de la boutique : celle-ci écarte ses deux éléments aux
+         extrémités, ce qui éloignait le bouton radio de son libellé. -->
     <div class="field">
       <label>Mode de récupération</label>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
-        <label class="filter-row checkbox"><input type="radio" name="mode_retrait" value="retrait_showroom" checked> Retrait au showroom de Rambouillet — gratuit</label>
-        <label class="filter-row checkbox"><input type="radio" name="mode_retrait" value="livraison"> Livraison à domicile — 8,90 €</label>
+      <div class="liste-choix">
+        <label class="choix-radio"><input type="radio" name="mode_retrait" value="retrait_showroom" checked> <span>Retrait au showroom de Rambouillet — gratuit</span></label>
+        <label class="choix-radio"><input type="radio" name="mode_retrait" value="livraison"> <span>Livraison à domicile — 8,90 €</span></label>
       </div>
     </div>
 
-    <div class="field" id="champ-adresse" hidden>
-      <label for="adresse">Adresse de livraison</label>
-      <textarea id="adresse" name="adresse"></textarea>
+    <!-- Adresse découpée en champs distincts : une zone de texte libre laisse
+         le client oublier le code postal ou inverser les lignes, et l'adresse
+         arrive alors inexploitable pour l'expédition. -->
+    <div id="champ-adresse" hidden>
+      <div class="form-row" style="grid-template-columns:110px 1fr">
+        <div class="field"><label for="adresse-numero">Numéro</label><input id="adresse-numero" name="adresse-numero" autocomplete="address-line1" inputmode="numeric"></div>
+        <div class="field"><label for="adresse-rue">Nom de la rue</label><input id="adresse-rue" name="adresse-rue" autocomplete="address-line2"></div>
+      </div>
+      <div class="form-row" style="grid-template-columns:140px 1fr">
+        <div class="field"><label for="adresse-cp">Code postal</label><input id="adresse-cp" name="adresse-cp" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5"></div>
+        <div class="field"><label for="adresse-ville">Ville</label><input id="adresse-ville" name="adresse-ville" autocomplete="address-level2"></div>
+      </div>
     </div>
 
     <div id="erreur-commande" class="status-msg error" hidden></div>
@@ -57,7 +69,6 @@
         <div class="summary-row"><span style="color:var(--color-text-muted)">Livraison</span><span id="frais-livraison">—</span></div>
         <div class="summary-total"><span>Total</span><span id="total">—</span></div>
         <button type="submit" class="btn btn-accent btn-block" id="btn-valider" style="margin-top:6px">Passer commande</button>
-        <span style="text-align:center;font-size:12.5px;color:var(--color-text-faint)">Maquette — aucun paiement réel</span>
       </div>
     </div>
   </form>

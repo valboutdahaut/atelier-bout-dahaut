@@ -21,24 +21,71 @@
   <main class="admin-main">
     <h1 style="font-size:30px">Messages de contact</h1>
 
-    <table class="admin-table">
-      <thead><tr><th></th><th>Nom</th><th>Sujet</th><th>Date</th><th></th></tr></thead>
-      <tbody id="table-messages">
-        <tr><td colspan="5" class="empty-state">Chargement…</td></tr>
-      </tbody>
-    </table>
+    <div class="messagerie">
+
+      <!-- Trois dossiers, comme dans une boîte mail. Le compteur de chaque
+           dossier se met à jour à chaque changement d'état. -->
+      <nav class="messagerie-dossiers" id="dossiers">
+        <button type="button" class="dossier active" data-dossier="nouveau">
+          Nouveaux messages <span class="dossier-compteur" data-compteur="nouveau">0</span>
+        </button>
+        <button type="button" class="dossier" data-dossier="traite">
+          Traités <span class="dossier-compteur" data-compteur="traite">0</span>
+        </button>
+        <button type="button" class="dossier" data-dossier="archive">
+          Archivés <span class="dossier-compteur" data-compteur="archive">0</span>
+        </button>
+        <p class="dossier-aide">Un message archivé reste visible un mois, puis il est supprimé définitivement.</p>
+      </nav>
+
+      <div class="messagerie-contenu">
+        <div class="messagerie-filtres">
+          <div class="field" style="margin:0">
+            <label for="filtre-sujet">Sujet</label>
+            <select id="filtre-sujet">
+              <option value="">Tous les sujets</option>
+            </select>
+          </div>
+          <div class="field" style="margin:0;flex:1">
+            <label for="filtre-recherche">Rechercher</label>
+            <input id="filtre-recherche" type="search" placeholder="Un nom, un email, un mot du message">
+          </div>
+          <button type="button" class="btn btn-outline" id="btn-reinit">Réinitialiser</button>
+        </div>
+
+        <p class="messagerie-compte" id="compte-resultats"></p>
+
+        <table class="admin-table">
+          <thead><tr><th>Nom</th><th>Sujet</th><th>Date</th><th></th></tr></thead>
+          <tbody id="table-messages">
+            <tr><td colspan="4" class="empty-state">Chargement…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
   </main>
 </div>
 
 <template id="tpl-message-detail">
   <tr class="detail-row">
-    <td colspan="5">
+    <td colspan="4">
       <div class="admin-card outline">
         <p style="margin:0 0 8px"><strong data-slot="email"></strong> <span data-slot="telephone" style="color:var(--color-text-muted)"></span></p>
+        <p data-slot="sujet-complet" class="detail-sujet"></p>
         <p data-slot="message" style="white-space:pre-wrap"></p>
-        <div style="display:flex;gap:12px;margin-top:12px">
-          <a class="btn btn-outline" data-slot="mailto" href="#">Répondre par email</a>
-          <button type="button" class="btn btn-accent" data-action="marquer-lu">Marquer comme traité</button>
+
+        <!-- Pièces jointes : le bucket est privé, chaque image s'affiche via un
+             lien temporaire fabriqué à l'ouverture du message. -->
+        <div class="detail-photos" data-slot="photos" hidden></div>
+
+        <p class="detail-echeance" data-slot="echeance" hidden></p>
+
+        <div class="detail-actions">
+          <a class="btn btn-accent" data-slot="repondre" href="#" target="_blank" rel="noopener">Répondre</a>
+          <button type="button" class="btn btn-outline" data-action="traite">Marquer comme traité</button>
+          <button type="button" class="btn btn-outline" data-action="archive">Archiver</button>
+          <button type="button" class="btn btn-outline" data-action="restaurer" hidden>Sortir des archives</button>
         </div>
       </div>
     </td>

@@ -26,8 +26,40 @@
       <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required></div>
     </div>
     <div class="field"><label for="telephone">Téléphone <span class="hint">— facultatif</span></label><input id="telephone" name="telephone" type="tel"></div>
-    <div class="field"><label for="sujet">Sujet</label><input id="sujet" name="sujet"></div>
+    <!-- Sujet choisi dans une liste : le message arrive rangé dans
+         l'administration, où il devient filtrable. « Autre » fait apparaître
+         un champ libre juste en dessous (voir js/pages/contact.js). -->
+    <div class="field">
+      <label for="sujet">Sujet</label>
+      <select id="sujet" name="sujet" required>
+        <option value="" disabled selected>Choisissez un sujet</option>
+        <option value="Devis">Demande de devis</option>
+        <option value="Restauration">Restauration d'un siège</option>
+        <option value="Sur-mesure">Projet sur mesure</option>
+        <option value="Boutique">Question sur une pièce de la boutique</option>
+        <option value="Commande">Suivi d'une commande</option>
+        <option value="SAV">Service après-vente</option>
+        <option value="Renseignement">Renseignement</option>
+        <option value="Autre">Autre</option>
+      </select>
+    </div>
+
+    <div class="field" id="champ-sujet-libre" hidden>
+      <label for="sujet-libre">Précisez votre sujet</label>
+      <input id="sujet-libre" name="sujet-libre" maxlength="120">
+    </div>
+
     <div class="field"><label for="message">Message</label><textarea id="message" name="message" required></textarea></div>
+
+    <!-- Pièces jointes : trois photos au maximum, allégées dans le navigateur
+         avant l'envoi. Une photo d'un siège abîmé en dit souvent plus qu'un
+         paragraphe de description. -->
+    <div class="field">
+      <label for="photos-message">Photos <span class="hint">— facultatif, 3 maximum</span></label>
+      <input id="photos-message" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+      <span class="hint">Un siège à restaurer, un tissu, une pièce abîmée. Les photos sont automatiquement allégées, inutile de les réduire vous-même.</span>
+      <div class="apercu-photos" id="apercu-photos"></div>
+    </div>
 
     <div id="statut-contact" class="status-msg" hidden></div>
 

@@ -5,7 +5,13 @@
 
 export function rendreMarkdownLite(texte) {
   if (!texte) return '';
-  const paragraphes = texte.split(/\n{2,}/).map((bloc) => {
+  // Les navigateurs renvoient le contenu d'un <textarea> avec des fins de
+  // ligne Windows (\r\n), c'est la spécification HTML. Sans cette
+  // normalisation, le découpage en paragraphes ci-dessous ne trouve jamais
+  // deux \n qui se suivent, et tout le texte ressort en un seul bloc avec les
+  // "##" affichés tels quels. Défaut constaté en conditions réelles.
+  const normalise = texte.replace(/\r\n?/g, '\n');
+  const paragraphes = normalise.split(/\n{2,}/).map((bloc) => {
     const ligne = bloc.trim();
     if (ligne.startsWith('## ')) {
       return `<h3>${inline(ligne.slice(3))}</h3>`;

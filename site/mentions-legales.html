@@ -21,29 +21,51 @@
   <a href="/index.html">Accueil</a> / <span style="color:var(--color-text)">Mentions légales</span>
 </nav>
 
-<main class="container legal" data-legal="mentions" style="padding-bottom:96px">
+<main class="container legal" style="padding-bottom:96px">
 
   <header class="legal-entete">
     <span class="eyebrow">Informations légales</span>
     <h1 id="mentions-titre">Mentions légales</h1>
   </header>
 
-  <!-- Le contenu est remplacé par la version enregistrée en base (voir
-       js/pages/legal.js). Ce qui suit est la version de secours, affichée si
-       la base ne répond pas : une page de mentions légales ne doit jamais
-       pouvoir se retrouver vide. Garder les deux versions cohérentes. -->
-  <div class="legal-contenu" data-slot="contenu">
-    <h3>Éditeur du site</h3>
-    <p>
-      L'Atelier du Bout d'à Haut<br>
-      Entreprise personnelle artisan<br>
-      RCS Chartres, Siren n° 839 565 397
-    </p>
-    <h3>Adresses</h3>
-    <p>
-      Atelier&nbsp;: 33 rue du Bout d'à Haut, 28320 Gallardon<br>
-      Showroom&nbsp;: 109 rue du Général De Gaulle - Passage Fleuri, 78120 Rambouillet
-    </p>
+  <!-- Une rubrique par section. Le titre est fixe, seul le texte se modifie
+       depuis Administration > Textes du site (voir js/pages/legal.js).
+       Le texte inscrit ici est la version de secours, affichée si la base ne
+       répond pas. Garder les deux versions cohérentes. -->
+  <div class="legal-contenu">
+
+    <section class="legal-section" data-cle="mentions-editeur">
+      <h2>Éditeur du site</h2>
+      <div data-slot="texte">
+        <p>L'Atelier du Bout d'à Haut<br>Entreprise personnelle artisan<br>RCS Chartres, Siren n° 839 565 397</p>
+      </div>
+    </section>
+
+    <section class="legal-section" data-cle="mentions-adresses">
+      <h2>Adresses</h2>
+      <div data-slot="texte">
+        <p>Atelier&nbsp;: 33 rue du Bout d'à Haut, 28320 Gallardon<br>Showroom&nbsp;: 109 rue du Général De Gaulle - Passage Fleuri, 78120 Rambouillet</p>
+      </div>
+    </section>
+
+    <section class="legal-section" data-cle="mentions-responsable" hidden>
+      <h2>Responsable de la publication</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="mentions-contact" hidden>
+      <h2>Nous écrire</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="mentions-hebergement">
+      <h2>Hébergement du site</h2>
+      <div data-slot="texte">
+        <p>Le site est hébergé par Netlify.</p>
+        <p>Les textes, les photos et les commandes sont enregistrés chez Supabase, sur l'infrastructure Amazon Web Services située à Paris, en France.</p>
+      </div>
+    </section>
+
   </div>
 
 </main>

@@ -17,18 +17,24 @@
 // en portrait a son grand côté à la verticale, et ne plafonner que la largeur
 // la laisserait à plus de 2000 px de haut, soit près du double de pixels à
 // télécharger pour un affichage identique.
-const COTE_MAX = 1600;
+const COTE_MAX_DEFAUT = 1600;
 
 // 0.82 est le palier au-delà duquel le poids grimpe vite alors que l'oeil ne
 // distingue plus rien sur une photo d'atelier.
-const QUALITE = 0.82;
+const QUALITE_DEFAUT = 0.82;
 
 /**
  * @param {File} file photo choisie dans le formulaire
+ * @param {{coteMax?: number, qualite?: number}} [options] pour compresser plus
+ *        fort que les photos du site. Les pièces jointes d'un message de
+ *        contact, par exemple, servent à comprendre une demande, pas à être
+ *        publiées : elles n'ont pas besoin de la même finesse.
  * @returns {Promise<File>} version allégée, ou le fichier d'origine si la
  *          conversion échoue ou n'apporterait rien
  */
-export async function redimensionner(file) {
+export async function redimensionner(file, options = {}) {
+  const COTE_MAX = options.coteMax ?? COTE_MAX_DEFAUT;
+  const QUALITE = options.qualite ?? QUALITE_DEFAUT;
   try {
     // imageOrientation: 'from-image' est indispensable : un canvas ignore les
     // données EXIF, et sans cette option les photos prises en portrait avec un
