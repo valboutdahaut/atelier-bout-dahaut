@@ -20,15 +20,48 @@
 
   <main class="admin-main">
     <h1 style="font-size:30px">Commandes</h1>
-    <p style="color:var(--color-text-muted)">Ne préparez que les commandes marquées <strong>Payée</strong>. Les autres sont des paniers abandonnés sur la page de paiement.</p>
 
-    <div class="filtres-commandes">
-      <button type="button" class="btn btn-outline actif" data-filtre="payees">Payées</button>
-      <button type="button" class="btn btn-outline" data-filtre="toutes">Toutes</button>
-    </div>
+    <div class="vue-dossiers">
 
-    <div id="liste-commandes">
-      <p class="empty-state">Chargement…</p>
+      <!-- Un dossier par étape de préparation, comme dans la messagerie.
+           Changer le statut d'une commande la fait passer dans le dossier
+           correspondant. Le dernier dossier est à part : il regroupe les
+           commandes jamais réglées, qui ne demandent aucun travail. -->
+      <nav class="liste-dossiers" id="dossiers">
+        <button type="button" class="dossier active" data-dossier="nouvelle">
+          <span class="dossier-libelle"><span class="puce-statut" data-statut="nouvelle"></span>Nouvelles</span>
+          <span class="dossier-compteur" data-compteur="nouvelle">0</span>
+        </button>
+        <button type="button" class="dossier" data-dossier="en_preparation">
+          <span class="dossier-libelle"><span class="puce-statut" data-statut="en_preparation"></span>En préparation</span>
+          <span class="dossier-compteur" data-compteur="en_preparation">0</span>
+        </button>
+        <button type="button" class="dossier" data-dossier="expediee">
+          <span class="dossier-libelle"><span class="puce-statut" data-statut="expediee"></span>Expédiées</span>
+          <span class="dossier-compteur" data-compteur="expediee">0</span>
+        </button>
+        <button type="button" class="dossier" data-dossier="livree">
+          <span class="dossier-libelle"><span class="puce-statut" data-statut="livree"></span>Livrées</span>
+          <span class="dossier-compteur" data-compteur="livree">0</span>
+        </button>
+        <button type="button" class="dossier" data-dossier="annulee">
+          <span class="dossier-libelle"><span class="puce-statut" data-statut="annulee"></span>Annulées</span>
+          <span class="dossier-compteur" data-compteur="annulee">0</span>
+        </button>
+        <button type="button" class="dossier" data-dossier="abandon">
+          <span class="dossier-libelle">Paniers abandonnés</span>
+          <span class="dossier-compteur" data-compteur="abandon">0</span>
+        </button>
+        <p class="dossier-aide">Un panier abandonné est une commande commencée puis jamais payée. Les pièces repartent en vente toutes seules, il n'y a rien à faire.</p>
+      </nav>
+
+      <div class="dossiers-contenu">
+        <p class="dossiers-compte" id="compte-resultats"></p>
+        <div id="liste-commandes">
+          <p class="empty-state">Chargement…</p>
+        </div>
+      </div>
+
     </div>
   </main>
 </div>
@@ -37,14 +70,15 @@
   <div class="admin-card outline" style="cursor:pointer" data-slot="resume">
     <div class="section-heading">
       <span style="font-family:var(--font-title);font-size:18px" data-slot="numero"></span>
-      <span style="display:flex;gap:10px;align-items:center">
-        <span class="status-pill" data-slot="paiement-badge"></span>
-        <span class="status-pill" data-slot="statut-badge"></span>
+      <span style="display:flex;gap:12px;align-items:center">
+        <span class="status-pill" data-slot="paiement-badge" hidden></span>
+        <span class="pastille-statut" data-slot="statut-badge"></span>
       </span>
     </div>
     <span data-slot="client" style="font-size:14px;color:var(--color-text-muted)"></span>
     <span data-slot="total" style="font-size:15px;font-weight:500"></span>
   </div>
+
   <div class="admin-card outline" data-slot="detail" hidden style="margin-top:-16px">
     <p class="status-msg error" data-slot="alerte" hidden style="margin-bottom:14px"></p>
     <table class="admin-table" data-slot="lignes"></table>
@@ -55,15 +89,27 @@
       </div>
       <div>
         <span class="eyebrow">Statut</span>
-        <div style="display:flex;gap:12px;margin-top:8px">
-          <select data-slot="select-statut" style="border:1px solid rgba(27,42,65,.25);padding:10px 14px">
+        <div class="bloc-statut">
+          <select data-slot="select-statut">
             <option value="nouvelle">Nouvelle</option>
             <option value="en_preparation">En préparation</option>
             <option value="expediee">Expédiée</option>
-            <option value="retiree">Retirée</option>
+            <option value="livree">Livrée</option>
             <option value="annulee">Annulée</option>
           </select>
+
+          <!-- N'apparaît que sur une annulation : c'est le seul moment où la
+               question se pose, et la réponse dépend du motif. -->
+          <div class="bloc-remise" data-slot="bloc-remise" hidden>
+            <label class="choix-remise">
+              <input type="checkbox" data-slot="remettre" checked>
+              Remettre les pièces en vente
+            </label>
+            <span class="hint" data-slot="remise-aide">Décochez si une pièce est abîmée ou déjà promise à quelqu'un d'autre.</span>
+          </div>
+
           <button type="button" class="btn btn-accent" data-action="enregistrer-statut">Enregistrer</button>
+          <p class="status-msg error" data-slot="message-statut" hidden></p>
         </div>
       </div>
     </div>

@@ -21,11 +21,11 @@
   <main class="admin-main">
     <h1 style="font-size:30px">Messages de contact</h1>
 
-    <div class="messagerie">
+    <div class="vue-dossiers">
 
       <!-- Trois dossiers, comme dans une boîte mail. Le compteur de chaque
            dossier se met à jour à chaque changement d'état. -->
-      <nav class="messagerie-dossiers" id="dossiers">
+      <nav class="liste-dossiers" id="dossiers">
         <button type="button" class="dossier active" data-dossier="nouveau">
           Nouveaux messages <span class="dossier-compteur" data-compteur="nouveau">0</span>
         </button>
@@ -38,8 +38,8 @@
         <p class="dossier-aide">Un message archivé reste visible un mois, puis il est supprimé définitivement.</p>
       </nav>
 
-      <div class="messagerie-contenu">
-        <div class="messagerie-filtres">
+      <div class="dossiers-contenu">
+        <div class="dossiers-filtres">
           <div class="field" style="margin:0">
             <label for="filtre-sujet">Sujet</label>
             <select id="filtre-sujet">
@@ -53,7 +53,7 @@
           <button type="button" class="btn btn-outline" id="btn-reinit">Réinitialiser</button>
         </div>
 
-        <p class="messagerie-compte" id="compte-resultats"></p>
+        <p class="dossiers-compte" id="compte-resultats"></p>
 
         <table class="admin-table">
           <thead><tr><th>Nom</th><th>Sujet</th><th>Date</th><th></th></tr></thead>

@@ -56,7 +56,26 @@ Deno.serve(async (req) => {
   try {
     const session = evenement.data.object as Stripe.Checkout.Session;
 
-    if (evenement.type === 'checkout.session.completed') {
+    if (
+      evenement.type === 'checkout.session.completed'
+      || evenement.type === 'checkout.session.async_payment_succeeded'
+    ) {
+      // GARDE-FOU : la fin du parcours d'achat ne veut pas dire que l'argent
+      // est arrivé. Carte, PayPal, Google Pay et Revolut Pay sont immédiats,
+      // mais Stripe propose aussi des moyens différés (prélèvement SEPA,
+      // virement) où la confirmation tombe des jours plus tard. Or ces moyens
+      // s'activent d'une case à cocher dans le tableau de bord, sans passer
+      // par ce code : sans cette vérification, l'atelier verrait « payée » une
+      // commande qui ne l'est pas encore, et enverrait le colis.
+      //
+      // Pour un moyen différé, Stripe envoie plus tard
+      // checkout.session.async_payment_succeeded, traité ici aussi. Il faut
+      // alors penser à s'y abonner dans la destination d'évènements Stripe.
+      if (session.payment_status !== 'paid') {
+        console.log('Parcours terminé mais paiement non confirmé', session.metadata?.numero, session.payment_status);
+        return new Response('ok', { status: 200 });
+      }
+
       // L'identifiant de commande est transmis en second : si l'enregistrement
       // de la session n'a pas abouti côté base, il reste le moyen de retrouver
       // la commande et de ne pas laisser un paiement encaissé en attente.

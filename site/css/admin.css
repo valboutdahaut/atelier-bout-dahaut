@@ -164,16 +164,44 @@
    simple panier abandonné, qui est le cours normal des choses. */
 .status-pill.alerte { color: #7A2E2E; }
 
-/* --- Commandes : payées ou abandonnées -------------------------------------*/
-.filtres-commandes { display: flex; gap: 10px; margin: var(--space-md) 0 var(--space-sm); }
-.filtres-commandes .btn { padding: 9px 16px; font-size: 13.5px; }
-.filtres-commandes .btn.actif { border-color: var(--color-text); background: var(--color-canvas); }
+/* --- Commandes : couleur par étape -----------------------------------------*/
+/* Une seule table de correspondance, deux usages : le carré de la colonne des
+   dossiers et le libellé sur la carte. La teinte passe par une variable, ce
+   qui évite d'écrire dix règles pour cinq couleurs. */
+.puce-statut[data-statut="nouvelle"],       .pastille-statut[data-statut="nouvelle"]       { --teinte-statut: var(--statut-nouvelle); }
+.puce-statut[data-statut="en_preparation"], .pastille-statut[data-statut="en_preparation"] { --teinte-statut: var(--statut-preparation); }
+.puce-statut[data-statut="expediee"],       .pastille-statut[data-statut="expediee"]       { --teinte-statut: var(--statut-expediee); }
+.puce-statut[data-statut="livree"],         .pastille-statut[data-statut="livree"]         { --teinte-statut: var(--statut-livree); }
+.puce-statut[data-statut="annulee"],        .pastille-statut[data-statut="annulee"]        { --teinte-statut: var(--statut-annulee); }
 
-/* --- Messagerie de contact -------------------------------------------------*/
-/* Trois dossiers à gauche, la liste à droite, comme une boîte mail. La colonne
-   des dossiers reste visible pendant qu'on parcourt les messages. */
-.messagerie { display: grid; grid-template-columns: 232px 1fr; gap: var(--space-lg); align-items: start; margin-top: var(--space-md); }
-.messagerie-dossiers { display: flex; flex-direction: column; gap: 2px; }
+/* Carré et non rond : le site n'a aucun angle arrondi, une pastille ronde
+   jurerait au milieu de tout le reste. */
+.puce-statut { width: 9px; height: 9px; flex: 0 0 auto; background: var(--teinte-statut, var(--color-text-faint)); }
+.pastille-statut { font-size: 12.5px; font-weight: 500; white-space: nowrap; color: var(--teinte-statut, var(--color-text-muted)); }
+.dossier-libelle { display: flex; align-items: center; gap: 9px; min-width: 0; }
+
+/* Le statut et sa conséquence sur le stock, empilés : la case à cocher doit
+   se lire juste sous le choix qui la fait apparaître. */
+.bloc-statut { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 8px; }
+.bloc-statut select {
+  border: 1px solid rgba(27, 42, 65, .25);
+  padding: 10px 14px;
+  font-size: 14px;
+  background: var(--color-input-bg);
+  min-width: 200px;
+}
+.bloc-remise { display: flex; flex-direction: column; gap: 5px; }
+.choix-remise { display: flex; align-items: center; gap: 9px; font-size: 14px; cursor: pointer; }
+.choix-remise input { margin: 0; accent-color: var(--color-accent-deep); }
+.bloc-remise .hint { font-size: 12.5px; line-height: 1.5; color: var(--color-text-faint); }
+
+/* --- Vue à dossiers ---------------------------------------------------------*/
+/* Des dossiers à gauche, la liste à droite, comme une boîte mail. La colonne
+   des dossiers reste visible pendant qu'on parcourt le contenu.
+   Partagée par la messagerie de contact et par les commandes : les deux pages
+   trient la même chose, une pile d'éléments par état d'avancement. */
+.vue-dossiers { display: grid; grid-template-columns: 232px 1fr; gap: var(--space-lg); align-items: start; margin-top: var(--space-md); }
+.liste-dossiers { display: flex; flex-direction: column; gap: 2px; }
 .dossier {
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
   padding: 13px 14px;
@@ -189,9 +217,9 @@
 .dossier.active .dossier-compteur { background: var(--color-accent-deep); color: var(--color-bg); }
 .dossier-aide { font-size: 12.5px; line-height: 1.6; color: var(--color-text-faint); margin-top: var(--space-sm); padding: 0 14px; }
 
-.messagerie-contenu { min-width: 0; }
-.messagerie-filtres { display: flex; gap: var(--space-sm); align-items: flex-end; flex-wrap: wrap; margin-bottom: var(--space-sm); }
-.messagerie-compte { font-size: 13px; color: var(--color-text-faint); margin-bottom: 6px; }
+.dossiers-contenu { min-width: 0; }
+.dossiers-filtres { display: flex; gap: var(--space-sm); align-items: flex-end; flex-wrap: wrap; margin-bottom: var(--space-sm); }
+.dossiers-compte { font-size: 13px; color: var(--color-text-faint); margin-bottom: 6px; }
 
 .detail-sujet { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--color-accent-deep); margin: 0 0 10px; }
 .detail-photos { display: flex; flex-wrap: wrap; gap: 12px; margin-top: var(--space-sm); }
@@ -200,8 +228,8 @@
 .detail-actions { display: flex; gap: 12px; margin-top: var(--space-md); flex-wrap: wrap; }
 
 @media (max-width: 900px) {
-  .messagerie { grid-template-columns: 1fr; }
-  .messagerie-dossiers { flex-direction: row; flex-wrap: wrap; }
+  .vue-dossiers { grid-template-columns: 1fr; }
+  .liste-dossiers { flex-direction: row; flex-wrap: wrap; }
   .dossier { border-left: none; border-bottom: 2px solid transparent; }
   .dossier.active { border-left: none; border-bottom-color: var(--color-accent-deep); }
   .dossier-aide { width: 100%; padding: 0; }

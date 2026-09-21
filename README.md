@@ -71,7 +71,8 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 | `migration-2026-09-19-hebergement-paris.sql` | Indique Paris comme lieu d'hébergement dans la politique de confidentialité | fait le 19/09/2026 |
 | `migration-2026-09-19-legal-en-rubriques.sql` | Découpe les pages légales en rubriques, une clé et un encadré d'admin par rubrique | fait le 19/09/2026 |
 | `migration-2026-09-19-messages.sql` | Messagerie : sujet en liste, photos jointes, suivi en trois états, purge des archives | fait le 19/09/2026 |
-| `migration-2026-09-19-paiement.sql` | Suivi du paiement Stripe, preuve d'achat du visiteur, libération du stock | **à exécuter** |
+| `migration-2026-09-19-paiement.sql` | Suivi du paiement Stripe, preuve d'achat du visiteur, libération du stock | fait le 21/09/2026 |
+| `migration-2026-09-21-statuts-commandes.sql` | « Retirée » devient « Livrée » ; annuler une commande peut remettre les pièces en vente | **à exécuter** |
 
 > ⚠️ `functions.sql` n'avait pas été rejoué lors du passage sur le projet de Paris : sans lui, `creer_commande()` n'existe pas et **toute commande échoue**. À exécuter avant la migration paiement.
 
@@ -92,7 +93,9 @@ Le visiteur n'étant pas connecté, la page de confirmation prouve son achat ave
 #### Mise en place, dans l'ordre
 
 1. **Compte Stripe au nom de l'entreprise.** Il faut le SIRET, une pièce d'identité et l'IBAN pour recevoir les virements. Le **mode test** du même compte fonctionne sans attendre cette vérification : on développe et on valide avec, puis on bascule sur les clés réelles.
-2. **Moyens de paiement** : Stripe > Settings > Payment methods. Cocher la carte, et PayPal si voulu. Le code ne fixe volontairement aucune liste (`payment_method_types` n'est pas renseigné), donc cocher une case suffit, sans redéploiement.
+2. **Moyens de paiement** : Stripe > Settings > Payment methods. Le code ne fixe volontairement aucune liste (`payment_method_types` n'est pas renseigné), donc cocher une case suffit, sans redéploiement. Activés au 21/09/2026 : carte, PayPal, Google Pay, Revolut Pay.
+
+   > ⚠️ **Avant d'activer un moyen de paiement différé** (prélèvement SEPA, virement bancaire, Klarna), s'abonner aussi à **`checkout.session.async_payment_succeeded`** dans la destination d'évènements. Ces moyens terminent le parcours d'achat sans que l'argent soit confirmé, parfois des jours plus tard. Le webhook refuse déjà de marquer « payée » une commande dont le paiement n'est pas confirmé, donc rien ne peut être expédié à tort ; mais sans cet évènement supplémentaire, le règlement ne serait jamais enregistré et la commande resterait en attente jusqu'à sa libération automatique.
 3. **Déployer les fonctions** : Supabase > Edge Functions > *Deploy a new function* > **Via Editor**, une fois par fonction, en collant le fichier correspondant :
    - `creer-paiement` — laisser la vérification de jeton activée
    - `stripe-webhook` — **désactiver « Verify JWT »**, Stripe appelle sans jeton Supabase ; sa sécurité vient de la signature vérifiée dans le code
@@ -116,6 +119,12 @@ Carte de test : `4242 4242 4242 4242`, n'importe quelle date future, n'importe q
 #### Passage en réel
 
 Reprendre les points 4 et 5 avec les valeurs du **mode réel** : la clé secrète change, et le webhook doit être recréé côté réel, avec un nouveau *signing secret*. Faire ensuite un achat réel de faible montant, puis le rembourser depuis le tableau de bord Stripe.
+
+**E-mails aux clients** (Stripe > Paramètres > E-mails, adresse `/settings/emails`). Ces réglages restent verrouillés tant que le compte n'est pas activé, il faut donc y revenir une fois la vérification Stripe passée :
+
+- **Langue par défaut : Français.** Par défaut l'anglais, ce qui enverrait des reçus en anglais à des clientes françaises. La page de paiement, elle, est déjà forcée en français par le code (`locale: 'fr'`).
+- **Paiements réussis : activé.** C'est le reçu que la page de confirmation promet à l'acheteur. Sans lui, le site annonce un e-mail qui n'arrive jamais.
+- **Remboursements : activé.**
 
 **Avant d'encaisser de vrais clients** : les CGV doivent être rédigées (droit de rétractation de 14 jours et son exception pour le sur-mesure, délais de livraison, garanties), et un médiateur de la consommation désigné, obligatoire pour toute vente à des particuliers en France.
 

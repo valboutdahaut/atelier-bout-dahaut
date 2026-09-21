@@ -32,28 +32,42 @@ const supabase = createClient(
 
 const SITE = (Deno.env.get('SITE_URL') ?? '').replace(/\/$/, '');
 
-// Le navigateur interroge cette fonction depuis un autre domaine que Supabase :
-// sans ces en-têtes, il refuse la réponse.
-const CORS = {
-  'Access-Control-Allow-Origin': SITE || '*',
-  'Access-Control-Allow-Headers': 'authorization, content-type, apikey',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-};
+// Le navigateur interroge cette fonction depuis un autre domaine que Supabase.
+// Avant le vrai appel, il demande donc l'autorisation en annonçant les en-têtes
+// qu'il compte joindre, et si un seul n'est pas accepté il annule tout sans
+// rien envoyer.
+//
+// Cette liste n'est volontairement PAS écrite en dur : la bibliothèque Supabase
+// ajoute des en-têtes de son cru (x-client-info, et d'autres selon les
+// versions). Un seul oubli bloque tout le paiement, côté navigateur, sans
+// laisser la moindre trace dans les journaux du serveur. On renvoie donc ce que
+// le navigateur demande. Ce n'est pas un relâchement : c'est l'origine qui
+// protège cette fonction, et elle reste limitée au site.
+function cors(req: Request): Record<string, string> {
+  return {
+    'Access-Control-Allow-Origin': SITE || '*',
+    'Access-Control-Allow-Headers':
+      req.headers.get('access-control-request-headers') ?? 'authorization, content-type, apikey',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Max-Age': '86400',
+    Vary: 'Origin, Access-Control-Request-Headers',
+  };
+}
 
-function reponse(corps: unknown, statut = 200) {
+function reponse(req: Request, corps: unknown, statut = 200) {
   return new Response(JSON.stringify(corps), {
     status: statut,
-    headers: { ...CORS, 'Content-Type': 'application/json' },
+    headers: { ...cors(req), 'Content-Type': 'application/json' },
   });
 }
 
 Deno.serve(async (req) => {
-  if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
-  if (req.method !== 'POST') return reponse({ erreur: 'Méthode non autorisée' }, 405);
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: cors(req) });
+  if (req.method !== 'POST') return reponse(req, { erreur: 'Méthode non autorisée' }, 405);
 
   try {
     const { numero, email } = await req.json();
-    if (!numero || !email) return reponse({ erreur: 'Requête incomplète' }, 400);
+    if (!numero || !email) return reponse(req, { erreur: 'Requête incomplète' }, 400);
 
     // L'email doit correspondre : sans cela, connaître un numéro de commande
     // suffirait à lire le montant payé par quelqu'un d'autre.
@@ -65,10 +79,10 @@ Deno.serve(async (req) => {
 
     if (error) throw error;
     if (!commande || commande.client_email.toLowerCase() !== String(email).toLowerCase()) {
-      return reponse({ erreur: 'Commande introuvable' }, 404);
+      return reponse(req, { erreur: 'Commande introuvable' }, 404);
     }
     if (commande.paiement_statut === 'paye') {
-      return reponse({ erreur: 'Cette commande est déjà réglée' }, 409);
+      return reponse(req, { erreur: 'Cette commande est déjà réglée' }, 409);
     }
 
     // Les deux adresses de retour portent le jeton de la commande : c'est la
@@ -109,9 +123,9 @@ Deno.serve(async (req) => {
       .update({ stripe_session_id: session.id })
       .eq('id', commande.id);
 
-    return reponse({ url: session.url });
+    return reponse(req, { url: session.url });
   } catch (err) {
     console.error('creer-paiement', err);
-    return reponse({ erreur: 'Le paiement n\'a pas pu être préparé' }, 500);
+    return reponse(req, { erreur: 'Le paiement n\'a pas pu être préparé' }, 500);
   }
 });

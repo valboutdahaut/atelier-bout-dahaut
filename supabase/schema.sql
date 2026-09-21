@@ -82,7 +82,7 @@ create table commandes (
   sous_total_cents integer not null,
   livraison_cents integer not null default 0,
   total_cents integer not null,
-  statut text not null default 'nouvelle' check (statut in ('nouvelle', 'en_preparation', 'expediee', 'retiree', 'annulee')),
+  statut text not null default 'nouvelle' check (statut in ('nouvelle', 'en_preparation', 'expediee', 'livree', 'annulee')),
   notes text,
   created_at timestamptz not null default now()
 );

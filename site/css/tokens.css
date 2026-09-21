@@ -20,6 +20,17 @@
   --color-placeholder-a: #E7DEC9;
   --color-placeholder-b: #F0E8D6;
 
+  /* Statuts de commande — administration uniquement, jamais côté public.
+     Volontairement rabattus vers des teintes sourdes : posées sur le fond
+     crème du site, des couleurs vives passeraient pour des alertes alors
+     qu'elles ne font que distinguer des étapes normales. Le fond de pastille
+     est la même teinte très diluée, pour rester lisible sans crier. */
+  --statut-nouvelle: #3E7D5A;    /* vert — à traiter */
+  --statut-preparation: #6B7280; /* gris — en cours */
+  --statut-expediee: #B5701F;    /* orange — partie, pas encore arrivée */
+  --statut-livree: #2F5D9E;      /* bleu — terminée */
+  --statut-annulee: #A33A3A;     /* rouge — annulée */
+
   /* Typographie */
   --font-title: 'Libre Baskerville', Georgia, serif;
   --font-body: 'Work Sans', system-ui, sans-serif;
