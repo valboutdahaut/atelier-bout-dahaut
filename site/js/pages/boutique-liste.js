@@ -30,18 +30,45 @@ async function chargerCategories() {
     .order('ordre');
 
   for (const cat of data ?? []) {
-    const label = document.createElement('div');
-    label.className = 'filter-row';
-    label.innerHTML = `<button data-cat="${cat.id}" style="all:unset;cursor:pointer">${cat.nom}</button>`;
-    filtresCatEl.appendChild(label);
+    const ligne = document.createElement('div');
+    ligne.className = 'filter-row';
+
+    // Construit par le DOM plutôt que par une chaîne de HTML : le nom d'une
+    // catégorie est saisi dans l'administration, il n'a pas à être interprété
+    // comme du balisage s'il contient un chevron ou une apostrophe.
+    const bouton = document.createElement('button');
+    bouton.type = 'button';
+    bouton.className = 'filtre-cat';
+    bouton.dataset.cat = cat.id;
+    bouton.setAttribute('aria-pressed', 'false');
+    bouton.textContent = cat.nom;
+
+    ligne.appendChild(bouton);
+    filtresCatEl.appendChild(ligne);
   }
 
   filtresCatEl.addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-cat]');
     if (!btn) return;
     categorieActive = btn.dataset.cat;
+    majFiltreActif();
     afficher();
   });
+}
+
+/**
+ * Marque la catégorie en cours de consultation.
+ *
+ * Sans cela, la grille se filtrait bien mais la colonne de gauche continuait à
+ * désigner « Tout » : le visiteur voyait trois pièces sur douze sans aucune
+ * indication de ce qui les avait écartées.
+ */
+function majFiltreActif() {
+  for (const bouton of filtresCatEl.querySelectorAll('button[data-cat]')) {
+    const actif = bouton.dataset.cat === categorieActive;
+    bouton.classList.toggle('actif', actif);
+    bouton.setAttribute('aria-pressed', String(actif));
+  }
 }
 
 async function chargerProduits() {

@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Boutique — L'Atelier du Bout d'à Haut</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -24,8 +26,12 @@
   <aside>
     <div class="filter-group">
       <h3>Catégorie</h3>
+      <!-- L'état actif se porte par une classe, jamais par un style écrit à la
+           main : « Tout » portait un gras en dur, il restait donc en gras même
+           après avoir choisi une autre catégorie. Les catégories suivantes sont
+           ajoutées par boutique-liste.js. -->
       <div id="filtres-categories">
-        <div class="filter-row" style="font-weight:500"><button class="btn-link" data-cat="" style="all:unset;cursor:pointer;font-weight:500">Tout</button></div>
+        <div class="filter-row"><button type="button" class="filtre-cat actif" data-cat="" aria-pressed="true">Tout</button></div>
       </div>
     </div>
     <div style="height:1px;background:var(--color-border);margin-bottom:24px"></div>

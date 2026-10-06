@@ -284,6 +284,23 @@
 .filter-row { display: flex; justify-content: space-between; font-size: 14.5px; padding: 4px 0; }
 .filter-row.checkbox { justify-content: flex-start; gap: 10px; align-items: center; }
 
+/* Filtre de catégorie de la boutique, dans la colonne de gauche. Un bouton
+   dépouillé de son apparence de bouton : c'est une liste de choix, pas une
+   rangée de commandes. Seul l'état actif se distingue, par la graisse et par
+   le contraste, jamais par la couleur seule. */
+.filtre-cat {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: var(--color-text-muted);
+}
+.filtre-cat:hover { color: var(--color-text); }
+.filtre-cat.actif { color: var(--color-text); font-weight: 500; }
+.filtre-cat:focus-visible { outline: 2px solid var(--color-text); outline-offset: 3px; }
+
 /* --- Fiche produit --------------------------------------------------------*/
 .product-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-lg); }
 .product-gallery-main { height: 420px; }
