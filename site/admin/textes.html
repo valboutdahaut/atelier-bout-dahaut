@@ -31,7 +31,8 @@
         <button type="button" class="admin-tab" data-onglet="pied">Pied de page</button>
         <button type="button" class="admin-tab" data-onglet="mentions">Mentions légales</button>
         <button type="button" class="admin-tab" data-onglet="confidentialite">Confidentialité</button>
-        <button type="button" class="admin-tab" data-onglet="cgu-cgv">CGU et CGV</button>
+        <button type="button" class="admin-tab" data-onglet="cgv">Conditions de vente</button>
+        <button type="button" class="admin-tab" data-onglet="cgu">Conditions d'utilisation</button>
       </nav>
 
       <div class="form-panel-body">
@@ -222,60 +223,209 @@
           </div>
         </section>
 
-        <!-- CGU ET CGV ------------------------------------------------------ -->
-        <section data-panneau="cgu-cgv" hidden>
+        <!-- CONDITIONS DE VENTE --------------------------------------------- -->
+        <section data-panneau="cgv" hidden>
           <div class="panneau-entete">
-            <h2>CGU et CGV</h2>
-            <a href="/cgu-cgv.html" target="_blank" rel="noopener">Voir la page ↗</a>
+            <h2>Conditions générales de vente</h2>
+            <a href="/cgu-cgv.html#cgv" target="_blank" rel="noopener">Voir la page ↗</a>
           </div>
 
-          <p class="bloc-aide" style="margin-bottom:var(--space-md)">Ces conditions vous <strong>engagent juridiquement</strong> envers vos clients. Faites-les relire avant de les publier. Tant que tout est vide, la page affiche simplement «&nbsp;en cours de rédaction&nbsp;». <strong>Une rubrique laissée vide n'apparaît pas sur le site.</strong></p>
+          <p class="bloc-aide" style="margin-bottom:var(--space-md)">Ces conditions vous <strong>engagent juridiquement</strong> envers vos clients. Ne modifiez pas un article sans en mesurer la portée, et faites relire toute modification importante. <strong>Une rubrique laissée vide disparaît du site</strong>, ce qui peut vous mettre en défaut&nbsp;: la plupart de ces articles sont obligatoires.</p>
 
           <div class="bloc-texte">
             <h3>Titre de la page</h3>
+            <p class="bloc-aide">Commun aux deux onglets, vente et utilisation.</p>
             <div class="field"><label for="cgu-cgv-titre">Titre affiché en haut</label><input id="cgu-cgv-titre" name="cgu-cgv-titre"></div>
           </div>
 
           <div class="bloc-texte">
-            <h3>Objet</h3>
-            <p class="bloc-aide">Ce que couvrent ces conditions, et le fait que passer commande vaut acceptation.</p>
-            <div class="field"><textarea id="cgv-objet" aria-label="Objet" name="cgv-objet" style="min-height:110px"></textarea></div>
+            <h3>Date de mise à jour</h3>
+            <p class="bloc-aide">Affichée en haut de l'onglet. <strong>À changer chaque fois que vous modifiez un article ci-dessous</strong>&nbsp;: c'est ce qui permet de savoir quelle version un client a acceptée.</p>
+            <div class="field"><label for="cgv-maj">Date</label><input id="cgv-maj" name="cgv-maj" placeholder="6 octobre 2026"></div>
           </div>
 
           <div class="bloc-texte">
-            <h3>Commandes</h3>
-            <p class="bloc-aide">Comment une commande est passée, puis confirmée.</p>
-            <div class="field"><textarea id="cgv-commandes" aria-label="Commandes" name="cgv-commandes" style="min-height:110px"></textarea></div>
+            <h3>Identification du vendeur</h3>
+            <p class="bloc-aide">Votre identité complète, vos numéros d'immatriculation et vos coordonnées. Obligatoire.</p>
+            <div class="field"><textarea id="cgv-vendeur" aria-label="Identification du vendeur" name="cgv-vendeur" style="min-height:200px"></textarea><span class="hint">Laissez une <strong>ligne vide</strong> entre deux paragraphes. Pour mettre en gras, encadrez de deux étoiles&nbsp;: <code>**texte**</code></span></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Objet</h3>
+            <p class="bloc-aide">Ce que couvrent ces conditions, et le fait que valider une commande vaut acceptation.</p>
+            <div class="field"><textarea id="cgv-objet" aria-label="Objet" name="cgv-objet" style="min-height:130px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Les produits</h3>
+            <p class="bloc-aide">Ce que vous vendez, le fait que les photos ne sont pas contractuelles au détail près, et le cas particulier du sur mesure.</p>
+            <div class="field"><textarea id="cgv-produits" aria-label="Les produits" name="cgv-produits" style="min-height:220px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Passer commande</h3>
+            <p class="bloc-aide">Le déroulé d'une commande. <strong>Décrit ce que le site fait réellement</strong>&nbsp;: à ne pas modifier sans en parler à Tom.</p>
+            <div class="field"><textarea id="cgv-commandes" aria-label="Passer commande" name="cgv-commandes" style="min-height:160px"></textarea></div>
           </div>
 
           <div class="bloc-texte">
             <h3>Prix et paiement</h3>
-            <p class="bloc-aide">Devise, TVA applicable à votre statut, et moyens de paiement acceptés.</p>
-            <div class="field"><textarea id="cgv-prix" aria-label="Prix et paiement" name="cgv-prix" style="min-height:110px"></textarea></div>
+            <p class="bloc-aide">Devise, TVA applicable à votre statut, et moyens de paiement acceptés. <strong>La liste des moyens de paiement doit correspondre à ceux activés chez Stripe.</strong></p>
+            <div class="field"><textarea id="cgv-prix" aria-label="Prix et paiement" name="cgv-prix" style="min-height:200px"></textarea></div>
           </div>
 
           <div class="bloc-texte">
-            <h3>Livraison et retrait</h3>
-            <p class="bloc-aide">Délais, zones livrées, et conditions de retrait au showroom.</p>
-            <div class="field"><textarea id="cgv-livraison" aria-label="Livraison et retrait" name="cgv-livraison" style="min-height:110px"></textarea></div>
+            <h3>Mention de TVA sous les prix</h3>
+            <p class="bloc-aide">Affichée sous le prix de chaque pièce, dans le panier et sur la page de commande. Elle dit au client qu'aucune taxe ne viendra s'ajouter. <strong>Le jour où vous dépasserez le seuil de la franchise de TVA, cette mention deviendra fausse&nbsp;: prévenez Tom, les prix devront changer en même temps.</strong></p>
+            <div class="field"><textarea id="boutique-tva" aria-label="Mention de TVA sous les prix" name="boutique-tva" style="min-height:80px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Fabrication et délais</h3>
+            <p class="bloc-aide">Le délai d'expédition que vous vous engagez à tenir pour la boutique. <strong>C'est une promesse, choisissez un délai que vous tiendrez même en période chargée.</strong></p>
+            <div class="field"><textarea id="cgv-fabrication" aria-label="Fabrication et délais" name="cgv-fabrication" style="min-height:140px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Délai annoncé dans le panier</h3>
+            <p class="bloc-aide">La même information, en une phrase, affichée dans le panier et sur la page de commande. La loi impose de l'annoncer <strong>avant</strong> que le client valide, pas seulement dans les conditions ci-dessus. <strong>Si vous changez le délai, changez-le aux deux endroits.</strong></p>
+            <div class="field"><textarea id="boutique-delai" aria-label="Délai annoncé dans le panier" name="boutique-delai" style="min-height:90px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Livraison et réception</h3>
+            <p class="bloc-aide">Zones livrées, choix du transporteur, retrait au showroom, et ce qu'il faut faire à la réception d'un colis abîmé.</p>
+            <div class="field"><textarea id="cgv-livraison" aria-label="Livraison et réception" name="cgv-livraison" style="min-height:200px"></textarea></div>
           </div>
 
           <div class="bloc-texte">
             <h3>Droit de rétractation</h3>
-            <p class="bloc-aide">Le délai légal et les modalités de retour. Pensez au cas des pièces réalisées sur mesure, qui suivent une règle différente.</p>
-            <div class="field"><textarea id="cgv-retractation" aria-label="Droit de rétractation" name="cgv-retractation" style="min-height:130px"></textarea></div>
+            <p class="bloc-aide">Les 14 jours légaux, les frais de retour, le remboursement, et l'exception des pièces faites sur mesure. <strong>Article très encadré par la loi, à ne pas réécrire librement.</strong></p>
+            <div class="field"><textarea id="cgv-retractation" aria-label="Droit de rétractation" name="cgv-retractation" style="min-height:300px"></textarea></div>
           </div>
 
           <div class="bloc-texte">
-            <h3>Garanties</h3>
-            <p class="bloc-aide">Ce que vous garantissez sur les pièces vendues.</p>
-            <div class="field"><textarea id="cgv-garanties" aria-label="Garanties" name="cgv-garanties" style="min-height:110px"></textarea></div>
+            <h3>Garanties légales et service après-vente</h3>
+            <p class="bloc-aide">Les garanties dont bénéficie tout client, et l'adresse à laquelle il vous écrit en cas de problème. Obligatoire.</p>
+            <div class="field"><textarea id="cgv-garanties" aria-label="Garanties légales et service après-vente" name="cgv-garanties" style="min-height:260px"></textarea></div>
           </div>
 
           <div class="bloc-texte">
-            <h3>Litiges</h3>
-            <p class="bloc-aide">Le droit applicable et le médiateur de la consommation auquel un client peut s'adresser.</p>
-            <div class="field"><textarea id="cgv-litiges" aria-label="Litiges" name="cgv-litiges" style="min-height:110px"></textarea></div>
+            <h3>Responsabilité</h3>
+            <p class="bloc-aide">Ce dont vous répondez, et les cas où votre responsabilité n'est pas engagée.</p>
+            <div class="field"><textarea id="cgv-responsabilite" aria-label="Responsabilité" name="cgv-responsabilite" style="min-height:140px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Propriété intellectuelle</h3>
+            <p class="bloc-aide">Vos créations, vos photos et vos textes vous appartiennent.</p>
+            <div class="field"><textarea id="cgv-propriete" aria-label="Propriété intellectuelle" name="cgv-propriete" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Données personnelles et cookies</h3>
+            <p class="bloc-aide">Renvoie à votre politique de confidentialité et dit que le site ne piste personne. <strong>Décrit ce que le site fait réellement</strong>&nbsp;: à ne pas modifier sans en parler à Tom.</p>
+            <div class="field"><textarea id="cgv-donnees" aria-label="Données personnelles et cookies" name="cgv-donnees" style="min-height:180px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Réclamations, médiation et litiges</h3>
+            <p class="bloc-aide">À qui un client s'adresse, le médiateur de la consommation que vous avez désigné, et le droit applicable. <strong>La désignation d'un médiateur est obligatoire pour vendre à des particuliers.</strong></p>
+            <div class="field"><textarea id="cgv-litiges" aria-label="Réclamations, médiation et litiges" name="cgv-litiges" style="min-height:300px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Formulaire type de rétractation</h3>
+            <p class="bloc-aide">Le modèle que le client peut recopier pour annuler son achat. Affiché en encadré à la fin de la page. Obligatoire.</p>
+            <div class="field"><textarea id="cgv-formulaire" aria-label="Formulaire type de rétractation" name="cgv-formulaire" style="min-height:220px"></textarea></div>
+          </div>
+        </section>
+
+        <!-- CONDITIONS D'UTILISATION ---------------------------------------- -->
+        <section data-panneau="cgu" hidden>
+          <div class="panneau-entete">
+            <h2>Conditions générales d'utilisation</h2>
+            <a href="/cgu-cgv.html#cgu" target="_blank" rel="noopener">Voir la page ↗</a>
+          </div>
+
+          <p class="bloc-aide" style="margin-bottom:var(--space-md)">Elles s'adressent à <strong>tout visiteur du site</strong>, qu'il achète ou non. Les règles de vente, elles, sont dans l'onglet précédent. <strong>Une rubrique laissée vide disparaît du site.</strong></p>
+
+          <div class="bloc-texte">
+            <h3>Date de mise à jour</h3>
+            <p class="bloc-aide">Affichée en haut de l'onglet. À changer chaque fois que vous modifiez un article ci-dessous.</p>
+            <div class="field"><label for="cgu-maj">Date</label><input id="cgu-maj" name="cgu-maj" placeholder="6 octobre 2026"></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Objet</h3>
+            <p class="bloc-aide">Ce que couvrent ces conditions et à qui elles s'appliquent.</p>
+            <div class="field"><textarea id="cgu-objet" aria-label="Objet" name="cgu-objet" style="min-height:140px"></textarea><span class="hint">Laissez une <strong>ligne vide</strong> entre deux paragraphes. Pour mettre en gras, encadrez de deux étoiles&nbsp;: <code>**texte**</code></span></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Accès au site</h3>
+            <p class="bloc-aide">Le site est ouvert en permanence, sauf interruption pour maintenance.</p>
+            <div class="field"><textarea id="cgu-acces" aria-label="Accès au site" name="cgu-acces" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Utilisation du site</h3>
+            <p class="bloc-aide">Ce qu'un visiteur n'a pas le droit de faire sur le site.</p>
+            <div class="field"><textarea id="cgu-utilisation" aria-label="Utilisation du site" name="cgu-utilisation" style="min-height:140px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Les informations publiées</h3>
+            <p class="bloc-aide">Les informations du site sont données à titre indicatif, seules celles de la commande engagent.</p>
+            <div class="field"><textarea id="cgu-informations" aria-label="Les informations publiées" name="cgu-informations" style="min-height:140px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Propriété intellectuelle</h3>
+            <p class="bloc-aide">Les textes, les photos et les créations du site vous appartiennent.</p>
+            <div class="field"><textarea id="cgu-propriete" aria-label="Propriété intellectuelle" name="cgu-propriete" style="min-height:120px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Liens vers d'autres sites</h3>
+            <p class="bloc-aide">Vous n'êtes pas responsable de ce que contiennent les sites vers lesquels vous faites un lien, vos réseaux sociaux par exemple.</p>
+            <div class="field"><textarea id="cgu-liens" aria-label="Liens vers d'autres sites" name="cgu-liens" style="min-height:120px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Données personnelles et cookies</h3>
+            <p class="bloc-aide">Renvoie à votre politique de confidentialité et dit que le site ne piste personne. <strong>Décrit ce que le site fait réellement</strong>&nbsp;: à ne pas modifier sans en parler à Tom.</p>
+            <div class="field"><textarea id="cgu-donnees" aria-label="Données personnelles et cookies" name="cgu-donnees" style="min-height:160px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Sécurité</h3>
+            <p class="bloc-aide">Vous prenez des mesures raisonnables, sans pouvoir garantir l'impossible.</p>
+            <div class="field"><textarea id="cgu-securite" aria-label="Sécurité" name="cgu-securite" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Responsabilité</h3>
+            <p class="bloc-aide">Une panne ou une maintenance ne vous est pas reprochable.</p>
+            <div class="field"><textarea id="cgu-responsabilite" aria-label="Responsabilité" name="cgu-responsabilite" style="min-height:120px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Modification des conditions</h3>
+            <p class="bloc-aide">Vous pouvez les faire évoluer, la version en ligne fait foi.</p>
+            <div class="field"><textarea id="cgu-modification" aria-label="Modification des conditions" name="cgu-modification" style="min-height:110px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Droit applicable</h3>
+            <p class="bloc-aide">Le droit français s'applique.</p>
+            <div class="field"><textarea id="cgu-droit" aria-label="Droit applicable" name="cgu-droit" style="min-height:100px"></textarea></div>
+          </div>
+
+          <div class="bloc-texte">
+            <h3>Nous contacter</h3>
+            <p class="bloc-aide">Vos coordonnées, pour toute question sur le site lui-même.</p>
+            <div class="field"><textarea id="cgu-contact" aria-label="Nous contacter" name="cgu-contact" style="min-height:140px"></textarea></div>
           </div>
         </section>
 

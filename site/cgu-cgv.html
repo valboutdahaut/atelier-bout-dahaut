@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CGU et CGV — L'Atelier du Bout d'à Haut</title>
-<meta name="description" content="Conditions générales d'utilisation et de vente de L'Atelier du Bout d'à Haut.">
+<title>Conditions générales — L'Atelier du Bout d'à Haut</title>
+<meta name="description" content="Conditions générales de vente et conditions générales d'utilisation de L'Atelier du Bout d'à Haut.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -18,30 +18,61 @@
 <div data-include="header-public"></div>
 
 <nav class="container" style="padding:16px 0;font-size:13px;color:var(--color-text-muted)">
-  <a href="/index.html">Accueil</a> / <span style="color:var(--color-text)">CGU et CGV</span>
+  <a href="/index.html">Accueil</a> / <span style="color:var(--color-text)">Conditions générales</span>
 </nav>
 
 <main class="container legal" style="padding-bottom:96px">
 
   <header class="legal-entete">
     <span class="eyebrow">Informations légales</span>
-    <h1 id="cgu-cgv-titre">Conditions générales d'utilisation et de vente</h1>
+    <h1 id="cgu-cgv-titre">Conditions générales</h1>
   </header>
 
-  <!-- Toutes les rubriques sont vides au départ : des conditions de vente
-       engagent l'atelier envers ses clients, elles doivent être rédigées par
-       l'artisane. Chacune apparaîtra dès qu'elle sera remplie dans l'admin. -->
-  <div class="legal-contenu">
+  <!-- Deux textes distincts, deux onglets. Les conditions de VENTE engagent
+       l'atelier envers un acheteur, les conditions d'UTILISATION s'adressent à
+       tout visiteur, acheteur ou non. Les présenter à la suite sur une seule
+       page obligeait à traverser vingt-quatre articles de vente pour atteindre
+       les premières lignes qui concernent un simple lecteur.
+       L'onglet d'arrivée se choisit aussi par l'adresse, #cgv ou #cgu, ce dont
+       se sert la case à cocher du tunnel de commande. -->
+  <div class="onglets-legal" role="tablist" aria-label="Conditions générales">
+    <button type="button" class="onglet-legal actif" role="tab" id="onglet-cgv"
+            aria-controls="volet-cgv" aria-selected="true" data-volet="cgv">
+      Conditions de vente
+    </button>
+    <button type="button" class="onglet-legal" role="tab" id="onglet-cgu"
+            aria-controls="volet-cgu" aria-selected="false" tabindex="-1" data-volet="cgu">
+      Conditions d'utilisation
+    </button>
+  </div>
 
-    <p class="legal-vide" data-slot="page-vide">Ces conditions sont en cours de rédaction.</p>
+  <!-- ===================== CONDITIONS DE VENTE ===================== -->
+  <div class="legal-contenu volet-legal" id="volet-cgv" role="tabpanel" aria-labelledby="onglet-cgv" tabindex="0">
+
+    <!-- Ce message ne peut plus apparaître que si la base est injoignable : les
+         rubriques sont désormais toutes remplies. Son texte le dit donc, plutôt
+         que d'annoncer une rédaction en cours qui n'a plus lieu d'être. -->
+    <p class="legal-vide" data-slot="page-vide">Ces conditions ne s'affichent pas pour le moment. Réessayez dans un instant, ou écrivez à l'atelier depuis la page Contact.</p>
+
+    <p class="legal-maj" data-cle="cgv-maj" hidden>Dernière mise à jour : <span data-slot="texte-simple"></span></p>
+
+    <section class="legal-section" data-cle="cgv-vendeur" hidden>
+      <h2>Identification du vendeur</h2>
+      <div data-slot="texte"></div>
+    </section>
 
     <section class="legal-section" data-cle="cgv-objet" hidden>
       <h2>Objet</h2>
       <div data-slot="texte"></div>
     </section>
 
+    <section class="legal-section" data-cle="cgv-produits" hidden>
+      <h2>Les produits</h2>
+      <div data-slot="texte"></div>
+    </section>
+
     <section class="legal-section" data-cle="cgv-commandes" hidden>
-      <h2>Commandes</h2>
+      <h2>Passer commande</h2>
       <div data-slot="texte"></div>
     </section>
 
@@ -50,8 +81,13 @@
       <div data-slot="texte"></div>
     </section>
 
+    <section class="legal-section" data-cle="cgv-fabrication" hidden>
+      <h2>Fabrication et délais</h2>
+      <div data-slot="texte"></div>
+    </section>
+
     <section class="legal-section" data-cle="cgv-livraison" hidden>
-      <h2>Livraison et retrait</h2>
+      <h2>Livraison et réception</h2>
       <div data-slot="texte"></div>
     </section>
 
@@ -61,12 +97,102 @@
     </section>
 
     <section class="legal-section" data-cle="cgv-garanties" hidden>
-      <h2>Garanties</h2>
+      <h2>Garanties légales et service après-vente</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgv-responsabilite" hidden>
+      <h2>Responsabilité</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgv-propriete" hidden>
+      <h2>Propriété intellectuelle</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgv-donnees" hidden>
+      <h2>Données personnelles et cookies</h2>
       <div data-slot="texte"></div>
     </section>
 
     <section class="legal-section" data-cle="cgv-litiges" hidden>
-      <h2>Litiges</h2>
+      <h2>Réclamations, médiation et litiges</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <!-- Le formulaire ferme la page : c'est une annexe, pas un article. -->
+    <section class="legal-section legal-encadre" data-cle="cgv-formulaire" hidden>
+      <h2>Formulaire type de rétractation</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+  </div>
+
+  <!-- ===================== CONDITIONS D'UTILISATION ===================== -->
+  <div class="legal-contenu volet-legal" id="volet-cgu" role="tabpanel" aria-labelledby="onglet-cgu" tabindex="0" hidden>
+
+    <p class="legal-vide" data-slot="page-vide">Ces conditions ne s'affichent pas pour le moment. Réessayez dans un instant, ou écrivez à l'atelier depuis la page Contact.</p>
+
+    <p class="legal-maj" data-cle="cgu-maj" hidden>Dernière mise à jour : <span data-slot="texte-simple"></span></p>
+
+    <section class="legal-section" data-cle="cgu-objet" hidden>
+      <h2>Objet</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-acces" hidden>
+      <h2>Accès au site</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-utilisation" hidden>
+      <h2>Utilisation du site</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-informations" hidden>
+      <h2>Les informations publiées</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-propriete" hidden>
+      <h2>Propriété intellectuelle</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-liens" hidden>
+      <h2>Liens vers d'autres sites</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-donnees" hidden>
+      <h2>Données personnelles et cookies</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-securite" hidden>
+      <h2>Sécurité</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-responsabilite" hidden>
+      <h2>Responsabilité</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-modification" hidden>
+      <h2>Modification des conditions</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-droit" hidden>
+      <h2>Droit applicable</h2>
+      <div data-slot="texte"></div>
+    </section>
+
+    <section class="legal-section" data-cle="cgu-contact" hidden>
+      <h2>Nous contacter</h2>
       <div data-slot="texte"></div>
     </section>
 

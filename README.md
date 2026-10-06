@@ -72,7 +72,8 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 | `migration-2026-09-19-legal-en-rubriques.sql` | Découpe les pages légales en rubriques, une clé et un encadré d'admin par rubrique | fait le 19/09/2026 |
 | `migration-2026-09-19-messages.sql` | Messagerie : sujet en liste, photos jointes, suivi en trois états, purge des archives | fait le 19/09/2026 |
 | `migration-2026-09-19-paiement.sql` | Suivi du paiement Stripe, preuve d'achat du visiteur, libération du stock | fait le 21/09/2026 |
-| `migration-2026-09-21-statuts-commandes.sql` | « Retirée » devient « Livrée » ; annuler une commande peut remettre les pièces en vente | **à exécuter** |
+| `migration-2026-09-21-statuts-commandes.sql` | « Retirée » devient « Livrée » ; annuler une commande peut remettre les pièces en vente | fait le 21/09/2026 |
+| `migration-2026-10-06-cgv-cgu.sql` | CGV complètes et CGU créées, mentions légales et confidentialité remises à jour, suppression des commandes non réglées | **à exécuter** |
 
 > ⚠️ `functions.sql` n'avait pas été rejoué lors du passage sur le projet de Paris : sans lui, `creer_commande()` n'existe pas et **toute commande échoue**. À exécuter avant la migration paiement.
 
@@ -126,7 +127,14 @@ Reprendre les points 4 et 5 avec les valeurs du **mode réel** : la clé secrèt
 - **Paiements réussis : activé.** C'est le reçu que la page de confirmation promet à l'acheteur. Sans lui, le site annonce un e-mail qui n'arrive jamais.
 - **Remboursements : activé.**
 
-**Avant d'encaisser de vrais clients** : les CGV doivent être rédigées (droit de rétractation de 14 jours et son exception pour le sur-mesure, délais de livraison, garanties), et un médiateur de la consommation désigné, obligatoire pour toute vente à des particuliers en France.
+**Confirmation de commande et facture.** Le site n'envoie aujourd'hui aucun e-mail. Deux obligations restent donc ouvertes, à traiter ensemble :
+
+- **La confirmation du contrat sur support durable**, au plus tard à la livraison. Un reçu de paiement Stripe confirme un paiement, pas un contrat : il ne porte ni le détail des produits, ni le droit de rétractation, ni le formulaire type.
+- **La mention « TVA non applicable, article 293 B du Code général des impôts »**, obligatoire sur les factures tant que l'atelier est en franchise en base. Elle est aujourd'hui affichée sous les prix (clé `boutique-tva`), ce qui relève de la transparence, mais pas sur un document de commande, qui n'existe pas encore.
+
+Ces deux points se règlent d'un coup, au moment où l'on construira l'envoi automatique du récapitulatif de commande.
+
+**Avant d'encaisser de vrais clients** : les conditions générales de vente sont en ligne depuis le 06/10/2026 et un médiateur de la consommation est désigné. Reste l'**encadré réglementaire sur les garanties légales**, dont le contenu et la forme sont fixés par décret depuis le 1er octobre 2022 : il doit figurer dans les CGV de vente de biens à un consommateur, et le document fourni par l'atelier traite les garanties en texte rédigé, pas sous cette forme. Récupérer le texte officiel, puis l'ajouter en bloc dédié.
 
 Après ce dernier script, créer aussi l'utilisateur dans **Authentication > Users** ("Add user", cocher "Auto Confirm User") : ajouter une adresse dans `est_admin()` lui donne les droits, mais ne crée pas le compte, les inscriptions publiques étant fermées.
 

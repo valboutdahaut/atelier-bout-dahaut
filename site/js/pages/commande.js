@@ -9,6 +9,12 @@ import { getCart } from '../cart.js';
 
 const FRAIS_LIVRAISON_CENTS = 890;
 
+// Mention imposée par le Code de la consommation sur le bouton qui engage le
+// paiement. Gardée ici en constante parce que le bouton change de texte pendant
+// l'envoi : sans elle, revenir en arrière après une erreur réécrirait un
+// libellé approximatif et ferait tomber la conformité sans que ça se voie.
+const LIBELLE_VALIDATION = 'Commande avec obligation de paiement';
+
 /**
  * Recompose l'adresse à partir des quatre champs du formulaire, sur deux
  * lignes comme sur une enveloppe. La base garde une seule colonne texte :
@@ -136,7 +142,7 @@ form.addEventListener('submit', async (e) => {
         : 'Une erreur est survenue, merci de réessayer.';
       erreurEl.hidden = false;
       btnValider.disabled = false;
-      btnValider.textContent = 'Passer commande';
+      btnValider.textContent = LIBELLE_VALIDATION;
       console.error('commande.js', reponse.error);
       return;
     }

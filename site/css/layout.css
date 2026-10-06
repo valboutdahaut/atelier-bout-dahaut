@@ -168,7 +168,63 @@
    « ## » dans l'administration. */
 .legal-section h3 { font-size: 16px; margin-top: var(--space-sm); }
 .legal-vide { font-size: 16px; line-height: 1.9; color: var(--color-text-faint); font-style: italic; }
-.legal-section[hidden], .legal-vide[hidden] { display: none; }
+.legal-section[hidden], .legal-vide[hidden], .legal-maj[hidden] { display: none; }
+
+/* Date de mise à jour, annoncée en tête de chaque jeu de conditions. Discrète,
+   mais elle doit être là : c'est ce qui permet à un client de savoir quelle
+   version il a acceptée. */
+.legal-maj {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  margin: 0;
+}
+
+/* Le formulaire de rétractation n'est pas un article, c'est un document à
+   recopier. L'encadré le dit sans avoir à l'écrire. */
+.legal-encadre {
+  border: 1px solid var(--color-border);
+  background: var(--color-input-bg);
+  padding: var(--space-md);
+}
+
+/* --- Onglets des conditions générales --------------------------------------*/
+/* Deux textes qui n'ont ni le même objet ni le même lecteur : la vente d'un
+   côté, la simple consultation du site de l'autre. */
+.onglets-legal {
+  display: flex;
+  gap: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+}
+.onglet-legal {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 12px 2px;
+  margin-bottom: -1px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-text-muted);
+  border-bottom: 2px solid transparent;
+}
+.onglet-legal + .onglet-legal { margin-left: var(--space-md); }
+.onglet-legal:hover { color: var(--color-text); }
+.onglet-legal.actif { color: var(--color-text); font-weight: 500; border-bottom-color: var(--color-accent-deep); }
+.onglet-legal:focus-visible { outline: 2px solid var(--color-text); outline-offset: 2px; }
+.volet-legal:focus { outline: none; }
+
+/* À l'impression, les onglets n'ont plus de sens : on déplie tout. Des
+   conditions générales s'impriment et se classent, il ne faut pas qu'une
+   moitié disparaisse parce qu'elle était derrière un onglet fermé. */
+@media print {
+  .onglets-legal { display: none; }
+  .volet-legal[hidden] { display: flex !important; }
+  .volet-legal + .volet-legal { margin-top: var(--space-xl); }
+}
 
 @media (max-width: 640px) {
   .legal-entete h1 { font-size: 27px; }
@@ -269,6 +325,10 @@
 @media (max-width: 640px) { .cart-line { grid-template-columns: 64px 1fr; row-gap: 8px; } }
 .cart-summary { display: grid; grid-template-columns: 1fr 300px; gap: var(--space-md); }
 @media (max-width: 700px) { .cart-summary { grid-template-columns: 1fr; } }
+/* Mention de franchise en base, sous chaque prix. Discrète : c'est une
+   précision, pas un argument de vente, et elle ne doit pas concurrencer le
+   prix qu'elle accompagne. */
+.mention-tva { font-size: 12.5px; line-height: 1.6; color: var(--color-text-faint); margin: 0; }
 .summary-row { display: flex; justify-content: space-between; font-size: 14.5px; }
 .summary-total { display: flex; justify-content: space-between; font-size: 19px; font-weight: 500; padding-top: var(--space-xs); border-top: 1px solid rgba(27,42,65,.15); }
 .checkout-steps { display: flex; gap: 22px; align-items: center; font-size: 13px; padding: var(--space-md) 0; }
@@ -328,6 +388,22 @@
 }
 /* Sans cela, le rond se comprime quand le libellé passe sur deux lignes. */
 .choix-radio input { flex: 0 0 auto; margin: 0; }
+
+/* Acceptation des conditions de vente, juste au-dessus du bouton qui engage le
+   paiement. Alignée en haut et non au centre : le libellé passe sur deux lignes
+   en écran étroit, et une case centrée verticalement flotterait alors loin de
+   son premier mot. */
+.choix-cgv {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  cursor: pointer;
+  padding: 4px 0;
+}
+.choix-cgv input { flex: 0 0 auto; margin: 3px 0 0; accent-color: var(--color-accent-deep); }
+.choix-cgv a { text-decoration: underline; }
 
 /* Les deux modes de récupération annoncés dès le panier. */
 .modes-recuperation { display: flex; flex-direction: column; gap: var(--space-sm); }

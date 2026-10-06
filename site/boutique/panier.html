@@ -49,11 +49,19 @@
         <span class="mode-titre">Livraison à domicile</span>
         <p>8,90 €, partout en France.</p>
       </div>
-      <p class="mode-note">À choisir à l'étape suivante.</p>
+      <!-- Le délai doit être annoncé avant la commande, c'est une obligation
+           d'information et non une politesse. Texte unique, modifiable depuis
+           l'administration, repris à l'identique sur la page suivante. -->
+      <div>
+        <span class="mode-titre">Délai</span>
+        <p id="boutique-delai">Votre commande est expédiée ou mise à disposition au showroom sous deux semaines au maximum, à compter de la confirmation du paiement.</p>
+      </div>
+      <p class="mode-note">Le mode de récupération se choisit à l'étape suivante.</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
       <div class="summary-row"><span style="color:var(--color-text-muted)">Sous-total</span><span id="sous-total">—</span></div>
       <div class="summary-total"><span>Total estimé</span><span id="total">—</span></div>
+      <p class="mention-tva" id="boutique-tva">TVA non applicable, article 293 B du Code général des impôts.</p>
       <a class="btn btn-accent btn-block" href="/boutique/commande.html" style="margin-top:6px">Passer commande</a>
     </div>
   </div>

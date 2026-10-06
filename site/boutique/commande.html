@@ -63,12 +63,33 @@
     <div id="erreur-commande" class="status-msg error" hidden></div>
 
     <div class="cart-summary" style="padding-top:12px">
-      <div></div>
+      <div class="admin-card highlight modes-recuperation">
+        <div>
+          <span class="mode-titre">Délai</span>
+          <p id="boutique-delai">Votre commande est expédiée ou mise à disposition au showroom sous deux semaines au maximum, à compter de la confirmation du paiement.</p>
+        </div>
+        <p class="mode-note">Les pièces réalisées sur mesure font l'objet d'un devis et ne passent pas par la boutique.</p>
+      </div>
       <div style="display:flex;flex-direction:column;gap:14px">
         <div class="summary-row"><span style="color:var(--color-text-muted)">Sous-total</span><span id="sous-total">—</span></div>
         <div class="summary-row"><span style="color:var(--color-text-muted)">Livraison</span><span id="frais-livraison">—</span></div>
         <div class="summary-total"><span>Total</span><span id="total">—</span></div>
-        <button type="submit" class="btn btn-accent btn-block" id="btn-valider" style="margin-top:6px">Passer commande</button>
+        <p class="mention-tva" id="boutique-tva">TVA non applicable, article 293 B du Code général des impôts.</p>
+
+        <!-- Acceptation explicite, et non un simple « en validant, vous
+             acceptez » écrit en bas de page : en cas de litige, c'est ce geste
+             qui prouve que le client a pu prendre connaissance des conditions.
+             Le lien ouvre directement l'onglet des conditions de vente, dans
+             un nouvel onglet pour ne pas perdre le formulaire en cours. -->
+        <label class="choix-cgv">
+          <input type="checkbox" id="accepte-cgv" name="accepte-cgv" required>
+          <span>J'ai lu et j'accepte les <a href="/cgu-cgv.html#cgv" target="_blank" rel="noopener">conditions générales de vente</a>.</span>
+        </label>
+
+        <!-- La mention portée par ce bouton est imposée par le Code de la
+             consommation. Sans elle, le client n'est pas engagé par sa
+             commande. Ne pas la raccourcir. -->
+        <button type="submit" class="btn btn-accent btn-block" id="btn-valider" style="margin-top:6px">Commande avec obligation de paiement</button>
       </div>
     </div>
   </form>

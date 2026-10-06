@@ -36,6 +36,9 @@
       <span class="eyebrow" data-slot="categorie"></span>
       <h1 style="font-size:30px;line-height:1.25" data-slot="titre"></h1>
       <span class="product-price" data-slot="prix"></span>
+      <!-- L'atelier est en franchise en base : le prix affiché est le prix
+           final, aucune taxe ne s'ajoute. Le dire évite la question. -->
+      <p class="mention-tva" id="boutique-tva">TVA non applicable, article 293 B du Code général des impôts.</p>
       <p style="font-size:15px;line-height:1.8;color:var(--color-text-muted)" data-slot="description"></p>
       <div style="display:flex;gap:10px;align-items:center;font-size:13.5px;color:var(--color-accent-deep)" data-slot="stock"></div>
       <div style="display:flex;gap:14px;align-items:stretch;margin-top:6px">
