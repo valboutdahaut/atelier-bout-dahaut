@@ -51,9 +51,19 @@
         </div>
         <button type="button" class="btn btn-accent" style="flex:1" id="btn-ajouter-panier">Ajouter au panier</button>
       </div>
+      <!-- Pièce qui ne peut pas être expédiée : l'avis doit se voir avant
+           l'ajout au panier, pas se découvrir au moment de payer. Rempli par
+           boutique-produit.js. -->
+      <p class="avis-retrait" data-slot="avis-retrait" hidden></p>
+
       <div style="display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1px solid rgba(27,42,65,.12);font-size:13.5px;color:var(--color-text-muted)">
-        <span>Expédition sous 5 jours ouvrés</span>
-        <span>Retrait possible au showroom de Rambouillet</span>
+        <!-- Mêmes délais qu'au panier et à la commande, pris au même endroit,
+             dans l'administration. « Expédition sous 5 jours ouvrés » était
+             écrit ici en dur et promettait mieux que les conditions de vente.
+             La ligne d'expédition est retirée par boutique-produit.js pour une
+             pièce qui ne part pas en colis : ce délai ne la concerne pas. -->
+        <span id="boutique-delai-expedition" data-slot="ligne-expedition">Votre commande est expédiée sous 3 à 5 jours ouvrés, à compter de la confirmation du paiement.</span>
+        <span id="boutique-delai-retrait">En retrait au showroom, votre commande est disponible sous 1 à 2 jours ouvrés, à compter de la confirmation du paiement.</span>
       </div>
     </div>
   </div>

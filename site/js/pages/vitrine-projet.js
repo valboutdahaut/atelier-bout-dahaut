@@ -48,7 +48,7 @@ async function afficherAutresPosts(idActuel) {
   const conteneur = document.querySelector('[data-slot="autres-posts"]');
   const { data } = await supabase
     .from('posts_vitrine')
-    .select('titre, slug, photo_apres_url, photo_avant_url, photos_detail')
+    .select('titre, slug, photo_apres_url, photo_avant_url, photos_detail, avant_apres_actif')
     .eq('statut', 'publie')
     .neq('id', idActuel)
     .order('date_projet', { ascending: false })
@@ -107,8 +107,23 @@ async function charger() {
     `${post.categories?.nom ?? 'Réalisation'} · ${formatAnnee(post.date_projet)}${post.lieu ? ' · ' + post.lieu : ''}`;
   node.querySelector('[data-slot="titre"]').textContent = post.titre;
   node.querySelector('[data-slot="resume"]').textContent = post.resume ?? '';
-  setPhoto(node.querySelector('[data-slot="photo-avant"]'), post.photo_avant_url, 'photo avant à venir');
-  setPhoto(node.querySelector('[data-slot="photo-apres"]'), post.photo_apres_url, 'photo après à venir');
+  // Diptyque avant / après, ou photo seule du résultat : l'atelier choisit
+  // fiche par fiche, avec la case « Activer l'avant / après » de l'admin. Une
+  // création neuve n'a pas d'avant à montrer, et un cadre « photo avant à
+  // venir » laissé en place passerait pour un oubli.
+  const avantApres = post.avant_apres_actif ?? true;
+  if (avantApres) {
+    setPhoto(node.querySelector('[data-slot="photo-avant"]'), post.photo_avant_url, 'photo avant à venir');
+  } else {
+    node.querySelector('[data-slot="volet-avant"]').remove();
+    node.querySelector('.before-after').classList.add('photo-seule');
+    node.querySelector('[data-slot="photo-apres"] .badge')?.remove();
+  }
+  setPhoto(
+    node.querySelector('[data-slot="photo-apres"]'),
+    post.photo_apres_url,
+    avantApres ? 'photo après à venir' : 'photo à venir'
+  );
   node.querySelector('[data-slot="savoir-faire"]').textContent = post.categories?.nom ?? '—';
   node.querySelector('[data-slot="tissu"]').textContent = post.tissu ?? '—';
   node.querySelector('[data-slot="duree"]').textContent = post.duree ?? '—';

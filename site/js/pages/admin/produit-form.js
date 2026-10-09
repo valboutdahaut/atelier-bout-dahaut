@@ -75,6 +75,7 @@ async function chargerProduitExistant() {
   form.stock.value = data.stock;
   form.sous_titre.value = data.sous_titre ?? '';
   form.piece_unique.checked = data.piece_unique;
+  form.retrait_showroom_seul.checked = data.retrait_showroom_seul ?? false;
   form.description.value = data.description ?? '';
   selectCategorie.value = data.categorie_id ?? '';
   photos = data.photos ?? [];
@@ -99,6 +100,7 @@ form.addEventListener('submit', async (e) => {
     categorie_id: donnees.get('categorie_id'),
     sous_titre: donnees.get('sous_titre') || null,
     piece_unique: donnees.get('piece_unique') === 'on',
+    retrait_showroom_seul: donnees.get('retrait_showroom_seul') === 'on',
     description: donnees.get('description') || null,
     photos,
     statut: donnees.get('statut'),

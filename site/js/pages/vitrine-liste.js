@@ -44,7 +44,7 @@ async function chargerFiltres() {
 async function chargerPosts() {
   const { data, error } = await supabase
     .from('posts_vitrine')
-    .select('id, titre, slug, resume, photo_apres_url, photo_avant_url, photos_detail, date_projet, mise_en_avant, savoir_faire_id, categories(nom)')
+    .select('id, titre, slug, resume, photo_apres_url, photo_avant_url, photos_detail, avant_apres_actif, date_projet, mise_en_avant, savoir_faire_id, categories(nom)')
     .eq('statut', 'publie')
     .order('date_projet', { ascending: false });
 

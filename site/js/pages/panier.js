@@ -19,7 +19,7 @@ async function charger() {
   const ids = cart.map((l) => l.produit_id);
   const { data: produits, error } = await supabase
     .from('produits')
-    .select('id, titre, slug, sous_titre, prix_cents, photos, stock')
+    .select('id, titre, slug, sous_titre, prix_cents, photos, stock, retrait_showroom_seul')
     .in('id', ids);
 
   if (error) {
@@ -30,12 +30,14 @@ async function charger() {
   const template = document.getElementById('tpl-ligne-panier');
   lignesEl.innerHTML = '';
   let sousTotal = 0;
+  const titresRetraitSeul = [];
 
   for (const ligne of cart) {
     const produit = produits.find((p) => p.id === ligne.produit_id);
     if (!produit) continue; // produit supprimé depuis
     const qte = Math.min(ligne.quantite, produit.stock);
     sousTotal += produit.prix_cents * qte;
+    if (produit.retrait_showroom_seul) titresRetraitSeul.push(produit.titre);
 
     const node = template.content.cloneNode(true);
     const photo = node.querySelector('[data-slot="photo"]');
@@ -64,8 +66,38 @@ async function charger() {
   }
 
   resumeEl.hidden = false;
+  annoncerRetraitObligatoire(titresRetraitSeul);
   document.getElementById('sous-total').textContent = formatPrix(sousTotal);
   document.getElementById('total').textContent = formatPrix(sousTotal);
+}
+
+/**
+ * Une seule pièce non expédiable fait basculer toute la commande en retrait :
+ * on ne sait pas livrer la moitié d'un panier. Annoncé dès cette page, pour
+ * qu'un client qui tenait à être livré puisse encore retirer la pièce de son
+ * panier, au lieu de le découvrir à l'étape suivante.
+ *
+ * Les deux branches comptent : charger() est rejoué à chaque changement de
+ * quantité, et la livraison doit revenir si la pièce en cause est retirée.
+ */
+function annoncerRetraitObligatoire(titres) {
+  const note = document.querySelector('[data-slot="note-recuperation"]');
+  const blocLivraison = document.querySelector('[data-slot="mode-livraison"]');
+
+  if (titres.length === 0) {
+    note.textContent = "Le mode de récupération se choisit à l'étape suivante.";
+    blocLivraison.querySelector('p').textContent = '8,90 €, partout en France.';
+    blocLivraison.classList.remove('mode-indisponible');
+    return;
+  }
+
+  blocLivraison.querySelector('p').textContent = 'Non disponible pour ce panier.';
+  blocLivraison.classList.add('mode-indisponible');
+
+  const liste = titres.map((t) => `« ${t} »`).join(', ');
+  note.textContent = titres.length === 1
+    ? `${liste} ne peut pas être expédié : votre commande sera à retirer au showroom de Rambouillet.`
+    : `${liste} ne peuvent pas être expédiés : votre commande sera à retirer au showroom de Rambouillet.`;
 }
 
 /**

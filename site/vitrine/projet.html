@@ -31,8 +31,11 @@
     <p style="font-size:18px;font-style:italic;color:var(--color-text-muted);max-width:640px" data-slot="resume"></p>
   </div>
 
+  <!-- Le volet « avant » est retiré en entier quand la réalisation est
+       présentée sans avant / après : masquer seulement la photo laisserait son
+       conteneur occuper une case de la grille. -->
   <div class="before-after">
-    <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;flex-direction:column;gap:14px" data-slot="volet-avant">
       <div class="placeholder-img" data-slot="photo-avant" style="align-items:flex-start"><span class="badge badge-dark">AVANT</span></div>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">

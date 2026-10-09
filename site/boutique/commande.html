@@ -46,6 +46,9 @@
         <label class="choix-radio"><input type="radio" name="mode_retrait" value="retrait_showroom" checked> <span>Retrait au showroom de Rambouillet — gratuit</span></label>
         <label class="choix-radio"><input type="radio" name="mode_retrait" value="livraison"> <span>Livraison à domicile — 8,90 €</span></label>
       </div>
+      <!-- Pièce non expédiable dans le panier : la livraison reste affichée,
+           barrée, et cet avis dit pourquoi. Rempli par commande.js. -->
+      <p class="avis-retrait" data-slot="avis-retrait" hidden style="margin-top:10px"></p>
     </div>
 
     <!-- Adresse découpée en champs distincts : une zone de texte libre laisse
@@ -68,7 +71,8 @@
       <div class="admin-card highlight modes-recuperation">
         <div>
           <span class="mode-titre">Délai</span>
-          <p id="boutique-delai">Votre commande est expédiée ou mise à disposition au showroom sous deux semaines au maximum, à compter de la confirmation du paiement.</p>
+          <p id="boutique-delai-expedition">Votre commande est expédiée sous 3 à 5 jours ouvrés, à compter de la confirmation du paiement.</p>
+          <p id="boutique-delai-retrait">En retrait au showroom, votre commande est disponible sous 1 à 2 jours ouvrés, à compter de la confirmation du paiement.</p>
         </div>
         <p class="mode-note">Les pièces réalisées sur mesure font l'objet d'un devis et ne passent pas par la boutique.</p>
       </div>

@@ -316,6 +316,10 @@
 .article-hero { padding: var(--space-xl) var(--space-lg) 0; text-align: center; display: flex; flex-direction: column; gap: var(--space-md); align-items: center; }
 .article-hero h1 { font-size: 44px; max-width: 820px; }
 .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); padding: var(--space-xl) var(--space-lg); }
+/* Réalisation présentée sans avant / après : la photo du résultat s'affiche
+   seule, en pleine largeur, et sans étiquette « APRÈS » qui n'aurait plus rien
+   à quoi se comparer. */
+.before-after.photo-seule { grid-template-columns: 1fr; }
 .before-after .placeholder-img { min-height: 420px; align-items: flex-start; }
 .article-body { display: grid; grid-template-columns: 220px 1fr; gap: var(--space-xl); padding: 0 var(--space-lg) var(--space-2xl); }
 /* Photos de détail d'une réalisation, sous le récit. Même parti pris que la
@@ -345,6 +349,9 @@
 /* Mention de franchise en base, sous chaque prix. Discrète : c'est une
    précision, pas un argument de vente, et elle ne doit pas concurrencer le
    prix qu'elle accompagne. */
+/* Pièce réservée au retrait : fond teinté plutôt qu'une ligne grise de plus,
+   parce que c'est une restriction et non un détail d'expédition. */
+.avis-retrait { margin: 0; padding: 12px 14px; background: var(--color-accent); font-size: 13.5px; line-height: 1.6; }
 .mention-tva { font-size: 12.5px; line-height: 1.6; color: var(--color-text-faint); margin: 0; }
 .summary-row { display: flex; justify-content: space-between; font-size: 14.5px; }
 .summary-total { display: flex; justify-content: space-between; font-size: 19px; font-weight: 500; padding-top: var(--space-xs); border-top: 1px solid rgba(27,42,65,.15); }
@@ -426,4 +433,11 @@
 .modes-recuperation { display: flex; flex-direction: column; gap: var(--space-sm); }
 .modes-recuperation .mode-titre { font-family: var(--font-title); font-size: 16px; display: block; margin-bottom: 4px; }
 .modes-recuperation p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--color-text-muted); }
+.modes-recuperation div p + p { margin-top: 6px; }
 .modes-recuperation .mode-note { font-size: 12.5px; color: var(--color-text-faint); }
+/* Mode de récupération impossible pour ce panier. Barré et non supprimé : le
+   client doit comprendre qu'une option existe et pourquoi elle lui est fermée,
+   plutôt que de ne jamais la voir. Même parti pris sur la page de commande. */
+.modes-recuperation .mode-indisponible .mode-titre { color: var(--color-text-faint); text-decoration: line-through; }
+.choix-radio.choix-indisponible { color: var(--color-text-faint); }
+.choix-radio.choix-indisponible span { text-decoration: line-through; }

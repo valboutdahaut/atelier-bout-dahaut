@@ -73,7 +73,8 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 | `migration-2026-09-19-messages.sql` | Messagerie : sujet en liste, photos jointes, suivi en trois états, purge des archives | fait le 19/09/2026 |
 | `migration-2026-09-19-paiement.sql` | Suivi du paiement Stripe, preuve d'achat du visiteur, libération du stock | fait le 21/09/2026 |
 | `migration-2026-09-21-statuts-commandes.sql` | « Retirée » devient « Livrée » ; annuler une commande peut remettre les pièces en vente | fait le 21/09/2026 |
-| `migration-2026-10-06-cgv-cgu.sql` | CGV complètes et CGU créées, mentions légales et confidentialité remises à jour, suppression des commandes non réglées | **à exécuter** |
+| `migration-2026-10-06-cgv-cgu.sql` | CGV complètes et CGU créées, mentions légales et confidentialité remises à jour, suppression des commandes non réglées | fait le 06/10/2026 |
+| `migration-2026-10-09-options-vitrine-boutique.sql` | Avant / après activable sur une réalisation ; pièces à retirer au showroom uniquement, refus de livraison côté serveur ; délais portés à 3-5 jours ouvrés en expédition et 1-2 en retrait | fait le 09/10/2026 |
 
 > ⚠️ `functions.sql` n'avait pas été rejoué lors du passage sur le projet de Paris : sans lui, `creer_commande()` n'existe pas et **toute commande échoue**. À exécuter avant la migration paiement.
 
@@ -158,6 +159,10 @@ La maquette (10 écrans) ne détaillait pas tout. Ce qui a été tranché sans r
 - **Filtres boutique** (prix) codés en dur ; seules les catégories sont éditables par l'admin
 - **Commandes / Messages de contact en admin** : portée minimale (liste + détail + statut), pas de facturation ni d'emails automatiques
 - **Pagination boutique** : non implémentée (catalogue d'artisan, volume attendu faible) ; filtre "Disponibilité" de la maquette non repris (le stock filtre déjà les produits épuisés)
+- **Avant / après d'une réalisation** : activable fiche par fiche (`posts_vitrine.avant_apres_actif`). Décoché, la fiche montre une seule photo de résultat, sans étiquette. La photo « avant » reste en base : recocher la case la restaure, décocher ne fait donc rien perdre
+- **Ordre des photos dans les carrousels de la galerie** : la photo d'après en premier, c'est elle qui donne envie, puis l'avant, puis les photos de détail. Le roulement de la page d'accueil est une autre affaire : il ne retient qu'une photo par pièce, la principale, et ne montre donc jamais d'avant. Une réalisation présentée sans avant / après ne donne pas d'avant au carrousel, puisqu'elle n'en a pas
+- **Deux délais distincts** (`boutique-delai-expedition`, `boutique-delai-retrait`) : 3 à 5 jours ouvrés en expédition, 1 à 2 en retrait au showroom. Séparés parce qu'une pièce réservée au retrait ne doit pas afficher un délai d'expédition qui ne la concerne pas. Les deux sont repris à l'identique sur la fiche produit, au panier et à la commande, et doivent rester cohérents avec l'article « Fabrication et délais » des conditions de vente
+- **Pièce à retirer au showroom uniquement** (`produits.retrait_showroom_seul`) : annoncée sur la fiche produit, au panier et à la commande, et **imposée par `creer_commande()`**. Le navigateur ne peut pas être le garant de la règle : une page de commande restée ouverte pendant que l'atelier coche la case enverrait encore une livraison. Une seule pièce non expédiable fait basculer la commande entière en retrait, un panier ne se livre pas à moitié
 
 ## Identité visuelle
 

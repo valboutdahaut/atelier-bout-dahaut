@@ -27,11 +27,19 @@
         <a href="/admin/posts/index.html">Annuler</a>
       </div>
       <div class="form-panel-body">
-        <div class="form-note">Le récit s'affiche dans la mise en page de la vitrine&nbsp;: diptyque avant / après, puis texte.</div>
+        <div class="form-note">Le récit s'affiche dans la mise en page de la vitrine&nbsp;: les photos en tête, puis le texte.</div>
 
-        <div class="photo-grid-2">
-          <div class="field"><label>Photo avant</label><div class="dropzone" data-slot-photo="avant">Glisser la photo « avant »<input type="file" accept="image/*" hidden></div></div>
-          <div class="field"><label>Photo après</label><div class="dropzone" data-slot-photo="apres">Glisser la photo « après »<input type="file" accept="image/*" hidden></div></div>
+        <!-- Cette case gouverne le bloc de photos juste en dessous, elle est
+             donc posée avant lui : décochée, la fiche n'a plus de photo
+             « avant » à demander, et la zone correspondante disparaît. -->
+        <div class="field">
+          <label><input type="checkbox" id="avant_apres_actif" name="avant_apres_actif" checked> Activer l'avant / après</label>
+          <span class="hint">Décochée, la réalisation s'affiche avec une seule photo, celle du résultat. À décocher pour une création neuve, qui n'a pas d'« avant » à montrer.</span>
+        </div>
+
+        <div class="photo-grid-2" id="zone-photos-projet">
+          <div class="field" data-champ-photo="avant"><label>Photo avant</label><div class="dropzone" data-slot-photo="avant">Glisser la photo « avant »<input type="file" accept="image/*" hidden></div></div>
+          <div class="field"><label data-libelle-photo="apres">Photo après</label><div class="dropzone" data-slot-photo="apres">Glisser la photo « après »<input type="file" accept="image/*" hidden></div></div>
         </div>
 
         <div class="field">

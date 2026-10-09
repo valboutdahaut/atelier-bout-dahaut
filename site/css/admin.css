@@ -24,6 +24,9 @@
 .photo-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .photo-grid-2 .placeholder-img, .photo-grid-2 .dropzone { height: 180px; }
 .photo-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+/* Réalisation sans avant / après : la photo du résultat reste seule et prend
+   toute la largeur, plutôt que de laisser une colonne vide à côté d'elle. */
+.photo-grid-2.photo-seule { grid-template-columns: 1fr; }
 .photo-grid-3 .placeholder-img, .photo-grid-3 .dropzone { height: 92px; }
 
 /* --- Barre de filtres des listes admin ------------------------------------ */

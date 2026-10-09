@@ -11,6 +11,8 @@ const estEdition = Boolean(idPost);
 const form = document.getElementById('form-post');
 const erreurEl = document.getElementById('erreur-post');
 const zoneDetail = document.getElementById('zone-detail');
+const caseAvantApres = document.getElementById('avant_apres_actif');
+const zonePhotosProjet = document.getElementById('zone-photos-projet');
 
 let photoAvant = null;
 let photoApres = null;
@@ -34,16 +36,46 @@ function rendreDropzoneUnique(nom, url) {
   dz.appendChild(creerCroix(() => viderDropzoneUnique(nom)));
 }
 
+/**
+ * Texte d'une zone de dépôt vide. Celui de la photo de droite dépend du mode :
+ * « après » n'a de sens qu'en face d'un « avant ».
+ */
+function libelleDropzone(nom) {
+  if (nom === 'avant') return 'Glisser la photo « avant »';
+  return caseAvantApres.checked ? 'Glisser la photo « après »' : 'Glisser la photo du résultat';
+}
+
 function viderDropzoneUnique(nom) {
   const dz = document.querySelector(`[data-slot-photo="${nom}"]`);
   dz.classList.remove('photo-vignette', 'dropzone-remplie');
   dz.style.background = '';
   dz.querySelector('.photo-supprimer')?.remove();
-  dz.insertBefore(
-    document.createTextNode(nom === 'avant' ? 'Glisser la photo « avant »' : 'Glisser la photo « après »'),
-    dz.firstChild
-  );
+  dz.insertBefore(document.createTextNode(libelleDropzone(nom)), dz.firstChild);
   if (nom === 'avant') photoAvant = null; else photoApres = null;
+}
+
+/**
+ * Adapte le formulaire au mode choisi.
+ *
+ * Décocher ne supprime PAS la photo « avant » déjà envoyée : elle reste en
+ * base, simplement plus affichée sur le site, et revient telle quelle si la
+ * case est recochée. Sans ça, une hésitation coûterait une photo.
+ */
+function basculerAvantApres() {
+  const actif = caseAvantApres.checked;
+  zonePhotosProjet.querySelector('[data-champ-photo="avant"]').hidden = !actif;
+  zonePhotosProjet.classList.toggle('photo-seule', !actif);
+  document.querySelector('[data-libelle-photo="apres"]').textContent = actif ? 'Photo après' : 'Photo du résultat';
+
+  // Le texte ne se réécrit que si la zone est vide : une zone remplie montre
+  // la photo, et son libellé a déjà été retiré.
+  const dz = document.querySelector('[data-slot-photo="apres"]');
+  if (!dz.classList.contains('dropzone-remplie')) {
+    for (const noeud of Array.from(dz.childNodes)) {
+      if (noeud.nodeType === Node.TEXT_NODE) noeud.remove();
+    }
+    dz.insertBefore(document.createTextNode(libelleDropzone('apres')), dz.firstChild);
+  }
 }
 
 function rendreDetail() {
@@ -105,6 +137,7 @@ async function chargerPostExistant() {
   form.resume.value = data.resume ?? '';
   form.recit.value = data.recit ?? '';
   form.mise_en_avant.checked = data.mise_en_avant;
+  caseAvantApres.checked = data.avant_apres_actif ?? true;
 
   photoAvant = data.photo_avant_url;
   photoApres = data.photo_apres_url;
@@ -112,6 +145,7 @@ async function chargerPostExistant() {
   if (photoAvant) rendreDropzoneUnique('avant', photoAvant);
   if (photoApres) rendreDropzoneUnique('apres', photoApres);
   rendreDetail();
+  basculerAvantApres();
 }
 
 form.addEventListener('submit', async (e) => {
@@ -130,6 +164,7 @@ form.addEventListener('submit', async (e) => {
     resume: donnees.get('resume') || null,
     recit: donnees.get('recit'),
     mise_en_avant: donnees.get('mise_en_avant') === 'on',
+    avant_apres_actif: donnees.get('avant_apres_actif') === 'on',
     photo_avant_url: photoAvant,
     photo_apres_url: photoApres,
     photos_detail: photosDetail,
@@ -168,6 +203,8 @@ if (btnSupprimer) {
 async function init() {
   client = await getAuthenticatedClient();
   wireDropzones();
+  caseAvantApres.addEventListener('change', basculerAvantApres);
+  basculerAvantApres();
   await chargerSavoirFaire();
   if (estEdition) await chargerPostExistant();
 }

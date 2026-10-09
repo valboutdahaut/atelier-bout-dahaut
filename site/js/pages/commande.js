@@ -62,7 +62,7 @@ async function calculerSousTotal() {
   }
   const { data: produits } = await supabase
     .from('produits')
-    .select('id, prix_cents, stock')
+    .select('id, titre, prix_cents, stock, retrait_showroom_seul')
     .in('id', cart.map((l) => l.produit_id));
 
   sousTotalCents = cart.reduce((total, ligne) => {
@@ -71,7 +71,55 @@ async function calculerSousTotal() {
     return total + produit.prix_cents * Math.min(ligne.quantite, produit.stock);
   }, 0);
 
+  imposerRetraitSiNecessaire(cart, produits);
   mettreAJourResume();
+}
+
+/**
+ * Une pièce qui ne part pas en colis fait basculer la commande entière en
+ * retrait. Le choix « livraison » est laissé visible, barré et désactivé,
+ * plutôt que retiré de la liste : le client l'a vu au panier, le faire
+ * disparaître sans un mot le laisserait chercher une option évanouie.
+ *
+ * La même règle est posée dans creer_commande, côté serveur. Elle doit y être :
+ * cette page peut rester ouverte pendant que l'atelier coche la case, et un
+ * navigateur ne garantit jamais une règle de vente.
+ */
+function imposerRetraitSiNecessaire(cart, produits) {
+  const titres = cart
+    .map((ligne) => produits?.find((p) => p.id === ligne.produit_id))
+    .filter((produit) => produit?.retrait_showroom_seul)
+    .map((produit) => produit.titre);
+  if (titres.length === 0) return;
+
+  const radioLivraison = form.querySelector('input[name="mode_retrait"][value="livraison"]');
+  form.querySelector('input[name="mode_retrait"][value="retrait_showroom"]').checked = true;
+  radioLivraison.disabled = true;
+  radioLivraison.closest('.choix-radio').classList.add('choix-indisponible');
+  basculerAdresse(false);
+
+  const liste = titres.map((t) => `« ${t} »`).join(', ');
+  const avis = document.querySelector('[data-slot="avis-retrait"]');
+  avis.textContent = titres.length === 1
+    ? `${liste} ne peut pas être expédié : votre commande est à retirer au showroom de Rambouillet.`
+    : `${liste} ne peuvent pas être expédiés : votre commande est à retirer au showroom de Rambouillet.`;
+  avis.hidden = false;
+}
+
+/**
+ * Traduit l'erreur de creer_commande en une phrase utile au client. Les
+ * messages de la fonction serveur nomment la pièce et sont écrits pour un
+ * journal technique, pas pour la personne qui essaie d'acheter.
+ */
+function messageErreurCommande(message) {
+  if (message?.includes('showroom')) {
+    return 'Une pièce de votre panier est à retirer au showroom et ne peut pas être livrée. '
+      + 'Retournez au panier, le retrait vous sera proposé.';
+  }
+  if (message?.includes('stock')) {
+    return "Une des pièces de votre panier n'est plus disponible en quantité suffisante. Retournez au panier pour ajuster.";
+  }
+  return 'Une erreur est survenue, merci de réessayer.';
 }
 
 function fraisLivraison() {
@@ -137,9 +185,7 @@ form.addEventListener('submit', async (e) => {
     });
 
     if (reponse.error) {
-      erreurEl.textContent = reponse.error.message?.includes('stock')
-        ? "Une des pièces de votre panier n'est plus disponible en quantité suffisante. Retournez au panier pour ajuster."
-        : 'Une erreur est survenue, merci de réessayer.';
+      erreurEl.textContent = messageErreurCommande(reponse.error.message);
       erreurEl.hidden = false;
       btnValider.disabled = false;
       btnValider.textContent = LIBELLE_VALIDATION;

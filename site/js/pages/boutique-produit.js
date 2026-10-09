@@ -1,6 +1,7 @@
 // boutique-produit.js — fiche produit, lue via ?slug=, ajout au panier.
 
 import { supabase } from '../supabase-client.js';
+import { appliquerContenuSite } from '../site-content.js';
 import { formatPrix } from '../lib/format.js';
 import { addToCart } from '../cart.js';
 
@@ -60,8 +61,27 @@ async function charger() {
     stockEl.innerHTML = `<span style="color:var(--color-text-faint)">Épuisé</span>`;
   }
 
+  // Pièce qui ne part pas en colis. La fonction serveur refuse de toute façon
+  // la livraison, mais le client doit le savoir ici, avant de remplir son
+  // panier, et non en découvrir la raison à l'étape du paiement.
+  if (produit.retrait_showroom_seul) {
+    const avis = node.querySelector('[data-slot="avis-retrait"]');
+    avis.textContent = 'Retrait au showroom de Rambouillet uniquement : cette pièce ne peut pas être expédiée.';
+    avis.hidden = false;
+    // Le délai d'expédition ne s'applique pas à une pièce qui ne part jamais en
+    // colis : l'afficher annoncerait un envoi qui n'aura pas lieu.
+    node.querySelector('[data-slot="ligne-expedition"]').remove();
+  }
+
   contenuEl.innerHTML = '';
   contenuEl.appendChild(node);
+
+  // Les textes modifiables de cette fiche (mention de TVA, délai) vivent dans
+  // le <template> : ils n'étaient pas encore dans la page quand nav.js a
+  // hydraté contenu_site, et gardaient donc le texte écrit en dur dans le
+  // gabarit. Une modification depuis l'administration ne se voyait pas ici.
+  appliquerContenuSite();
+
   wireQuantite(produit.stock);
 }
 

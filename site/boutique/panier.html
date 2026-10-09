@@ -47,18 +47,22 @@
         <span class="mode-titre">Retrait au showroom</span>
         <p>Gratuit, à Rambouillet.</p>
       </div>
-      <div>
+      <div data-slot="mode-livraison">
         <span class="mode-titre">Livraison à domicile</span>
         <p>8,90 €, partout en France.</p>
       </div>
       <!-- Le délai doit être annoncé avant la commande, c'est une obligation
-           d'information et non une politesse. Texte unique, modifiable depuis
-           l'administration, repris à l'identique sur la page suivante. -->
+           d'information et non une politesse. Deux textes, parce que les deux
+           délais ne sont pas les mêmes, modifiables depuis l'administration et
+           repris à l'identique sur la fiche produit et sur la page suivante. -->
       <div>
         <span class="mode-titre">Délai</span>
-        <p id="boutique-delai">Votre commande est expédiée ou mise à disposition au showroom sous deux semaines au maximum, à compter de la confirmation du paiement.</p>
+        <p id="boutique-delai-expedition">Votre commande est expédiée sous 3 à 5 jours ouvrés, à compter de la confirmation du paiement.</p>
+        <p id="boutique-delai-retrait">En retrait au showroom, votre commande est disponible sous 1 à 2 jours ouvrés, à compter de la confirmation du paiement.</p>
       </div>
-      <p class="mode-note">Le mode de récupération se choisit à l'étape suivante.</p>
+      <!-- Cette note devient l'explication quand une pièce du panier ne peut
+           pas être expédiée : le mode n'est alors plus un choix. -->
+      <p class="mode-note" data-slot="note-recuperation">Le mode de récupération se choisit à l'étape suivante.</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
       <div class="summary-row"><span style="color:var(--color-text-muted)">Sous-total</span><span id="sous-total">—</span></div>
