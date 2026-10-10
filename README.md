@@ -75,6 +75,7 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 | `migration-2026-09-21-statuts-commandes.sql` | « Retirée » devient « Livrée » ; annuler une commande peut remettre les pièces en vente | fait le 21/09/2026 |
 | `migration-2026-10-06-cgv-cgu.sql` | CGV complètes et CGU créées, mentions légales et confidentialité remises à jour, suppression des commandes non réglées | fait le 06/10/2026 |
 | `migration-2026-10-09-options-vitrine-boutique.sql` | Avant / après activable sur une réalisation ; pièces à retirer au showroom uniquement, refus de livraison côté serveur ; délais portés à 3-5 jours ouvrés en expédition et 1-2 en retrait | fait le 09/10/2026 |
+| `migration-2026-10-10-confirmation-commande.sql` | Trace de l'envoi du récapitulatif de commande, Brevo déclaré dans la politique de confidentialité, date de mise à jour sur cette page | **à exécuter** |
 
 > ⚠️ `functions.sql` n'avait pas été rejoué lors du passage sur le projet de Paris : sans lui, `creer_commande()` n'existe pas et **toute commande échoue**. À exécuter avant la migration paiement.
 
@@ -101,10 +102,15 @@ Le visiteur n'étant pas connecté, la page de confirmation prouve son achat ave
 3. **Déployer les fonctions** : Supabase > Edge Functions > *Deploy a new function* > **Via Editor**, une fois par fonction, en collant le fichier correspondant :
    - `creer-paiement` — laisser la vérification de jeton activée
    - `stripe-webhook` — **désactiver « Verify JWT »**, Stripe appelle sans jeton Supabase ; sa sécurité vient de la signature vérifiée dans le code
+   - `envoyer-confirmation` — laisser la vérification de jeton activée. Elle contrôle en plus elle-même qui l'appelle (voir plus bas), la vérification de Supabase ne suffisant pas : elle accepte n'importe quel jeton valide, y compris la clé publique du site que tous les visiteurs téléchargent
 4. **Secrets** : Supabase > Edge Functions > Secrets :
    - `STRIPE_SECRET_KEY` — clé secrète Stripe
    - `STRIPE_WEBHOOK_SECRET` — *signing secret* du webhook (`whsec_…`)
    - `SITE_URL` — adresse du site, sans barre oblique finale
+   - `BREVO_API_KEY` — clé API Brevo, pour l'envoi du récapitulatif de commande
+   - `EXPEDITEUR_EMAIL` — adresse d'envoi, sur un domaine authentifié chez Brevo
+   - `ATELIER_EMAIL` — adresse qui reçoit l'avis de nouvelle commande, et à laquelle le client répond
+   - `EXPEDITEUR_NOM` — facultatif, « L'Atelier du Bout d'à Haut » par défaut
 5. **Webhook** : Stripe > Developers > Webhooks, adresse `https://<projet>.supabase.co/functions/v1/stripe-webhook`, abonné à **`checkout.session.completed`** et **`checkout.session.expired`**.
 
 **Ne jamais mettre la clé secrète Stripe dans `site/js/`** : tout ce qui est dans ce dossier est téléchargé par les visiteurs.
@@ -128,14 +134,45 @@ Reprendre les points 4 et 5 avec les valeurs du **mode réel** : la clé secrèt
 - **Paiements réussis : activé.** C'est le reçu que la page de confirmation promet à l'acheteur. Sans lui, le site annonce un e-mail qui n'arrive jamais.
 - **Remboursements : activé.**
 
-**Confirmation de commande et facture.** Le site n'envoie aujourd'hui aucun e-mail. Deux obligations restent donc ouvertes, à traiter ensemble :
+#### Confirmation de commande (e-mail)
 
-- **La confirmation du contrat sur support durable**, au plus tard à la livraison. Un reçu de paiement Stripe confirme un paiement, pas un contrat : il ne porte ni le détail des produits, ni le droit de rétractation, ni le formulaire type.
-- **La mention « TVA non applicable, article 293 B du Code général des impôts »**, obligatoire sur les factures tant que l'atelier est en franchise en base. Elle est aujourd'hui affichée sous les prix (clé `boutique-tva`), ce qui relève de la transparence, mais pas sur un document de commande, qui n'existe pas encore.
+La loi impose de confirmer le contrat au client **sur un support durable**, au plus tard à la livraison. Un reçu de paiement Stripe ne suffit pas : il prouve qu'un paiement a eu lieu, pas ce qui a été acheté, sous quel délai, ni avec quel droit de rétractation.
 
-Ces deux points se règlent d'un coup, au moment où l'on construira l'envoi automatique du récapitulatif de commande.
+`envoyer-confirmation` s'en charge, appelée par `stripe-webhook` dès qu'un paiement est confirmé. Elle envoie deux e-mails : le récapitulatif au client, et un avis de nouvelle commande à l'atelier, qui n'était prévenu de rien jusque-là.
 
-**Avant d'encaisser de vrais clients** : les conditions générales de vente sont en ligne depuis le 06/10/2026 et un médiateur de la consommation est désigné. Reste l'**encadré réglementaire sur les garanties légales**, dont le contenu et la forme sont fixés par décret depuis le 1er octobre 2022 : il doit figurer dans les CGV de vente de biens à un consommateur, et le document fourni par l'atelier traite les garanties en texte rédigé, pas sous cette forme. Récupérer le texte officiel, puis l'ajouter en bloc dédié.
+**Le contenu vient de l'administration**, pas du code : délai, mention de TVA, droit de rétractation, formulaire type et identité du vendeur sont relus dans `contenu_site` à chaque envoi. Deux versions d'un droit de rétractation, celle du site et celle de l'e-mail, finiraient par se contredire. La mention de franchise de TVA figure donc aussi sur ce récapitulatif, ce qui règle l'obligation qui pesait sur les documents de commande.
+
+**Un envoi, un seul.** La colonne `commandes.confirmation_envoyee_at` est posée après un envoi réussi. Stripe réessaie un webhook qui a échoué, et sans cette trace le client recevrait deux fois la même confirmation. En cas d'échec, la date reste vide : la fiche de la commande, dans l'administration, affiche alors « Pas encore envoyé » en rouge avec un bouton **Renvoyer au client**.
+
+**Qui peut appeler la fonction.** Deux appelants seulement, et elle le vérifie elle-même : `stripe-webhook`, qui présente la clé de service, et l'administration, dont le jeton doit appartenir à une adresse reconnue par `est_admin()`. Sans ce contrôle, n'importe qui pourrait faire envoyer des e-mails au nom de l'atelier avec la clé publique du site.
+
+##### Mettre en place Brevo
+
+Le service d'envoi retenu est **Brevo** : société française, données en Europe, 300 e-mails par jour sur l'offre gratuite, ce qui laisse de la marge.
+
+1. **Créer le compte** sur [brevo.com](https://www.brevo.com), puis récupérer la clé API dans *SMTP & API > API keys*. Elle va dans les secrets Supabase, **jamais dans `site/js/`**.
+2. **Authentifier le domaine** : Brevo > *Senders, Domains & Dedicated IPs* > *Domains*, ajouter `latelierduboutdahaut.fr` et relever les enregistrements proposés.
+3. **Créer ces enregistrements chez IONOS**, qui héberge les DNS du domaine. Deux à trois entrées, un code de vérification et une signature DKIM.
+
+   > ⚠️ **Ne pas toucher à l'enregistrement SPF existant** (`v=spf1 include:_spf-eu.ionos.com ~all`). Brevo n'en a pas besoin : son authentification repose sur le DKIM, et le SPF validerait de toute façon son domaine technique, pas celui de l'atelier. Le modifier risquerait en revanche d'envoyer en indésirables les e-mails que l'atelier envoie depuis sa boîte IONOS.
+
+   Le domaine publie déjà un DMARC en `p=none`, par un alias vers IONOS. C'est suffisant dès lors que la signature DKIM est alignée.
+
+4. **Impossible d'envoyer depuis une adresse Gmail.** L'authentification d'un domaine qu'on ne possède pas est impossible, et Brevo remplace alors l'expéditeur par une adresse en `@brevosend.com`. D'où l'adresse d'envoi sur le domaine de l'atelier, avec `ATELIER_EMAIL` en adresse de réponse pour que les réponses arrivent dans la boîte réellement consultée.
+
+   L'envoi des e-mails et l'hébergement du site sont deux choses distinctes : ces enregistrements DNS ne touchent pas à l'adresse du site, qui peut rester sur l'ancien hébergement jusqu'à la bascule.
+
+##### Recette de la confirmation
+
+À faire **en mode test**, avant la bascule des clés Stripe :
+
+- Passer une commande avec la carte de test, en livraison puis en retrait au showroom : le récapitulatif doit annoncer le bon délai, le bon mode de récupération, et ne pas afficher de délai d'expédition pour une pièce réservée au retrait.
+- Vérifier que l'atelier reçoit bien son avis de nouvelle commande.
+- Ouvrir la commande dans l'administration : « Envoyé le … » doit s'afficher.
+- Cliquer **Renvoyer au client** et vérifier qu'un second e-mail arrive.
+- Lire l'e-mail sur un téléphone : les messageries ignorent les feuilles de style, la mise en page est donc écrite sur chaque balise, mais mieux vaut le constater.
+
+**Avant d'encaisser de vrais clients**, le volet juridique est complet depuis le 10/10/2026 : conditions générales de vente en ligne (06/10/2026), médiateur de la consommation désigné, encadré réglementaire sur les garanties légales en place (09/10/2026, texte imposé par l'annexe à l'article D. 211-2 du code de la consommation), et confirmation de commande sur support durable (10/10/2026).
 
 Après ce dernier script, créer aussi l'utilisateur dans **Authentication > Users** ("Add user", cocher "Auto Confirm User") : ajouter une adresse dans `est_admin()` lui donne les droits, mais ne crée pas le compte, les inscriptions publiques étant fermées.
 

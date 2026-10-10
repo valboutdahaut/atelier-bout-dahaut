@@ -88,6 +88,19 @@
       <div>
         <span class="eyebrow">Coordonnées</span><p data-slot="coordonnees" style="margin:8px 0 0;font-size:14px"></p>
         <span class="eyebrow" style="display:block;margin-top:14px">Paiement</span><p data-slot="paiement-detail" style="margin:8px 0 0;font-size:14px"></p>
+
+        <!-- Le récapitulatif de commande part automatiquement dès le paiement
+             confirmé. Ce bloc dit s'il est bien parti, et permet de le renvoyer
+             si le client ne l'a pas reçu ou l'a perdu. Masqué sur une commande
+             qui n'a pas été réglée : il n'y a alors rien à confirmer. -->
+        <div data-slot="bloc-confirmation" hidden>
+          <span class="eyebrow" style="display:block;margin-top:14px">Récapitulatif au client</span>
+          <div class="bloc-confirmation">
+            <p data-slot="confirmation-etat" style="margin:0;font-size:14px"></p>
+            <button type="button" class="btn btn-outline" data-action="renvoyer-confirmation">Renvoyer au client</button>
+            <p class="status-msg" data-slot="message-confirmation" hidden></p>
+          </div>
+        </div>
       </div>
       <div>
         <span class="eyebrow">Statut</span>

@@ -140,9 +140,66 @@ function carte(template, commande) {
   node.querySelector('[data-slot="paiement-detail"]').innerHTML = detailPaiement(commande);
 
   cablerStatut(node, commande);
+  cablerConfirmation(node, commande);
 
   resume.addEventListener('click', () => { detail.hidden = !detail.hidden; });
   return node;
+}
+
+/**
+ * État du récapitulatif de commande, et renvoi au besoin.
+ *
+ * L'envoi est automatique au moment du paiement, mais il peut échouer : service
+ * d'envoi indisponible, adresse e-mail saisie de travers. Comme la loi impose
+ * de confirmer la commande au client, une confirmation manquante doit se voir
+ * et se rattraper sans attendre une intervention technique.
+ */
+function cablerConfirmation(node, commande) {
+  const bloc = node.querySelector('[data-slot="bloc-confirmation"]');
+  // « non_requis » couvre les commandes saisies à la main, hors boutique en
+  // ligne : il n'y a pas d'e-mail de confirmation à envoyer pour celles-là.
+  if (commande.paiement_statut !== 'paye') return;
+  bloc.hidden = false;
+
+  const etat = bloc.querySelector('[data-slot="confirmation-etat"]');
+  const bouton = bloc.querySelector('[data-action="renvoyer-confirmation"]');
+  const message = bloc.querySelector('[data-slot="message-confirmation"]');
+
+  function afficherEtat() {
+    const envoye = Boolean(commande.confirmation_envoyee_at);
+    etat.textContent = envoye
+      ? `Envoyé le ${formatDate(commande.confirmation_envoyee_at)}`
+      : "Pas encore envoyé : le client n'a reçu aucun récapitulatif.";
+    etat.classList.toggle('texte-alerte', !envoye);
+  }
+  afficherEtat();
+
+  bouton.addEventListener('click', async () => {
+    bouton.disabled = true;
+    bouton.textContent = 'Envoi…';
+    message.hidden = true;
+
+    // « forcer » passe outre la protection contre les doubles envois : c'est
+    // tout l'objet d'un renvoi demandé à la main.
+    const { error } = await client.functions.invoke('envoyer-confirmation', {
+      body: { commande_id: commande.id, forcer: true },
+    });
+
+    if (error) {
+      message.className = 'status-msg error';
+      message.textContent = "L'envoi a échoué. Réessayez dans un instant, et prévenez Tom si cela persiste.";
+      console.error('commandes.js : renvoi du récapitulatif', error);
+    } else {
+      commande.confirmation_envoyee_at = new Date().toISOString();
+      afficherEtat();
+      message.className = 'status-msg success';
+      message.textContent = `Récapitulatif renvoyé à ${commande.client_email}.`;
+    }
+
+    message.hidden = false;
+    bouton.disabled = false;
+    bouton.textContent = 'Renvoyer au client';
+  });
 }
 
 function cablerStatut(node, commande) {

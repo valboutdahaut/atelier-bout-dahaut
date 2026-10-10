@@ -11,6 +11,11 @@
 //                               pièces en vente (creer_commande a retiré le
 //                               stock dès l'enregistrement de la commande)
 //
+// Un paiement confirmé déclenche aussi l'envoi du récapitulatif de commande au
+// client et de l'avis à l'atelier, confiés à la fonction envoyer-confirmation.
+// C'est le seul moment où l'on sait que l'achat est réel : avant le paiement,
+// une commande n'est qu'un panier en attente.
+//
 // Déploiement : Supabase > Edge Functions > Deploy a new function > Via Editor,
 // nommer la fonction « stripe-webhook » et coller ce fichier.
 //
@@ -22,6 +27,7 @@
 // Secrets à renseigner dans Supabase :
 //   STRIPE_SECRET_KEY       clé secrète Stripe
 //   STRIPE_WEBHOOK_SECRET   « Signing secret » du webhook (whsec_…)
+// La fonction envoyer-confirmation, appelée ici, a les siens.
 
 import Stripe from 'https://esm.sh/stripe@17.7.0?target=deno';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
@@ -36,6 +42,37 @@ const supabase = createClient(
 );
 
 const SIGNATURE_SECRET = Deno.env.get('STRIPE_WEBHOOK_SECRET') ?? '';
+
+/**
+ * Demande l'envoi du récapitulatif de commande.
+ *
+ * Volontairement tolérant : un échec d'envoi ne doit pas faire échouer le
+ * traitement du paiement. Si l'on renvoyait une erreur à Stripe, il réessaierait
+ * tout le traitement pour un e-mail, alors que l'argent est déjà encaissé et la
+ * commande enregistrée. La commande reste alors visiblement sans confirmation,
+ * ce que l'administration signale, et le renvoi se fait d'un bouton.
+ *
+ * L'appel présente la clé de service : c'est ce qui prouve à
+ * envoyer-confirmation qu'il vient d'ici et non d'un visiteur.
+ */
+async function declencherConfirmation(commandeId: string | null, numero: string | null) {
+  if (!commandeId && !numero) return;
+  try {
+    const reponse = await fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/envoyer-confirmation`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''}`,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ commande_id: commandeId, numero }),
+    });
+    if (!reponse.ok) {
+      console.error('stripe-webhook : confirmation refusée', reponse.status, await reponse.text());
+    }
+  } catch (err) {
+    console.error('stripe-webhook : confirmation injoignable', err);
+  }
+}
 
 Deno.serve(async (req) => {
   const signature = req.headers.get('stripe-signature');
@@ -85,6 +122,11 @@ Deno.serve(async (req) => {
       });
       if (error) throw error;
       console.log('Commande réglée', session.metadata?.numero);
+
+      await declencherConfirmation(
+        session.metadata?.commande_id ?? null,
+        session.metadata?.numero ?? null,
+      );
     }
 
     if (evenement.type === 'checkout.session.expired') {
