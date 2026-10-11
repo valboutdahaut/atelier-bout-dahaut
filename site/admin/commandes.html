@@ -111,6 +111,18 @@
       </nav>
 
       <div class="dossiers-contenu">
+
+        <!-- Filtre transversal aux dossiers : dans « En préparation », il
+             sépare ce qui part en colis de ce qui attend au showroom. Ce sont
+             deux gestes différents, et les préparer ensemble fait perdre du
+             temps. Les compteurs des dossiers suivent ce filtre, pour que les
+             chiffres affichés correspondent toujours à ce qu'on voit. -->
+        <div class="filtres-mode" id="filtres-mode">
+          <button type="button" class="filtre-cat actif" data-mode="" aria-pressed="true">Toutes</button>
+          <button type="button" class="filtre-cat" data-mode="retrait_showroom" aria-pressed="false">À retirer au showroom</button>
+          <button type="button" class="filtre-cat" data-mode="livraison" aria-pressed="false">À livrer</button>
+        </div>
+
         <p class="dossiers-compte" id="compte-resultats"></p>
         <div id="liste-commandes">
           <p class="empty-state">Chargement…</p>

@@ -40,6 +40,13 @@ const LIBELLES_PAIEMENT = {
 let client;
 let commandes = [];
 let dossierActif = 'nouvelle';
+// Chaîne vide : tous les modes de récupération confondus.
+let modeActif = '';
+
+/** Le filtre de mode s'applique partout, compteurs des dossiers compris. */
+function correspondAuMode(commande) {
+  return !modeActif || commande.mode_retrait === modeActif;
+}
 
 /** Une commande est-elle réglée ? Sinon c'est un panier abandonné. */
 function estReglee(commande) {
@@ -62,7 +69,7 @@ function detailPaiement(commande) {
 
 function majCompteurs() {
   const comptes = {};
-  for (const commande of commandes) {
+  for (const commande of commandes.filter(correspondAuMode)) {
     const d = dossierDe(commande);
     comptes[d] = (comptes[d] ?? 0) + 1;
   }
@@ -72,16 +79,21 @@ function majCompteurs() {
 }
 
 function rendre() {
-  const visibles = commandes.filter((c) => dossierDe(c) === dossierActif);
+  const visibles = commandes.filter((c) => dossierDe(c) === dossierActif && correspondAuMode(c));
 
   compteEl.textContent = visibles.length === 0
     ? ''
     : `${visibles.length} commande${visibles.length === 1 ? '' : 's'}`;
 
   if (visibles.length === 0) {
+    // Le message rappelle le filtre actif : sans ça, un dossier qui paraît
+    // vide fait croire qu'il n'y a rien à faire, alors qu'il reste peut-être
+    // trois colis à expédier de l'autre côté du filtre.
+    const precision = modeActif === 'retrait_showroom' ? ' à retirer au showroom'
+      : modeActif === 'livraison' ? ' à livrer' : '';
     conteneur.innerHTML = dossierActif === 'abandon'
-      ? '<p class="empty-state">Aucun panier abandonné. Tant mieux.</p>'
-      : '<p class="empty-state">Aucune commande dans ce dossier.</p>';
+      ? `<p class="empty-state">Aucun panier abandonné${precision}. Tant mieux.</p>`
+      : `<p class="empty-state">Aucune commande${precision} dans ce dossier.</p>`;
     return;
   }
 
@@ -404,6 +416,19 @@ async function charger() {
   majCompteurs();
   majCompteExport();
   rendre();
+}
+
+for (const bouton of document.querySelectorAll('[data-mode]')) {
+  bouton.addEventListener('click', () => {
+    modeActif = bouton.dataset.mode;
+    for (const b of document.querySelectorAll('[data-mode]')) {
+      const actif = b === bouton;
+      b.classList.toggle('actif', actif);
+      b.setAttribute('aria-pressed', String(actif));
+    }
+    majCompteurs();
+    rendre();
+  });
 }
 
 for (const bouton of document.querySelectorAll('[data-dossier]')) {

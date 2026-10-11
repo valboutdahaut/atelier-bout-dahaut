@@ -198,6 +198,10 @@
    une action de rattrapage, pas l'action principale de la fiche. */
 .bloc-confirmation { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 8px; }
 
+/* Filtre par mode de récupération, au-dessus de la liste des commandes.
+   Réutilise .filtre-cat de la boutique : même objet, même apparence. */
+.filtres-mode { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: var(--space-sm); }
+
 /* --- Export comptable -------------------------------------------------------*/
 /* Replié par défaut : le résumé reste discret tant qu'on ne s'en sert pas. */
 .bloc-export { margin-bottom: var(--space-md); }
