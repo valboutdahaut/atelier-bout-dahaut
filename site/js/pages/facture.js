@@ -18,6 +18,10 @@ const contenuEl = document.getElementById('contenu-facture');
 const params = new URLSearchParams(location.search);
 const numero = params.get('commande');
 const jeton = params.get('jeton');
+// La même page sert les deux documents : une facture et l'avoir qui l'annule
+// portent les mêmes lignes, les mêmes montants et les mêmes parties. Seuls
+// l'intitulé, le numéro et la phrase de clôture changent.
+const estAvoir = params.get('doc') === 'avoir';
 
 const JOUR = new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long' });
 const jour = (iso) => (iso ? JOUR.format(new Date(iso)) : '');
@@ -76,9 +80,17 @@ async function charger() {
 
   const node = document.getElementById('tpl-facture').content.cloneNode(true);
 
-  node.querySelector('[data-slot="numero-facture"]').textContent = data.facture_numero;
-  node.querySelector('[data-slot="dates"]').textContent =
-    `Émise le ${jour(data.facture_emise_le)} · Commande n° ${data.commande_numero} du ${jour(data.commande_le)}`;
+  if (estAvoir && !data.avoir_numero) {
+    introuvable("Aucun avoir n'a été émis pour cette commande.");
+    return;
+  }
+
+  node.querySelector('[data-slot="type-document"]').textContent = estAvoir ? 'Avoir' : 'Facture';
+  node.querySelector('[data-slot="numero-facture"]').textContent =
+    estAvoir ? data.avoir_numero : data.facture_numero;
+  node.querySelector('[data-slot="dates"]').textContent = estAvoir
+    ? `Émis le ${jour(data.avoir_emis_le)} · Annule la facture n° ${data.facture_numero} du ${jour(data.facture_emise_le)}`
+    : `Émise le ${jour(data.facture_emise_le)} · Commande n° ${data.commande_numero} du ${jour(data.commande_le)}`;
 
   node.querySelector('[data-slot="vendeur"]').innerHTML =
     rendreMarkdownLite(valeurs.get('cgv-vendeur') ?? '');
@@ -115,16 +127,32 @@ async function charger() {
     data.mode_retrait === 'retrait_showroom' ? 'Retrait au showroom' : 'Livraison',
     data.livraison_cents > 0 ? formatPrix(data.livraison_cents) : 'Gratuit',
   ));
-  totaux.appendChild(ligneTotal('Total', formatPrix(data.total_cents), true));
+  totaux.appendChild(ligneTotal(
+    estAvoir ? "Montant de l'avoir" : 'Total',
+    formatPrix(data.total_cents),
+    true,
+  ));
 
   node.querySelector('[data-slot="tva"]').textContent = valeurs.get('boutique-tva') ?? '';
-  node.querySelector('[data-slot="reglement"]').textContent = data.paye_le
-    ? `Facture acquittée. Règlement reçu le ${jour(data.paye_le)}.`
-    : 'Facture acquittée.';
+  const reglement = node.querySelector('[data-slot="reglement"]');
+  if (estAvoir) {
+    // Un avoir constate l'annulation ; il ne vaut pas preuve de remboursement,
+    // qui est un mouvement bancaire distinct. Le dire évite une réclamation
+    // fondée sur un malentendu.
+    reglement.textContent = data.avoir_motif
+      ? `Motif : ${data.avoir_motif}. Le remboursement est effectué sur le moyen de paiement utilisé lors de la commande.`
+      : 'Le remboursement est effectué sur le moyen de paiement utilisé lors de la commande.';
+  } else {
+    reglement.textContent = data.paye_le
+      ? `Facture acquittée. Règlement reçu le ${jour(data.paye_le)}.`
+      : 'Facture acquittée.';
+  }
 
   node.querySelector('[data-action="imprimer"]').addEventListener('click', () => window.print());
 
-  document.title = `Facture ${data.facture_numero} — L'Atelier du Bout d'à Haut`;
+  document.title = estAvoir
+    ? `Avoir ${data.avoir_numero} — L'Atelier du Bout d'à Haut`
+    : `Facture ${data.facture_numero} — L'Atelier du Bout d'à Haut`;
   contenuEl.innerHTML = '';
   contenuEl.appendChild(node);
 }

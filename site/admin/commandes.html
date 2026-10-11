@@ -23,59 +23,6 @@
   <main class="admin-main">
     <h1 style="font-size:30px">Commandes</h1>
 
-    <!-- L'export est transversal : il ne dépend pas du dossier ouvert mais de
-         ses propres filtres. Il est donc posé au-dessus des dossiers et non
-         dedans, pour qu'on ne le croie pas limité à la vue courante.
-         Replié par défaut : c'est un geste de fin de mois, pas l'usage
-         quotidien de cette page. -->
-    <details class="admin-card outline bloc-export">
-      <summary>Exporter les commandes pour la comptabilité</summary>
-
-      <div class="export-corps">
-        <p class="bloc-aide">Le fichier se télécharge sur votre ordinateur. Dans Google&nbsp;Sheets, ouvrez-le par <strong>Fichier &gt; Importer</strong>. Dans Excel, un double clic suffit.</p>
-
-        <div class="export-filtres">
-          <div class="field">
-            <label for="export-du">Du</label>
-            <input type="date" id="export-du">
-          </div>
-          <div class="field">
-            <label for="export-au">Au</label>
-            <input type="date" id="export-au">
-          </div>
-          <div class="field">
-            <label for="export-statut">Statut</label>
-            <select id="export-statut">
-              <option value="">Tous les statuts</option>
-              <option value="nouvelle">Nouvelles</option>
-              <option value="en_preparation">En préparation</option>
-              <option value="expediee">Expédiées</option>
-              <option value="livree">Livrées</option>
-              <option value="annulee">Annulées</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="export-paiement">Commandes</label>
-            <select id="export-paiement">
-              <option value="reglees">Réglées uniquement</option>
-              <option value="toutes">Toutes, paniers abandonnés compris</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Les dates portent sur le PAIEMENT et non sur la commande : une
-             micro-entreprise tient une comptabilité de caisse, où ce qui compte
-             est la date d'encaissement. Le dire ici évite un contresens au
-             moment de déclarer un trimestre. -->
-        <p class="hint">Les dates portent sur le <strong>paiement</strong>, pas sur la date de commande. C'est l'encaissement qui compte pour la déclaration. Laissez vide pour tout prendre.</p>
-
-        <div class="export-pied">
-          <span class="hint" id="export-compte"></span>
-          <button type="button" class="btn btn-accent" id="btn-exporter">Télécharger le fichier</button>
-        </div>
-      </div>
-    </details>
-
     <div class="vue-dossiers">
 
       <!-- Un dossier par étape de préparation, comme dans la messagerie.

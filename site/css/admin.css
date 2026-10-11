@@ -198,6 +198,11 @@
    une action de rattrapage, pas l'action principale de la fiche. */
 .bloc-confirmation { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 8px; }
 
+/* Une facture annulée par un avoir reste dans le tableau, barrée : elle
+   existe toujours comptablement, c'est précisément l'objet de l'avoir. */
+.facture-annulee td:first-child a { text-decoration: line-through; }
+.facture-annulee { color: var(--color-text-faint); }
+
 /* Filtre par mode de récupération, au-dessus de la liste des commandes.
    Réutilise .filtre-cat de la boutique : même objet, même apparence. */
 .filtres-mode { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: var(--space-sm); }

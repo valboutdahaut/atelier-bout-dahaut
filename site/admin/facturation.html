@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facturation — Administration</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body data-admin-guard="true">
+
+<div class="admin-layout">
+  <div data-include="sidebar-admin"></div>
+
+  <main class="admin-main">
+    <h1 style="font-size:30px">Facturation</h1>
+
+    <!-- L'export vit ici et non dans Commandes : c'est un geste de comptabilité,
+         au même titre que les factures et les avoirs, et non un geste de
+         préparation de colis. -->
+    <details class="admin-card outline bloc-export">
+      <summary>Exporter les commandes pour la comptabilité</summary>
+
+      <div class="export-corps">
+        <p class="bloc-aide">Le fichier se télécharge sur votre ordinateur. Dans Google&nbsp;Sheets, ouvrez-le par <strong>Fichier &gt; Importer</strong>. Dans Excel, un double clic suffit.</p>
+
+        <div class="export-filtres">
+          <div class="field">
+            <label for="export-du">Du</label>
+            <input type="date" id="export-du">
+          </div>
+          <div class="field">
+            <label for="export-au">Au</label>
+            <input type="date" id="export-au">
+          </div>
+          <div class="field">
+            <label for="export-statut">Statut</label>
+            <select id="export-statut">
+              <option value="">Tous les statuts</option>
+              <option value="nouvelle">Nouvelles</option>
+              <option value="en_preparation">En préparation</option>
+              <option value="expediee">Expédiées</option>
+              <option value="livree">Livrées</option>
+              <option value="annulee">Annulées</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="export-paiement">Commandes</label>
+            <select id="export-paiement">
+              <option value="reglees">Réglées uniquement</option>
+              <option value="toutes">Toutes, paniers abandonnés compris</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Les dates portent sur le PAIEMENT et non sur la commande : une
+             micro-entreprise tient une comptabilité de caisse, où ce qui compte
+             est la date d'encaissement. -->
+        <p class="hint">Les dates portent sur le <strong>paiement</strong>, pas sur la date de commande. C'est l'encaissement qui compte pour la déclaration. Laissez vide pour tout prendre.</p>
+
+        <div class="export-pied">
+          <span class="hint" id="export-compte"></span>
+          <button type="button" class="btn btn-accent" id="btn-exporter">Télécharger le fichier</button>
+        </div>
+      </div>
+    </details>
+
+    <p class="bloc-aide" style="margin:var(--space-md) 0">Une facture est émise automatiquement dès qu'une commande est réglée. Elle ne se supprime ni ne se modifie&nbsp;: en cas d'annulation ou de rétractation, on émet un <strong>avoir</strong>, qui l'annule sans l'effacer. Le remboursement, lui, se fait dans Stripe.</p>
+
+    <div id="liste-factures">
+      <p class="empty-state">Chargement…</p>
+    </div>
+  </main>
+</div>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/auth.js"></script>
+<script type="module" src="/js/pages/admin/facturation.js"></script>
+</body>
+</html>
