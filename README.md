@@ -1,6 +1,6 @@
 # Vitrine + Marketplace — L'Atelier du Bout d'à Haut
 
-Statut : en cours (maquette Claude Design finalisée, site HTML/CSS/JS implémenté, reste à créer les comptes Supabase/Netlify et déployer)
+Statut : **en ligne** sur [latelierduboutdahaut.fr](https://latelierduboutdahaut.fr) depuis le 11/10/2026. Boutique ouverte, paiement Stripe en mode réel, confirmation de commande automatique.
 
 ## Contexte
 
@@ -50,11 +50,11 @@ Puis ouvrir l'URL affichée (ex. http://localhost:3000). Sans configuration Supa
 ## Mettre en place Supabase
 
 1. Créer un projet sur [supabase.com](https://supabase.com)
-2. Dans le SQL Editor, exécuter dans l'ordre : `supabase/schema.sql`, `supabase/policies.sql`, `supabase/functions.sql`, `supabase/storage.sql`. `supabase/seed.sql` est optionnel, utile pour tester. L'adresse email qui a le droit d'administrer le site est fixée dans `policies.sql` (fonction `est_admin()`), actuellement `atelierduboutdahaut@gmail.com`.
+2. Dans le SQL Editor, exécuter dans l'ordre : `supabase/schema.sql`, `supabase/policies.sql`, `supabase/functions.sql`, `supabase/storage.sql`. `supabase/seed.sql` est optionnel, utile pour tester. Les adresses autorisées à administrer le site sont fixées dans `policies.sql` (fonction `est_admin()`), puis modifiées par migration. Au 11/10/2026 : `atelierduboutdahaut@gmail.com` (l'artisane), `tomblndeau@gmail.com` (le prestataire) et `evidencesx@gmail.com`.
 3. Copier l'URL et la clé anon publique du projet (Project Settings > API) dans `site/js/config.js`
 4. Dans **Authentication > Users**, créer l'utilisateur `atelierduboutdahaut@gmail.com` (bouton "Add user", option "Auto Confirm User")
 5. Dans **Authentication > Sign In / Providers > Email**, désactiver **"Allow new users to sign up"**. Sans ça, n'importe qui pourrait se créer un compte. Il ne pourrait rien modifier (les policies ne reconnaissent que l'adresse de l'atelier), mais autant fermer la porte.
-6. Dans **Authentication > URL Configuration**, renseigner l'adresse du site en **Site URL** et l'ajouter aux **Redirect URLs** (ex. `https://atelier-bout-dahaut.netlify.app/**`). C'est ce qui autorise le retour du lien magique.
+6. Dans **Authentication > URL Configuration**, renseigner l'adresse du site en **Site URL** et l'ajouter aux **Redirect URLs** (ex. `https://latelierduboutdahaut.fr/**`, et autant d'entrées que d'environnements : la préproduction a besoin de la sienne). C'est ce qui autorise le retour du lien magique.
 
 ### Migrations (base déjà en service)
 
@@ -75,7 +75,8 @@ Les scripts `supabase/migration-*.sql` s'appliquent à une base **déjà en prod
 | `migration-2026-09-21-statuts-commandes.sql` | « Retirée » devient « Livrée » ; annuler une commande peut remettre les pièces en vente | fait le 21/09/2026 |
 | `migration-2026-10-06-cgv-cgu.sql` | CGV complètes et CGU créées, mentions légales et confidentialité remises à jour, suppression des commandes non réglées | fait le 06/10/2026 |
 | `migration-2026-10-09-options-vitrine-boutique.sql` | Avant / après activable sur une réalisation ; pièces à retirer au showroom uniquement, refus de livraison côté serveur ; délais portés à 3-5 jours ouvrés en expédition et 1-2 en retrait | fait le 09/10/2026 |
-| `migration-2026-10-10-confirmation-commande.sql` | Trace de l'envoi du récapitulatif de commande, Brevo déclaré dans la politique de confidentialité, date de mise à jour sur cette page | **à exécuter** |
+| `migration-2026-10-10-confirmation-commande.sql` | Trace de l'envoi du récapitulatif de commande, Brevo déclaré dans la politique de confidentialité, date de mise à jour sur cette page | fait le 10/10/2026 |
+| `migration-2026-10-11-admin-troisieme-adresse.sql` | Ouvre l'administration à une troisième adresse | **à exécuter** |
 
 > ⚠️ `functions.sql` n'avait pas été rejoué lors du passage sur le projet de Paris : sans lui, `creer_commande()` n'existe pas et **toute commande échoue**. À exécuter avant la migration paiement.
 
