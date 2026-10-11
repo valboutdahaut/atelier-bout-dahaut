@@ -1,0 +1,69 @@
+# Garde la base de données active.
+#
+# POURQUOI. Sur l'offre gratuite, Supabase met en pause un projet dont
+# l'activité est faible sur une période de sept jours. Une base en pause, c'est
+# un site sans produits, sans photos et sans textes, jusqu'à ce que quelqu'un la
+# réveille à la main depuis le tableau de bord.
+#
+# Les tâches planifiées qui tournent déjà DANS la base (libération du stock,
+# purges) ne protègent de rien : elles s'exécutent à l'intérieur du moteur, et
+# ce sont les requêtes entrantes qui comptent.
+#
+# Surveiller le site ne protégerait pas davantage. Les pages sont statiques :
+# un robot qui récupère le HTML s'arrête là, ce sont les navigateurs qui vont
+# ensuite chercher le contenu dans Supabase en exécutant le JavaScript. Il faut
+# donc appeler la base directement, ce que fait ce script.
+#
+# CE QUE ÇA VAUT. C'est une assurance contre une semaine creuse, pas un moyen de
+# faire vivre un projet mort. Le jour où le chiffre d'affaires le justifie, le
+# plan payant de Supabase répond au problème sans artifice.
+#
+# À SAVOIR. GitHub désactive les tâches planifiées d'un dépôt resté inactif
+# soixante jours. Si le site n'est plus modifié pendant deux mois, il faudra
+# réactiver ce workflow depuis l'onglet Actions.
+
+name: Garder la base active
+
+on:
+  # Tous les deux jours plutôt que tous les trois : les tâches planifiées de
+  # GitHub peuvent être retardées, voire sautées quand leur infrastructure est
+  # chargée. Deux jours laissent de la marge dans une fenêtre de sept.
+  schedule:
+    - cron: '23 9 */2 * *'
+  # Permet aussi de la lancer à la main depuis l'onglet Actions, utile pour
+  # vérifier qu'elle fonctionne sans attendre deux jours.
+  workflow_dispatch:
+
+jobs:
+  reveiller:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Interroger la base
+        env:
+          # Ces deux valeurs ne sont pas des secrets : elles sont déjà dans
+          # site/js/config.js, donc téléchargées par chaque visiteur. La clé
+          # publiable n'autorise que la lecture du contenu publié, les policies
+          # de la base refusent tout le reste. Les mettre en secrets de dépôt
+          # n'ajouterait aucune protection, et obligerait à les configurer dans
+          # les deux dépôts jumeaux.
+          URL_BASE: https://bsjwyystdxhltqwdbznt.supabase.co
+          CLE_PUBLIABLE: sb_publishable_mCPVmNrtQDnC42QL8vaaXA_0yEVG4qr
+        run: |
+          # La requête la plus légère possible : une seule colonne, une seule
+          # ligne, sur la table des textes du site.
+          code=$(curl -s -o /dev/null -w '%{http_code}' \
+            -H "apikey: ${CLE_PUBLIABLE}" \
+            -H "Authorization: Bearer ${CLE_PUBLIABLE}" \
+            "${URL_BASE}/rest/v1/contenu_site?select=cle&limit=1")
+
+          echo "Réponse de la base : ${code}"
+
+          # On échoue bruyamment si la base ne répond pas : le but de ce
+          # workflow est justement de savoir que quelque chose cloche. Un échec
+          # envoie une notification GitHub, ce qui vaut surveillance minimale.
+          if [ "${code}" != "200" ]; then
+            echo "::error::La base n'a pas répondu 200. Projet en pause, clé changée, ou incident Supabase."
+            exit 1
+          fi
+
+          echo "Base active."

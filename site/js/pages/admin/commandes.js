@@ -13,6 +13,7 @@
 
 import { getAuthenticatedClient } from '../../supabase-client.js';
 import { formatPrix, formatDate, echapper } from '../../lib/format.js';
+import { telechargerCsv } from '../../lib/export-csv.js';
 
 const conteneur = document.getElementById('liste-commandes');
 const compteEl = document.getElementById('compte-resultats');
@@ -254,6 +255,121 @@ function cablerStatut(node, commande) {
   });
 }
 
+// =============================================================================
+// Export comptable
+// =============================================================================
+// Les commandes sont déjà toutes chargées en mémoire pour l'affichage des
+// dossiers : l'export filtre ce tableau plutôt que de refaire une requête. Un
+// atelier de cette taille n'atteindra jamais le volume où ça deviendrait un
+// problème, et ça garde l'export disponible même si la base devient lente.
+
+const LIBELLES_MODE = {
+  livraison: 'Livraison à domicile',
+  retrait_showroom: 'Retrait au showroom',
+};
+
+/**
+ * La date qui fait foi pour la comptabilité est celle de l'ENCAISSEMENT, une
+ * micro-entreprise déclarant ses recettes encaissées. Une commande jamais
+ * réglée n'a pas de date de paiement : on retombe sur sa date de création,
+ * faute de mieux, et elle n'apparaît de toute façon que si l'atelier demande
+ * explicitement les paniers abandonnés.
+ */
+function dateComptable(commande) {
+  return commande.paye_le ?? commande.created_at;
+}
+
+function commandesAExporter() {
+  const du = document.getElementById('export-du').value;
+  const au = document.getElementById('export-au').value;
+  const statut = document.getElementById('export-statut').value;
+  const seulementReglees = document.getElementById('export-paiement').value === 'reglees';
+
+  return commandes
+    .filter((c) => !seulementReglees || estReglee(c))
+    .filter((c) => !statut || c.statut === statut)
+    .filter((c) => {
+      // Comparaison sur les dix premiers caractères, soit AAAA-MM-JJ : les
+      // champs de date du formulaire donnent ce format, et comparer des
+      // chaînes dans ce format revient à comparer des dates.
+      const jour = (dateComptable(c) ?? '').slice(0, 10);
+      if (du && jour < du) return false;
+      if (au && jour > au) return false;
+      return true;
+    })
+    .sort((a, b) => (dateComptable(a) ?? '').localeCompare(dateComptable(b) ?? ''));
+}
+
+/** Montant en euros, virgule décimale, sans symbole : Sheets doit pouvoir additionner. */
+function montant(cents) {
+  return ((cents ?? 0) / 100).toFixed(2).replace('.', ',');
+}
+
+function jourFrancais(iso) {
+  if (!iso) return '';
+  const [annee, mois, jour] = iso.slice(0, 10).split('-');
+  return `${jour}/${mois}/${annee}`;
+}
+
+function majCompteExport() {
+  const nombre = commandesAExporter().length;
+  const total = commandesAExporter().reduce((somme, c) => somme + (c.total_cents ?? 0), 0);
+  const el = document.getElementById('export-compte');
+  const bouton = document.getElementById('btn-exporter');
+  if (nombre === 0) {
+    el.textContent = 'Aucune commande ne correspond à ces filtres.';
+    bouton.disabled = true;
+    return;
+  }
+  el.textContent = `${nombre} commande${nombre > 1 ? 's' : ''}, ${formatPrix(total)} au total.`;
+  bouton.disabled = false;
+}
+
+function exporter() {
+  const liste = commandesAExporter();
+  if (liste.length === 0) return;
+
+  const entetes = [
+    'Numéro', 'Date de paiement', 'Date de commande', 'Client', 'E-mail', 'Téléphone',
+    'Mode de récupération', 'Adresse de livraison', 'Articles',
+    'Sous-total', 'Livraison', 'Total', 'Statut', 'Paiement', 'Récapitulatif envoyé',
+  ];
+
+  const lignes = liste.map((c) => [
+    c.numero,
+    jourFrancais(c.paye_le),
+    jourFrancais(c.created_at),
+    c.client_nom,
+    c.client_email,
+    c.client_telephone ?? '',
+    LIBELLES_MODE[c.mode_retrait] ?? c.mode_retrait,
+    // Les retours à la ligne de l'adresse deviennent des espaces : une cellule
+    // de tableur sur plusieurs lignes se lit mal et se trie encore moins bien.
+    (c.adresse_livraison ?? '').replace(/\s*\n\s*/g, ', '),
+    (c.lignes_commande ?? []).map((l) => `${l.titre_produit} x ${l.quantite}`).join(' + '),
+    montant(c.sous_total_cents),
+    montant(c.livraison_cents),
+    montant(c.total_cents),
+    LIBELLES_STATUT[c.statut] ?? c.statut,
+    LIBELLES_PAIEMENT[c.paiement_statut] ?? c.paiement_statut,
+    c.confirmation_envoyee_at ? jourFrancais(c.confirmation_envoyee_at) : '',
+  ]);
+
+  const du = document.getElementById('export-du').value;
+  const au = document.getElementById('export-au').value;
+  const suffixe = du || au ? `${du || 'debut'}_${au || 'aujourdhui'}` : new Date().toISOString().slice(0, 10);
+
+  telechargerCsv(`commandes-${suffixe}.csv`, entetes, lignes);
+}
+
+function cablerExport() {
+  for (const id of ['export-du', 'export-au', 'export-statut', 'export-paiement']) {
+    document.getElementById(id).addEventListener('change', majCompteExport);
+  }
+  document.getElementById('btn-exporter').addEventListener('click', exporter);
+  majCompteExport();
+}
+
 async function charger() {
   client = await getAuthenticatedClient();
   const { data, error } = await client
@@ -269,6 +385,7 @@ async function charger() {
 
   commandes = data ?? [];
   majCompteurs();
+  majCompteExport();
   rendre();
 }
 
@@ -286,6 +403,7 @@ for (const bouton of document.querySelectorAll('[data-dossier]')) {
 // faire. Arriver sur « Nouvelles » vide alors que trois commandes attendent en
 // préparation obligerait à chercher.
 async function demarrer() {
+  cablerExport();
   await charger();
   if (commandes.some((c) => dossierDe(c) === 'nouvelle')) return;
   const premierRempli = ETAPES.find((etape) => commandes.some((c) => dossierDe(c) === etape));

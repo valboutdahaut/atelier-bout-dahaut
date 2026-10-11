@@ -197,6 +197,23 @@
 /* Même disposition que le bloc de statut, avec un bouton plus discret : c'est
    une action de rattrapage, pas l'action principale de la fiche. */
 .bloc-confirmation { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 8px; }
+
+/* --- Export comptable -------------------------------------------------------*/
+/* Replié par défaut : le résumé reste discret tant qu'on ne s'en sert pas. */
+.bloc-export { margin-bottom: var(--space-md); }
+.bloc-export > summary {
+  cursor: pointer;
+  font-family: var(--font-title);
+  font-size: 16px;
+  list-style-position: inside;
+}
+.export-corps { display: flex; flex-direction: column; gap: 14px; margin-top: var(--space-sm); }
+.export-filtres { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 900px) { .export-filtres { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .export-filtres { grid-template-columns: 1fr; } }
+/* Le compte et le bouton aux deux extrémités : on lit combien de lignes partent
+   juste avant de cliquer. */
+.export-pied { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); flex-wrap: wrap; }
 .bloc-confirmation .btn { padding: 8px 14px; font-size: 13px; }
 /* Un récapitulatif non parti n'est pas une information neutre : le client
    attend un document que la loi oblige à lui fournir. */
