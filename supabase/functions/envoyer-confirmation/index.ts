@@ -8,6 +8,14 @@
 // rétractation. D'où ce récapitulatif, qui reprend tout ce que le client devait
 // savoir avant d'acheter et qu'il doit pouvoir retrouver après.
 //
+// IL VAUT AUSSI FACTURE. Une vente à distance à un particulier donne lieu à
+// facture, et une facture n'a pas à être un PDF : un support durable suffit.
+// Cet e-mail en porte donc toutes les mentions obligatoires, à savoir le numéro
+// et la date de facture, l'identité du vendeur, celle de l'acheteur avec son
+// adresse, la désignation et le prix unitaire de chaque article, le total et la
+// franchise de TVA. Le numéro vient d'une séquence continue tenue par la base
+// (voir migration-2026-10-11-factures.sql).
+//
 // Il sert aussi à l'atelier : jusqu'ici, une commande payée n'alertait
 // personne, il fallait penser à ouvrir l'administration pour la découvrir.
 //
@@ -161,9 +169,9 @@ async function autoriser(req: Request): Promise<Appelant | null> {
 
 // --- Lecture de la commande -------------------------------------------------
 
-const COLONNES_COMMANDE = 'id, numero, created_at, client_nom, client_email, mode_retrait, '
-  + 'adresse_livraison, sous_total_cents, livraison_cents, total_cents, paiement_statut, '
-  + 'confirmation_envoyee_at';
+const COLONNES_COMMANDE = 'id, numero, created_at, paye_le, client_nom, client_email, '
+  + 'mode_retrait, adresse_livraison, sous_total_cents, livraison_cents, total_cents, '
+  + 'paiement_statut, confirmation_envoyee_at, jeton_client';
 
 async function chargerCommande(commandeId: string | null, numero: string | null) {
   // Deux chemins d'accès plutôt qu'un filtre construit au vol : l'appel interne
@@ -201,15 +209,17 @@ function titreSection(libelle: string): string {
   return `<p style="margin:28px 0 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:${C.pale}">${echapper(libelle)}</p>`;
 }
 
-function emailClient(commande: any, lignes: any[], textes: Record<string, string>) {
+function emailClient(commande: any, lignes: any[], textes: Record<string, string>, facture: string | null) {
   const retrait = commande.mode_retrait === 'retrait_showroom';
   const delai = retrait ? textes['boutique-delai-retrait'] : textes['boutique-delai-expedition'];
+  const lienFacture = `${SITE}/boutique/facture.html?commande=${encodeURIComponent(commande.numero)}`
+    + `&jeton=${encodeURIComponent(commande.jeton_client ?? '')}`;
 
   const rangees = lignes.map((l) => `
     <tr>
       <td style="padding:10px 0;border-bottom:1px solid ${C.bord};font-size:14px;color:${C.texte}">
         ${echapper(l.titre_produit)}
-        <span style="color:${C.pale}">&times;&nbsp;${l.quantite}</span>
+        <br><span style="color:${C.pale};font-size:12.5px">${l.quantite} &times; ${prix(l.prix_unitaire_cents)}</span>
       </td>
       <td style="padding:10px 0;border-bottom:1px solid ${C.bord};font-size:14px;color:${C.texte};text-align:right;white-space:nowrap">
         ${prix(l.prix_unitaire_cents * l.quantite)}
@@ -244,7 +254,14 @@ function emailClient(commande: any, lignes: any[], textes: Record<string, string
 
     <div style="margin:24px 0;padding:14px 16px;background:${C.doux};font-size:14px;color:${C.texte}">
       Commande n°&nbsp;<strong>${echapper(commande.numero)}</strong> du ${jour(commande.created_at)}
+      ${facture ? `<br>Facture n°&nbsp;<strong>${echapper(facture)}</strong> du ${jour(commande.paye_le ?? commande.created_at)}` : ''}
     </div>
+
+    ${titreSection('Facturé à')}
+    <p style="margin:0 0 10px;font-size:14px;line-height:1.7;color:${C.attenue}">
+      ${echapper(commande.client_nom)}
+      ${commande.adresse_livraison ? '<br>' + echapper(commande.adresse_livraison).replace(/\n/g, '<br>') : ''}
+    </p>
 
     ${titreSection('Votre commande')}
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
@@ -254,6 +271,7 @@ function emailClient(commande: any, lignes: any[], textes: Record<string, string
       ${ligneTotal('Total payé', prix(commande.total_cents), true)}
     </table>
     <p style="margin:12px 0 0;font-size:12px;line-height:1.6;color:${C.pale}">${echapper(textes['boutique-tva'] ?? '')}</p>
+    ${facture ? `<p style="margin:10px 0 0;font-size:13px"><a href="${lienFacture}" style="color:${C.profond}">Afficher la facture imprimable</a></p>` : ''}
 
     ${titreSection('Récupération')}
     ${recuperation}
@@ -294,13 +312,19 @@ function emailClient(commande: any, lignes: any[], textes: Record<string, string
     'Conservez cet e-mail : il récapitule votre achat et vaut confirmation de votre commande.',
     '',
     `Commande n° ${commande.numero} du ${jour(commande.created_at)}`,
+    facture ? `Facture n° ${facture} du ${jour(commande.paye_le ?? commande.created_at)}` : '',
+    '',
+    'FACTURÉ À',
+    commande.client_nom,
+    commande.adresse_livraison ?? '',
     '',
     'VOTRE COMMANDE',
-    ...lignes.map((l) => `- ${l.titre_produit} x ${l.quantite} : ${prix(l.prix_unitaire_cents * l.quantite)}`),
+    ...lignes.map((l) => `- ${l.titre_produit} : ${l.quantite} x ${prix(l.prix_unitaire_cents)} = ${prix(l.prix_unitaire_cents * l.quantite)}`),
     `Sous-total : ${prix(commande.sous_total_cents)}`,
     `${retrait ? 'Retrait au showroom' : 'Livraison'} : ${commande.livraison_cents > 0 ? prix(commande.livraison_cents) : 'Gratuit'}`,
     `Total payé : ${prix(commande.total_cents)}`,
     aplatir(textes['boutique-tva'] ?? ''),
+    facture ? `Facture imprimable : ${lienFacture}` : '',
     '',
     'RÉCUPÉRATION',
     retrait
@@ -476,9 +500,23 @@ Deno.serve(async (req) => {
 
     const textes = await chargerTextes();
 
+    // Le numéro de facture est attribué ici, au moment où l'on sait la commande
+    // réglée. La fonction est idempotente : un renvoi depuis l'administration,
+    // ou une relance du webhook par Stripe, rend le même numéro sans en
+    // consommer un nouveau. Un trou dans la série serait la première chose que
+    // relèverait un contrôle.
+    const { data: facture, error: erreurFacture } = await admin
+      .rpc('attribuer_numero_facture', { p_commande_id: commande.id });
+    if (erreurFacture) {
+      // Sans interrompre pour autant : mieux vaut un récapitulatif sans numéro
+      // qu'aucun récapitulatif. L'erreur est tracée, et le renvoi depuis
+      // l'administration rattrapera le numéro.
+      console.error('envoyer-confirmation : numéro de facture', erreurFacture);
+    }
+
     const messageId = await envoyer(
       { email: commande.client_email, nom: commande.client_nom },
-      emailClient(commande, lignes, textes),
+      emailClient(commande, lignes, textes, (facture as string | null) ?? null),
       ATELIER_EMAIL || undefined,
     );
 

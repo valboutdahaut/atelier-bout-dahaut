@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- L'adresse porte le jeton de la commande. Sans cette consigne, le navigateur
+     l'enverrait aux serveurs de polices dans l'en-tête Referer. Même précaution
+     que sur la page panier. -->
+<meta name="referrer" content="same-origin">
+<!-- Une facture n'a aucune raison d'apparaître dans un moteur de recherche. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Facture — L'Atelier du Bout d'à Haut</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body data-nav-section="boutique">
+
+<div data-include="header-public"></div>
+
+<main class="container" style="max-width:760px;padding-bottom:96px">
+  <div id="contenu-facture">
+    <p class="empty-state" style="padding:96px 0">Chargement…</p>
+  </div>
+</main>
+
+<div data-include="footer"></div>
+
+<template id="tpl-facture">
+  <div class="facture">
+
+    <div class="facture-actions">
+      <button type="button" class="btn btn-accent" data-action="imprimer">Imprimer ou enregistrer en PDF</button>
+    </div>
+
+    <header class="facture-entete">
+      <div>
+        <span class="eyebrow">Facture</span>
+        <h1 data-slot="numero-facture"></h1>
+        <p class="facture-dates" data-slot="dates"></p>
+      </div>
+    </header>
+
+    <div class="facture-parties">
+      <div>
+        <span class="eyebrow">Vendeur</span>
+        <div data-slot="vendeur"></div>
+      </div>
+      <div>
+        <span class="eyebrow">Facturé à</span>
+        <p data-slot="client"></p>
+      </div>
+    </div>
+
+    <table class="facture-lignes">
+      <thead>
+        <tr>
+          <th>Désignation</th>
+          <th class="nombre">Quantité</th>
+          <th class="nombre">Prix unitaire</th>
+          <th class="nombre">Total</th>
+        </tr>
+      </thead>
+      <tbody data-slot="lignes"></tbody>
+      <tfoot data-slot="totaux"></tfoot>
+    </table>
+
+    <p class="mention-tva" data-slot="tva"></p>
+    <p class="facture-reglement" data-slot="reglement"></p>
+
+  </div>
+</template>
+
+<script type="module" src="/js/include.js"></script>
+<script type="module" src="/js/nav.js"></script>
+<script type="module" src="/js/pages/facture.js"></script>
+</body>
+</html>

@@ -53,8 +53,15 @@
 
     <!-- Adresse découpée en champs distincts : une zone de texte libre laisse
          le client oublier le code postal ou inverser les lignes, et l'adresse
-         arrive alors inexploitable pour l'expédition. -->
-    <div id="champ-adresse" hidden>
+         arrive alors inexploitable pour l'expédition.
+
+         Demandée dans TOUS les cas, retrait au showroom compris : une facture
+         doit porter le nom et l'adresse de son destinataire, et une vente à
+         distance à un particulier donne lieu à facture. Seul l'intitulé change,
+         pour ne pas laisser croire à une livraison. -->
+    <div id="champ-adresse">
+      <label data-slot="titre-adresse">Adresse de livraison</label>
+      <p class="hint" data-slot="aide-adresse" style="margin:0 0 10px"></p>
       <div class="form-row" style="grid-template-columns:110px 1fr">
         <div class="field"><label for="adresse-numero">Numéro</label><input id="adresse-numero" name="adresse-numero" autocomplete="address-line1" inputmode="numeric"></div>
         <div class="field"><label for="adresse-rue">Nom de la rue</label><input id="adresse-rue" name="adresse-rue" autocomplete="address-line2"></div>

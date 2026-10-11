@@ -49,6 +49,8 @@ async function preparerPaiement(numero, email) {
 
 const form = document.getElementById('form-commande');
 const champAdresse = document.getElementById('champ-adresse');
+const titreAdresse = champAdresse.querySelector('[data-slot="titre-adresse"]');
+const aideAdresse = champAdresse.querySelector('[data-slot="aide-adresse"]');
 const erreurEl = document.getElementById('erreur-commande');
 const btnValider = document.getElementById('btn-valider');
 
@@ -96,7 +98,7 @@ function imposerRetraitSiNecessaire(cart, produits) {
   form.querySelector('input[name="mode_retrait"][value="retrait_showroom"]').checked = true;
   radioLivraison.disabled = true;
   radioLivraison.closest('.choix-radio').classList.add('choix-indisponible');
-  basculerAdresse(false);
+  majTitreAdresse(false);
 
   const liste = titres.map((t) => `« ${t} »`).join(', ');
   const avis = document.querySelector('[data-slot="avis-retrait"]');
@@ -135,27 +137,40 @@ function mettreAJourResume() {
 }
 
 // Le numéro reste facultatif : toutes les adresses n'en ont pas (lieux-dits,
-// hameaux). La rue, le code postal et la ville, eux, sont indispensables pour
-// qu'un colis parte.
+// hameaux). La rue, le code postal et la ville, eux, sont indispensables, pour
+// qu'un colis parte comme pour qu'une facture soit complète.
 const ADRESSE_OBLIGATOIRE = ['adresse-rue', 'adresse-cp', 'adresse-ville'];
 
-function basculerAdresse(livraison) {
-  champAdresse.hidden = !livraison;
-  // Les champs obligatoires suivent l'affichage : laissés requis une fois
-  // masqués, le navigateur refuserait l'envoi en signalant une erreur sur un
-  // champ invisible, sans que le client comprenne ce qu'on lui reproche.
-  for (const nom of ADRESSE_OBLIGATOIRE) {
-    const champ = form.elements.namedItem(nom);
-    if (champ) champ.required = livraison;
-  }
+for (const nom of ADRESSE_OBLIGATOIRE) {
+  const champ = form.elements.namedItem(nom);
+  if (champ) champ.required = true;
+}
+
+/**
+ * L'adresse est demandée dans les deux cas, seul son intitulé change.
+ *
+ * Elle était auparavant masquée pour un retrait au showroom, ce qui privait la
+ * facture du nom et de l'adresse de son destinataire, mentions obligatoires.
+ * Annoncer « adresse de facturation » évite de laisser croire à une livraison
+ * qui n'aura pas lieu.
+ */
+function majTitreAdresse(livraison) {
+  titreAdresse.textContent = livraison ? 'Adresse de livraison' : 'Adresse de facturation';
+  aideAdresse.textContent = livraison
+    ? 'Votre colis sera expédié à cette adresse.'
+    : "Votre commande est à retirer au showroom. Cette adresse ne sert qu'à établir votre facture.";
 }
 
 document.querySelectorAll('input[name="mode_retrait"]').forEach((r) => {
   r.addEventListener('change', () => {
-    basculerAdresse(r.form.mode_retrait.value === 'livraison');
+    majTitreAdresse(r.form.mode_retrait.value === 'livraison');
     mettreAJourResume();
   });
 });
+
+// Le retrait au showroom est coché par défaut dans le gabarit : l'intitulé
+// doit correspondre dès l'affichage de la page.
+majTitreAdresse(form.mode_retrait.value === 'livraison');
 
 // Commande déjà enregistrée en base, gardée de côté au cas où seule l'ouverture
 // de la page de paiement échoue. Sans cela, le bouton « Réessayer le paiement »
@@ -180,7 +195,8 @@ form.addEventListener('submit', async (e) => {
       p_client_email: donnees.get('email'),
       p_client_telephone: donnees.get('telephone') || null,
       p_mode_retrait: donnees.get('mode_retrait'),
-      p_adresse_livraison: donnees.get('mode_retrait') === 'livraison' ? adresseComplete(donnees) : null,
+      // Transmise même pour un retrait : c'est l'adresse de facturation.
+      p_adresse_livraison: adresseComplete(donnees),
       p_lignes: lignes,
     });
 

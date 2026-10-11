@@ -220,6 +220,33 @@
 /* À l'impression, les onglets n'ont plus de sens : on déplie tout. Des
    conditions générales s'impriment et se classent, il ne faut pas qu'une
    moitié disparaisse parce qu'elle était derrière un onglet fermé. */
+/* --- Facture imprimable -----------------------------------------------------*/
+/* Volontairement sobre et dense : c'est un document qu'on classe, pas une page
+   qu'on parcourt. */
+.facture { display: flex; flex-direction: column; gap: var(--space-lg); padding: var(--space-lg) 0; }
+.facture-actions { display: flex; justify-content: flex-end; }
+.facture-entete h1 { font-size: 28px; line-height: 1.2; margin-top: 10px; }
+.facture-dates { font-size: 13px; color: var(--color-text-muted); margin: 10px 0 0; }
+.facture-parties { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+.facture-parties p { font-size: 14px; line-height: 1.7; color: var(--color-text-muted); margin: 8px 0 0; }
+.facture-parties h3 { font-size: 14px; margin-top: 8px; }
+.facture-lignes { width: 100%; border-collapse: collapse; font-size: 14px; }
+.facture-lignes th { text-align: left; font-weight: 500; padding: 8px 0; border-bottom: 1px solid var(--color-text); }
+.facture-lignes td { padding: 10px 0; border-bottom: 1px solid var(--color-border); }
+.facture-lignes .nombre { text-align: right; white-space: nowrap; }
+.facture-lignes tfoot td { border-bottom: none; padding: 6px 0; color: var(--color-text-muted); }
+.facture-lignes tfoot .total td { font-size: 17px; font-weight: 600; color: var(--color-text); padding-top: 12px; border-top: 1px solid var(--color-border); }
+.facture-reglement { font-size: 14px; color: var(--color-text); margin: 0; }
+@media (max-width: 600px) { .facture-parties { grid-template-columns: 1fr; } }
+
+@media print {
+  /* Ni navigation, ni pied de page, ni bouton d'impression : ils n'ont aucun
+     sens sur un document que l'on conserve ou que l'on transmet au comptable. */
+  .site-header, .site-footer, .facture-actions { display: none !important; }
+  body { background: #fff; }
+  .facture { padding: 0; }
+}
+
 @media print {
   .onglets-legal { display: none; }
   .volet-legal[hidden] { display: flex !important; }
