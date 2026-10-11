@@ -198,10 +198,35 @@
    une action de rattrapage, pas l'action principale de la fiche. */
 .bloc-confirmation { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 8px; }
 
-/* Une facture annulée par un avoir reste dans le tableau, barrée : elle
-   existe toujours comptablement, c'est précisément l'objet de l'avoir. */
-.facture-annulee td:first-child a { text-decoration: line-through; }
-.facture-annulee { color: var(--color-text-faint); }
+/* --- Avoirs -----------------------------------------------------------------*/
+/* Les avoirs déjà émis sur une facture, empilés dans leur colonne. */
+.avoir-pastille { display: block; font-size: 13px; margin-bottom: 4px; }
+
+/* Panneau d'émission, ouvert sous la ligne de la facture plutôt que dans une
+   fenêtre : l'atelier garde sous les yeux la commande qu'il reprend. */
+.panneau-avoir {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: var(--space-sm);
+  background: var(--color-input-bg);
+  border: 1px solid var(--color-border);
+}
+.choix-avoir {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+/* Sans cela, la case se comprime quand le libellé passe sur deux lignes. */
+.choix-avoir input[type="checkbox"] { flex: 0 0 auto; margin: 0; accent-color: var(--color-accent-deep); }
+.choix-avoir-titre { flex: 1; }
+.choix-avoir-quantite { width: 72px; padding: 6px 8px; font-size: 14px; }
+.champ-motif { padding: 8px 10px; font-size: 14px; }
+.avoir-total { flex: 1; margin: 0; font-size: 16px; font-weight: 500; }
+.panneau-avoir-pied { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.panneau-avoir-pied .btn { padding: 8px 14px; font-size: 13px; }
 
 /* Filtre par mode de récupération, au-dessus de la liste des commandes.
    Réutilise .filtre-cat de la boutique : même objet, même apparence. */

@@ -27,12 +27,21 @@
          au même titre que les factures et les avoirs, et non un geste de
          préparation de colis. -->
     <details class="admin-card outline bloc-export">
-      <summary>Exporter les commandes pour la comptabilité</summary>
+      <summary>Exporter pour la comptabilité</summary>
 
       <div class="export-corps">
         <p class="bloc-aide">Le fichier se télécharge sur votre ordinateur. Dans Google&nbsp;Sheets, ouvrez-le par <strong>Fichier &gt; Importer</strong>. Dans Excel, un double clic suffit.</p>
 
         <div class="export-filtres">
+          <div class="field">
+            <label for="export-contenu">Contenu du fichier</label>
+            <select id="export-contenu">
+              <option value="commandes">Les commandes</option>
+              <option value="documents">Les factures et les avoirs</option>
+              <option value="factures">Les factures seules</option>
+              <option value="avoirs">Les avoirs seuls</option>
+            </select>
+          </div>
           <div class="field">
             <label for="export-du">Du</label>
             <input type="date" id="export-du">
@@ -41,7 +50,7 @@
             <label for="export-au">Au</label>
             <input type="date" id="export-au">
           </div>
-          <div class="field">
+          <div class="field" data-slot="champ-statut">
             <label for="export-statut">Statut</label>
             <select id="export-statut">
               <option value="">Tous les statuts</option>
@@ -52,7 +61,7 @@
               <option value="annulee">Annulées</option>
             </select>
           </div>
-          <div class="field">
+          <div class="field" data-slot="champ-paiement">
             <label for="export-paiement">Commandes</label>
             <select id="export-paiement">
               <option value="reglees">Réglées uniquement</option>
@@ -63,8 +72,9 @@
 
         <!-- Les dates portent sur le PAIEMENT et non sur la commande : une
              micro-entreprise tient une comptabilité de caisse, où ce qui compte
-             est la date d'encaissement. -->
-        <p class="hint">Les dates portent sur le <strong>paiement</strong>, pas sur la date de commande. C'est l'encaissement qui compte pour la déclaration. Laissez vide pour tout prendre.</p>
+             est la date d'encaissement. Sur les documents, elles portent sur la
+             date d'émission, qui joue le même rôle. -->
+        <p class="hint" data-slot="aide-dates"></p>
 
         <div class="export-pied">
           <span class="hint" id="export-compte"></span>
@@ -73,11 +83,21 @@
       </div>
     </details>
 
-    <p class="bloc-aide" style="margin:var(--space-md) 0">Une facture est émise automatiquement dès qu'une commande est réglée. Elle ne se supprime ni ne se modifie&nbsp;: en cas d'annulation ou de rétractation, on émet un <strong>avoir</strong>, qui l'annule sans l'effacer. Le remboursement, lui, se fait dans Stripe.</p>
+    <section style="margin-top:var(--space-lg)">
+      <span class="eyebrow">Factures</span>
+      <p class="bloc-aide" style="margin:8px 0 var(--space-sm)">Une facture est émise automatiquement dès qu'une commande est réglée. Elle ne se supprime ni ne se modifie&nbsp;: en cas de retour ou d'annulation, on émet un <strong>avoir</strong>. Le remboursement, lui, se fait dans Stripe.</p>
+      <div id="liste-factures">
+        <p class="empty-state">Chargement…</p>
+      </div>
+    </section>
 
-    <div id="liste-factures">
-      <p class="empty-state">Chargement…</p>
-    </div>
+    <section style="margin-top:var(--space-xl)">
+      <span class="eyebrow">Avoirs</span>
+      <p class="bloc-aide" style="margin:8px 0 var(--space-sm)">Chaque avoir annule tout ou partie d'une facture, sans l'effacer. Une même facture peut en porter plusieurs, par exemple si une cliente renvoie un article puis un autre.</p>
+      <div id="liste-avoirs">
+        <p class="empty-state">Chargement…</p>
+      </div>
+    </section>
   </main>
 </div>
 
