@@ -166,6 +166,23 @@ function cablerConfirmation(node, commande) {
   const bouton = bloc.querySelector('[data-action="renvoyer-confirmation"]');
   const message = bloc.querySelector('[data-slot="message-confirmation"]');
 
+  // La facture, quand elle a été émise. Le lien s'ouvre dans un nouvel onglet
+  // sur la page imprimable, d'où elle s'enregistre en PDF. Il est construit
+  // avec le jeton de la commande, le même que celui de l'e-mail du client :
+  // l'atelier peut donc le copier et le renvoyer tel quel.
+  const factureEl = bloc.querySelector('[data-slot="facture"]');
+  if (commande.facture_numero) {
+    factureEl.textContent = `Facture ${commande.facture_numero} · `;
+    const lien = document.createElement('a');
+    lien.href = `/boutique/facture.html?commande=${encodeURIComponent(commande.numero)}`
+      + `&jeton=${encodeURIComponent(commande.jeton_client ?? '')}`;
+    lien.target = '_blank';
+    lien.rel = 'noopener';
+    lien.textContent = 'ouvrir, imprimer ou enregistrer en PDF';
+    factureEl.appendChild(lien);
+    factureEl.hidden = false;
+  }
+
   function afficherEtat() {
     const envoye = Boolean(commande.confirmation_envoyee_at);
     etat.textContent = envoye

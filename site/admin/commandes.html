@@ -147,9 +147,14 @@
              si le client ne l'a pas reçu ou l'a perdu. Masqué sur une commande
              qui n'a pas été réglée : il n'y a alors rien à confirmer. -->
         <div data-slot="bloc-confirmation" hidden>
-          <span class="eyebrow" style="display:block;margin-top:14px">Récapitulatif au client</span>
+          <span class="eyebrow" style="display:block;margin-top:14px">Récapitulatif et facture</span>
           <div class="bloc-confirmation">
             <p data-slot="confirmation-etat" style="margin:0;font-size:14px"></p>
+            <!-- Rempli par commandes.js quand la commande est facturée. Le lien
+                 porte le jeton de la commande : il s'ouvre sans connexion, ce
+                 qui permet de l'envoyer tel quel à une cliente qui a perdu son
+                 e-mail. -->
+            <p data-slot="facture" style="margin:0;font-size:14px" hidden></p>
             <button type="button" class="btn btn-outline" data-action="renvoyer-confirmation">Renvoyer au client</button>
             <p class="status-msg" data-slot="message-confirmation" hidden></p>
           </div>
