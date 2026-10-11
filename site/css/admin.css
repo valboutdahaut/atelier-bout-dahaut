@@ -198,6 +198,10 @@
    une action de rattrapage, pas l'action principale de la fiche. */
 .bloc-confirmation { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 8px; }
 
+/* Le nombre de documents, dans l'onglet. Discret : c'est un repère, pas une
+   alerte comme les compteurs de dossiers de commandes. */
+.admin-tab [data-compteur] { color: var(--color-text-faint); font-size: 13px; }
+
 /* --- Avoirs -----------------------------------------------------------------*/
 /* Les avoirs déjà émis sur une facture, empilés dans leur colonne. */
 .avoir-pastille { display: block; font-size: 13px; margin-bottom: 4px; }

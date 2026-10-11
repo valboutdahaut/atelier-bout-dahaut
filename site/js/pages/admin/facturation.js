@@ -18,6 +18,7 @@ import { telechargerCsv } from '../../lib/export-csv.js';
 
 const listeFactures = document.getElementById('liste-factures');
 const listeAvoirs = document.getElementById('liste-avoirs');
+const ongletsEl = document.getElementById('onglets-facturation');
 
 const LIBELLES_STATUT = {
   nouvelle: 'Nouvelle',
@@ -44,6 +45,33 @@ const LIBELLES_MODE = {
 let client;
 let commandes = [];
 let avoirs = [];
+
+// --- Onglets ----------------------------------------------------------------
+// Même convention que « Textes du site » : un bouton par onglet, un panneau par
+// onglet, et « hidden » pour masquer. Rien à charger au changement, les deux
+// tableaux sont déjà rendus.
+
+function activerOnglet(nom) {
+  for (const bouton of ongletsEl.querySelectorAll('.admin-tab')) {
+    bouton.classList.toggle('active', bouton.dataset.onglet === nom);
+  }
+  for (const panneau of document.querySelectorAll('[data-panneau]')) {
+    panneau.hidden = panneau.dataset.panneau !== nom;
+  }
+}
+
+ongletsEl.addEventListener('click', (e) => {
+  const bouton = e.target.closest('.admin-tab');
+  if (bouton) activerOnglet(bouton.dataset.onglet);
+});
+
+/** Le nombre de documents, affiché dans chaque onglet. */
+function majCompteursOnglets(nbFactures, nbAvoirs) {
+  ongletsEl.querySelector('[data-compteur="factures"]').textContent =
+    nbFactures > 0 ? `(${nbFactures})` : '';
+  ongletsEl.querySelector('[data-compteur="avoirs"]').textContent =
+    nbAvoirs > 0 ? `(${nbAvoirs})` : '';
+}
 
 // --- Petits outils de construction ------------------------------------------
 
@@ -337,7 +365,12 @@ function rendreFactures() {
 
     const bouton = el('button', emis.length ? 'Émettre un autre avoir' : 'Émettre un avoir', 'btn btn-outline');
     bouton.type = 'button';
-    bouton.addEventListener('click', () => ouvrirPanneau(commande, tr, charger));
+    // Après émission, on recharge tout et on revient sur l'onglet des avoirs :
+    // c'est le document qui vient d'être créé, c'est lui qu'on veut voir.
+    bouton.addEventListener('click', () => ouvrirPanneau(commande, tr, async () => {
+      await charger();
+      activerOnglet('avoirs');
+    }));
     td.appendChild(bouton);
     tr.appendChild(td);
 
@@ -579,6 +612,7 @@ async function charger() {
 
   rendreFactures();
   rendreAvoirs();
+  majCompteursOnglets(commandes.filter((c) => c.facture_numero).length, avoirs.length);
   majCompteExport();
 }
 

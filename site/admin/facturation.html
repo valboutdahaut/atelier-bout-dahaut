@@ -83,17 +83,23 @@
       </div>
     </details>
 
-    <section style="margin-top:var(--space-lg)">
-      <span class="eyebrow">Factures</span>
-      <p class="bloc-aide" style="margin:8px 0 var(--space-sm)">Une facture est émise automatiquement dès qu'une commande est réglée. Elle ne se supprime ni ne se modifie&nbsp;: en cas de retour ou d'annulation, on émet un <strong>avoir</strong>. Le remboursement, lui, se fait dans Stripe.</p>
+    <!-- Deux documents, deux onglets. Même convention que « Textes du site » :
+         des boutons .admin-tab et des panneaux data-panneau. L'export reste
+         au-dessus, il concerne les deux. -->
+    <nav class="admin-tabs" id="onglets-facturation" style="margin-top:var(--space-lg)">
+      <button type="button" class="admin-tab active" data-onglet="factures">Factures <span data-compteur="factures"></span></button>
+      <button type="button" class="admin-tab" data-onglet="avoirs">Avoirs <span data-compteur="avoirs"></span></button>
+    </nav>
+
+    <section data-panneau="factures" style="margin-top:var(--space-md)">
+      <p class="bloc-aide" style="margin:0 0 var(--space-sm)">Une facture est émise automatiquement dès qu'une commande est réglée. Elle ne se supprime ni ne se modifie&nbsp;: en cas de retour ou d'annulation, on émet un <strong>avoir</strong>. Le remboursement, lui, se fait dans Stripe.</p>
       <div id="liste-factures">
         <p class="empty-state">Chargement…</p>
       </div>
     </section>
 
-    <section style="margin-top:var(--space-xl)">
-      <span class="eyebrow">Avoirs</span>
-      <p class="bloc-aide" style="margin:8px 0 var(--space-sm)">Chaque avoir annule tout ou partie d'une facture, sans l'effacer. Une même facture peut en porter plusieurs, par exemple si une cliente renvoie un article puis un autre.</p>
+    <section data-panneau="avoirs" hidden style="margin-top:var(--space-md)">
+      <p class="bloc-aide" style="margin:0 0 var(--space-sm)">Chaque avoir annule tout ou partie d'une facture, sans l'effacer. Une même facture peut en porter plusieurs, par exemple si une cliente renvoie un article puis un autre.</p>
       <div id="liste-avoirs">
         <p class="empty-state">Chargement…</p>
       </div>
