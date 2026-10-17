@@ -249,6 +249,15 @@
 .export-filtres { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 @media (max-width: 900px) { .export-filtres { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .export-filtres { grid-template-columns: 1fr; } }
+/* Les statuts se cochent et se cumulent, ils ne tiennent donc pas dans une
+   case de la grille. Un cadre léger pour que les cinq cases se lisent comme un
+   seul champ et non comme cinq réglages indépendants. */
+.export-statuts { border: 1px solid var(--color-border); padding: 12px 14px; margin: 0; min-width: 0; }
+.export-statuts > legend { padding: 0 6px; font-size: 13px; font-weight: 500; }
+.export-statuts-cases { display: flex; flex-wrap: wrap; gap: 9px 18px; }
+.export-statuts-cases label { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; cursor: pointer; }
+.export-statuts-cases input { margin: 0; accent-color: var(--color-accent-deep); }
+.export-statuts .hint { margin: 11px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--color-text-faint); }
 /* Le compte et le bouton aux deux extrémités : on lit combien de lignes partent
    juste avant de cliquer. */
 .export-pied { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); flex-wrap: wrap; }

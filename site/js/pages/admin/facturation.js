@@ -430,13 +430,22 @@ function dansLaPeriode(iso) {
   return true;
 }
 
+/**
+ * Les statuts cochés, cumulables. Rien de coché vaut tous les statuts : un
+ * filtre au repos ne retire rien, et l'atelier n'a pas à cocher cinq cases
+ * pour obtenir le fichier complet.
+ */
+function statutsCoches() {
+  return [...document.querySelectorAll('#export-statuts input:checked')].map((c) => c.value);
+}
+
 function commandesAExporter() {
-  const statut = document.getElementById('export-statut').value;
+  const statuts = statutsCoches();
   const seulementReglees = document.getElementById('export-paiement').value === 'reglees';
 
   return commandes
     .filter((c) => !seulementReglees || c.paiement_statut === 'paye' || c.paiement_statut === 'non_requis')
-    .filter((c) => !statut || c.statut === statut)
+    .filter((c) => statuts.length === 0 || statuts.includes(c.statut))
     .filter((c) => dansLaPeriode(dateComptable(c)))
     .sort((a, b) => (dateComptable(a) ?? '').localeCompare(dateComptable(b) ?? ''));
 }
@@ -478,6 +487,26 @@ function documentsAExporter() {
   }
 
   return documents.sort((x, y) => String(x.date).localeCompare(String(y.date)));
+}
+
+const SLUGS_STATUT = {
+  nouvelle: 'nouvelles',
+  en_preparation: 'en-preparation',
+  expediee: 'expediees',
+  livree: 'livrees',
+  annulee: 'annulees',
+};
+
+/**
+ * Rappelle les statuts retenus dans le nom du fichier : deux exports faits le
+ * même jour avec deux filtres différents ne se confondent pas dans le dossier
+ * des téléchargements. Au-delà de deux statuts, on compte plutôt que d'allonger.
+ */
+function suffixeStatuts() {
+  const statuts = statutsCoches();
+  if (statuts.length === 0) return '';
+  if (statuts.length > 2) return `-${statuts.length}-statuts`;
+  return '-' + statuts.map((s) => SLUGS_STATUT[s] ?? s).join('-');
 }
 
 function montant(cents) {
@@ -533,7 +562,7 @@ function exporter() {
     if (liste.length === 0) return;
 
     telechargerCsv(
-      `commandes-${suffixeDates}.csv`,
+      `commandes${suffixeStatuts()}-${suffixeDates}.csv`,
       ['Facture', 'Numéro', 'Date de paiement', 'Date de commande', 'Cliente', 'E-mail',
         'Téléphone', 'Mode de récupération', 'Adresse', 'Articles',
         'Sous-total', 'Livraison', 'Total', 'Statut', 'Paiement'],
@@ -584,9 +613,12 @@ function cablerExport() {
     majAffichageFiltres();
     majCompteExport();
   });
-  for (const id of ['export-du', 'export-au', 'export-statut', 'export-paiement']) {
+  for (const id of ['export-du', 'export-au', 'export-paiement']) {
     document.getElementById(id).addEventListener('change', majCompteExport);
   }
+  // Un seul écouteur sur le groupe plutôt qu'un par case : l'événement
+  // « change » d'une case remonte jusqu'ici.
+  document.getElementById('export-statuts').addEventListener('change', majCompteExport);
   document.getElementById('btn-exporter').addEventListener('click', exporter);
   majAffichageFiltres();
 }

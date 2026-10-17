@@ -50,17 +50,6 @@
             <label for="export-au">Au</label>
             <input type="date" id="export-au">
           </div>
-          <div class="field" data-slot="champ-statut">
-            <label for="export-statut">Statut</label>
-            <select id="export-statut">
-              <option value="">Tous les statuts</option>
-              <option value="nouvelle">Nouvelles</option>
-              <option value="en_preparation">En préparation</option>
-              <option value="expediee">Expédiées</option>
-              <option value="livree">Livrées</option>
-              <option value="annulee">Annulées</option>
-            </select>
-          </div>
           <div class="field" data-slot="champ-paiement">
             <label for="export-paiement">Commandes</label>
             <select id="export-paiement">
@@ -69,6 +58,23 @@
             </select>
           </div>
         </div>
+
+        <!-- Les statuts se cumulent, là où un menu déroulant n'en acceptait
+             qu'un seul : « les expédiées et les livrées », soit tout ce qui est
+             parti de l'atelier, est la demande courante et ne pouvait pas
+             s'exprimer. Rien de coché vaut tous les statuts, comme un filtre au
+             repos qui ne retire rien. -->
+        <fieldset class="export-statuts" data-slot="champ-statut">
+          <legend>Statuts à inclure</legend>
+          <div class="export-statuts-cases" id="export-statuts">
+            <label><input type="checkbox" value="nouvelle"> Nouvelles</label>
+            <label><input type="checkbox" value="en_preparation"> En préparation</label>
+            <label><input type="checkbox" value="expediee"> Expédiées</label>
+            <label><input type="checkbox" value="livree"> Livrées</label>
+            <label><input type="checkbox" value="annulee"> Annulées</label>
+          </div>
+          <p class="hint">Cochez un ou plusieurs statuts. Tout décoché&nbsp;: les commandes partent quel que soit leur statut.</p>
+        </fieldset>
 
         <!-- Les dates portent sur le PAIEMENT et non sur la commande : une
              micro-entreprise tient une comptabilité de caisse, où ce qui compte
