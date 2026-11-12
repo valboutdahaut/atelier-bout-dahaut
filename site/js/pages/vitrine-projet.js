@@ -11,7 +11,12 @@ const slug = new URLSearchParams(location.search).get('slug');
 
 function setPhoto(el, url, texteVide) {
   if (url) {
-    el.style.background = `center/cover no-repeat url("${url}")`;
+    // Le cadre a le format de la vitrine (.before-after, layout.css) : une
+    // photo recadrée dans l'administration le remplit exactement. Avant, le
+    // cadre n'avait pas de format, et une photo seule, étirée sur toute la
+    // largeur de la page, n'en laissait voir qu'un bandeau.
+    el.classList.add('photo-posee');
+    el.style.backgroundImage = `url("${String(url).replace(/"/g, '%22')}")`;
     el.querySelector('span:not(.badge)')?.remove();
   } else {
     const span = document.createElement('span');

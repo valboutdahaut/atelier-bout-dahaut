@@ -12,13 +12,22 @@ import { redimensionner } from './redimensionner-image.js';
 const TAILLE_MAX_OCTETS = 20 * 1024 * 1024;
 const TYPES_ACCEPTES = ['image/jpeg', 'image/png', 'image/webp'];
 
-export async function uploadPhoto(client, file, dossier) {
+/**
+ * Refuse un fichier qui ne peut pas devenir une photo du site. Exportée pour
+ * que les formulaires l'appellent avant d'ouvrir la fenêtre de recadrage :
+ * mieux vaut l'apprendre tout de suite qu'après avoir cadré la photo.
+ */
+export function verifierPhoto(file) {
   if (!TYPES_ACCEPTES.includes(file.type)) {
     throw new Error('Format non supporté. Utilisez une image JPEG, PNG ou WebP.');
   }
   if (file.size > TAILLE_MAX_OCTETS) {
     throw new Error('Photo trop lourde (20 Mo maximum).');
   }
+}
+
+export async function uploadPhoto(client, file, dossier) {
+  verifierPhoto(file);
 
   // Allègement avant l'envoi : une photo de téléphone passe typiquement de
   // 3 Mo à 300 Ko, sans différence visible dans les zones du site.

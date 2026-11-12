@@ -2,7 +2,7 @@
 // déterminé par la présence de ?id= dans l'URL.
 
 import { getAuthenticatedClient } from '../../supabase-client.js';
-import { uploadPhoto } from '../../lib/upload.js';
+import { creerPosteDePhotos } from '../../lib/photo-cadree.js';
 import { slugify } from '../../lib/slugify.js';
 import { creerVignette } from '../../lib/vignette-photo.js';
 
@@ -16,13 +16,37 @@ const erreurEl = document.getElementById('erreur-produit');
 
 let photos = []; // URLs déjà uploadées, index 0 = vignette
 let client;
+let poste; // choisir, cadrer, envoyer : voir lib/photo-cadree.js
+
+function signalerErreur(err) {
+  erreurEl.textContent = err.message;
+  erreurEl.hidden = false;
+}
+
+/**
+ * Reprend le cadrage d'une photo déjà ajoutée. La photo recadrée est un
+ * nouveau fichier : son adresse remplace l'ancienne, à la même place, pour que
+ * la vignette reste la vignette.
+ */
+async function recadrerPhoto(url) {
+  erreurEl.hidden = true;
+  try {
+    const nouvelle = await poste.recadrer(url);
+    if (!nouvelle) return; // annulé
+    const i = photos.indexOf(url);
+    if (i !== -1) photos[i] = nouvelle;
+    rendrePhotos();
+  } catch (err) {
+    signalerErreur(err);
+  }
+}
 
 function rendrePhotos() {
   zonePhotos.querySelectorAll('[data-photo]').forEach((el) => el.remove());
   const dropzone = zonePhotos.querySelector('[data-slot-photo]');
 
   photos.forEach((url, i) => {
-    const div = creerVignette(url, () => { photos.splice(i, 1); rendrePhotos(); });
+    const div = creerVignette(url, () => { photos.splice(i, 1); rendrePhotos(); }, () => recadrerPhoto(url));
     div.dataset.photo = 'true';
     // La première photo sert de vignette sur le site : le rappeler ici évite
     // d'avoir à deviner laquelle sera reprise dans la grille de la boutique.
@@ -45,14 +69,20 @@ function wireDropzone() {
   input.addEventListener('change', async () => {
     const file = input.files[0];
     if (!file) return;
+    erreurEl.hidden = true;
     try {
-      const url = await uploadPhoto(client, file, 'produits');
-      photos.push(url);
-      rendrePhotos();
+      // La fenêtre de recadrage s'ouvre ici, et ne rend l'adresse qu'une fois
+      // la photo cadrée puis envoyée. Annuler n'ajoute rien.
+      const url = await poste.ajouter(file);
+      if (url) {
+        photos.push(url);
+        rendrePhotos();
+      }
     } catch (err) {
-      erreurEl.textContent = err.message;
-      erreurEl.hidden = false;
+      signalerErreur(err);
     }
+    // Vidé dans tous les cas : sans cela, rechoisir la même photo après une
+    // annulation ne déclencherait rien, le champ n'ayant pas changé.
     input.value = '';
   });
 }
@@ -137,6 +167,7 @@ if (btnSupprimer) {
 
 async function init() {
   client = await getAuthenticatedClient();
+  poste = creerPosteDePhotos({ client, dossier: 'produits', zone: 'boutique' });
   wireDropzone();
   await chargerCategories();
   if (estEdition) await chargerProduitExistant();

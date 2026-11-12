@@ -44,6 +44,30 @@
   --space-xl: 64px;
   --space-2xl: 96px;
 
+  /* Format des photos — LA règle, à un seul endroit.
+     Chaque cadre du site qui montre une photo de la boutique ou de la vitrine
+     prend ces proportions, et l'outil de recadrage de l'administration lit les
+     mêmes valeurs (js/lib/formats-photo.js) : ce que l'atelier cadre est donc
+     exactement ce que le visiteur voit, sans recoupe.
+
+     Carré pour les deux. Les photos de l'atelier sont pour moitié verticales
+     et pour moitié horizontales : le carré est le format qui en retire le
+     moins dans les deux cas, là où un format paysage ampute de près de la
+     moitié une photo prise debout.
+
+     La vitrine n'a qu'un format pour ses deux présentations (avant / après, ou
+     photo seule) : seule la mise en page change. Cocher ou décocher la case
+     après coup ne défait donc jamais un cadrage.
+
+     Écriture attendue : « largeur / hauteur », par exemple 4 / 3. Changer une
+     valeur ne recadre pas les photos déjà en ligne : dans le nouveau cadre,
+     celles de la boutique s'affichent entières, celles de la vitrine centrées
+     et plein cadre, jusqu'à ce qu'on les recadre. Les formulaires de
+     l'administration annoncent « carrées » en toutes lettres (admin/produits
+     et admin/posts) : à corriger en même temps. */
+  --format-photo-boutique: 1 / 1;
+  --format-photo-vitrine: 1 / 1;
+
   --shadow-card: 0 24px 60px rgba(27, 42, 65, .14);
   /* Ombre de la barre de navigation flottante : plus courte et plus discrète
      que celle des cartes, la barre doit se détacher du fond sans peser. */

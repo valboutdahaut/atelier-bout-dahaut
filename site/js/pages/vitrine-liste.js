@@ -74,7 +74,16 @@ function afficherGalerie() {
     const lienTitre = node.querySelector('.card-title');
     const eyebrow = node.querySelector('.eyebrow');
 
-    if (post.mise_en_avant) article.classList.add('span-2');
+    if (post.mise_en_avant) {
+      article.classList.add('span-2');
+      // La carte mise en avant est quatre fois plus grande : elle a la place
+      // d'annoncer le récit, là où les autres s'en tiennent au titre.
+      const resume = node.querySelector('[data-slot="resume"]');
+      if (post.resume) {
+        resume.textContent = post.resume;
+        resume.hidden = false;
+      }
+    }
     const href = `/vitrine/projet.html?slug=${encodeURIComponent(post.slug)}`;
     media.querySelector('.card-media-link').href = href;
     lienTitre.href = href;

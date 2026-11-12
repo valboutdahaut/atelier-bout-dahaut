@@ -7,6 +7,15 @@
 // le reste de la vignette redevient libre pour d'autres usages.
 
 /**
+ * Adresse d'une photo prête à entrer dans une propriété CSS. Un guillemet dans
+ * le nom du fichier fermerait le url("...") et casserait la règle.
+ * @param {string} url
+ */
+export function imageDeFond(url) {
+  return `url("${String(url).replace(/"/g, '%22')}")`;
+}
+
+/**
  * Bouton de suppression à poser sur une vignette.
  * @param {() => void} onSupprimer
  */
@@ -28,14 +37,41 @@ export function creerCroix(onSupprimer) {
 }
 
 /**
- * Vignette complète : la photo en fond, la croix par-dessus.
+ * Bouton « Recadrer » à poser sur une vignette. En toutes lettres plutôt qu'en
+ * pictogramme : l'action est nouvelle, et rien ne dit à première vue ce que
+ * ferait un symbole de cadre posé sur une photo.
+ * @param {() => void} onRecadrer
+ */
+export function creerBoutonRecadrer(onRecadrer) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'photo-recadrer';
+  btn.textContent = 'Recadrer';
+  btn.title = 'Choisir ce qui apparaît dans le cadre';
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation(); // même raison que pour la croix
+    onRecadrer();
+  });
+  return btn;
+}
+
+/**
+ * Vignette complète : la photo en fond, la croix par-dessus, et le bouton de
+ * recadrage quand la vignette en propose un.
+ *
+ * Seule l'image est posée en ligne. Sa taille et sa position viennent de la
+ * classe .photo-vignette : le formulaire de contact la veut plein cadre,
+ * l'administration la veut entière, dans le cadre au format du site.
  * @param {string} url
  * @param {() => void} onSupprimer
+ * @param {() => void} [onRecadrer] absent sur le formulaire de contact
  */
-export function creerVignette(url, onSupprimer) {
+export function creerVignette(url, onSupprimer, onRecadrer) {
   const div = document.createElement('div');
   div.className = 'placeholder-img photo-vignette';
-  div.style.background = `center/cover no-repeat url("${String(url).replace(/"/g, '%22')}")`;
+  div.style.backgroundImage = imageDeFond(url);
   div.appendChild(creerCroix(onSupprimer));
+  if (onRecadrer) div.appendChild(creerBoutonRecadrer(onRecadrer));
   return div;
 }

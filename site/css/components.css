@@ -336,7 +336,11 @@
 /* Partagée par les formulaires d'administration et par le formulaire de
    contact du site public : elle vit donc ici et non dans admin.css, que les
    pages publiques ne chargent pas. Voir js/lib/vignette-photo.js. */
-.photo-vignette { position: relative; }
+/* La photo est posée en image de fond par le script, qui n'écrit que son
+   adresse : sa taille se décide ici. Plein cadre par défaut (aperçu des pièces
+   jointes du formulaire de contact) ; l'administration la veut entière, voir
+   admin.css. */
+.photo-vignette { position: relative; background-position: center; background-size: cover; background-repeat: no-repeat; }
 .photo-supprimer {
   position: absolute;
   top: 6px; right: 6px;
@@ -353,6 +357,20 @@
 }
 .photo-supprimer:hover { background: #F6DEDA; color: #7A2E2E; }
 .photo-supprimer:focus-visible { outline: 2px solid var(--color-text); outline-offset: 2px; }
+
+/* --- Photo posée dans un cadre au format du site ----------------------------*/
+/* Fiche d'un produit, fiche d'une réalisation. Le cadre a le format du site, et
+   une photo recadrée dans l'administration le remplit exactement. Pour une
+   photo plus ancienne, qui n'a pas ce format, chaque zone garde son habitude :
+   la boutique la montre entière (ci-dessous), le vide reprenant le fond de la
+   page ; la vitrine la centre et remplit le cadre (layout.css). Le script ne
+   pose que l'adresse de l'image. */
+.photo-posee {
+  background-color: var(--color-bg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 
 /* Aperçu des photos jointes au formulaire de contact. Vide, la grille ne doit
    pas creuser un espace sous le champ. */

@@ -34,19 +34,29 @@ async function charger() {
 
   const photoPrincipale = node.querySelector('[data-slot="photo-principale"]');
   const photos = produit.photos ?? [];
-  if (photos[0]) photoPrincipale.style.background = `center/cover no-repeat url("${photos[0]}")`;
-  else photoPrincipale.innerHTML = '<span>photo à venir</span>';
-
   const miniaturesEl = node.querySelector('[data-slot="miniatures"]');
-  photos.forEach((url, i) => {
+  const imageCss = (url) => `url("${String(url).replace(/"/g, '%22')}")`;
+
+  // Même règle que dans la grille de la boutique : cadre au format du site,
+  // photo entière à l'intérieur (.photo-posee, components.css).
+  function afficherEnGrand(url, miniature) {
+    photoPrincipale.classList.add('photo-posee');
+    photoPrincipale.style.backgroundImage = imageCss(url);
+    // Le repère suit la miniature choisie : il restait sur la première quelle
+    // que soit la photo affichée en grand.
+    for (const m of miniaturesEl.children) m.classList.toggle('active', m === miniature);
+  }
+
+  photos.forEach((url) => {
     const div = document.createElement('div');
-    div.className = 'placeholder-img';
-    div.style.background = `center/cover no-repeat url("${url}")`;
-    div.style.cursor = 'pointer';
-    if (i === 0) div.style.outline = '2px solid var(--color-accent-deep)';
-    div.addEventListener('click', () => { photoPrincipale.style.background = div.style.background; });
+    div.className = 'placeholder-img photo-posee';
+    div.style.backgroundImage = imageCss(url);
+    div.addEventListener('click', () => afficherEnGrand(url, div));
     miniaturesEl.appendChild(div);
   });
+
+  if (photos[0]) afficherEnGrand(photos[0], miniaturesEl.firstElementChild);
+  else photoPrincipale.innerHTML = '<span>photo à venir</span>';
 
   node.querySelector('[data-slot="categorie"]').textContent =
     `${produit.categories?.nom ?? 'Boutique'}${produit.piece_unique ? ' · pièce unique' : ''}`;

@@ -17,11 +17,11 @@
 // en portrait a son grand côté à la verticale, et ne plafonner que la largeur
 // la laisserait à plus de 2000 px de haut, soit près du double de pixels à
 // télécharger pour un affichage identique.
-const COTE_MAX_DEFAUT = 1600;
+export const COTE_MAX_DEFAUT = 1600;
 
 // 0.82 est le palier au-delà duquel le poids grimpe vite alors que l'oeil ne
 // distingue plus rien sur une photo d'atelier.
-const QUALITE_DEFAUT = 0.82;
+export const QUALITE_DEFAUT = 0.82;
 
 /**
  * @param {File} file photo choisie dans le formulaire

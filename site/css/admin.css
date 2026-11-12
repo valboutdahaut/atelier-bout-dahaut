@@ -19,15 +19,104 @@
 }
 .form-panel-footer .actions { display: flex; gap: 12px; }
 
-.photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.photo-grid .placeholder-img, .photo-grid .dropzone { height: 112px; }
-.photo-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.photo-grid-2 .placeholder-img, .photo-grid-2 .dropzone { height: 180px; }
-.photo-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-/* Réalisation sans avant / après : la photo du résultat reste seule et prend
-   toute la largeur, plutôt que de laisser une colonne vide à côté d'elle. */
-.photo-grid-2.photo-seule { grid-template-columns: 1fr; }
-.photo-grid-3 .placeholder-img, .photo-grid-3 .dropzone { height: 92px; }
+/* Les zones de photo ont le format du site (tokens.css, --format-photo-*) :
+   ce que l'atelier voit dans le formulaire est le cadre que verra le visiteur. */
+.photo-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.photo-grid .placeholder-img, .photo-grid .dropzone { aspect-ratio: var(--format-photo-boutique); }
+.photo-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.photo-grid-2 .placeholder-img, .photo-grid-2 .dropzone { aspect-ratio: var(--format-photo-vitrine); }
+.photo-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+/* Réalisation sans avant / après : la photo du résultat reste seule, à la
+   taille qu'elle aurait à côté d'un « avant ». Comme sur le site, elle ne
+   s'étale pas : au format imposé, elle occuperait tout l'écran. */
+.photo-grid-2.photo-seule { grid-template-columns: minmax(0, calc(50% - 9px)); }
+/* Le champ « Photo avant » est masqué par le script quand la case est
+   décochée. .field fixe son propre display, ce qui annulait l'attribut hidden :
+   le champ restait affiché au-dessus de la photo du résultat. */
+.photo-grid-2 .field[hidden] { display: none; }
+.photo-grid-3 .placeholder-img, .photo-grid-3 .dropzone { aspect-ratio: var(--format-photo-vitrine); }
+
+/* Une photo ancienne, pas encore au format, s'affiche ici comme sur le site :
+   entière dans son cadre pour la boutique, centrée et plein cadre pour la
+   vitrine (réglage par défaut de .photo-vignette). L'atelier juge donc sur
+   pièce si elle mérite d'être recadrée. Le filet marque le cadre, que le vide,
+   de la couleur du formulaire, ne laisserait pas deviner. */
+.form-panel .photo-vignette { background-color: var(--color-bg); box-shadow: inset 0 0 0 1px var(--color-border); }
+.photo-grid .photo-vignette { background-size: contain; }
+
+/* Bouton « Recadrer » d'une vignette, en bas à droite, à l'opposé de la croix. */
+.photo-recadrer {
+  position: absolute;
+  right: 6px; bottom: 6px;
+  padding: 5px 9px;
+  border: none;
+  cursor: pointer;
+  background: rgba(244, 237, 222, .92);
+  color: var(--color-text);
+  font-size: 12px;
+  line-height: 1.2;
+  box-shadow: 0 1px 4px rgba(27, 42, 65, .25);
+}
+.photo-recadrer:hover { background: var(--color-text); color: var(--color-bg); }
+.photo-recadrer:focus-visible { outline: 2px solid var(--color-text); outline-offset: 2px; }
+
+/* --- Fenêtre de recadrage --------------------------------------------------- */
+/* Voir js/lib/recadrage.js. Le fond de la fenêtre est un ton plus soutenu que
+   celui des pages : quand la photo ne remplit pas le cadre, ses marges, qui
+   prennent la couleur des pages, se distinguent ainsi de ce qui les entoure. */
+.recadrage {
+  width: min(600px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  padding: 28px;
+  border: none;
+  background: var(--color-canvas);
+  color: var(--color-text);
+  box-shadow: var(--shadow-card);
+}
+.recadrage::backdrop { background: rgba(27, 42, 65, .55); }
+/* Plusieurs blocs ci-dessous fixent leur propre display, ce qui annulerait
+   l'attribut hidden posé par le script. */
+.recadrage [hidden] { display: none; }
+.recadrage h2 { font-size: 21px; }
+.recadrage-aide { font-size: 13.5px; line-height: 1.6; color: var(--color-text-muted); margin: 10px 0 18px; }
+.recadrage-cadre {
+  /* --ratio est posé par le script. La largeur se plie aussi à la hauteur de
+     l'écran : sur un portable, le cadre et les boutons doivent tenir ensemble
+     sans défilement. */
+  width: min(100%, calc(50vh * var(--ratio, 1)));
+  aspect-ratio: var(--ratio, 1);
+  margin: 0 auto;
+  background: var(--color-bg);
+  outline: 1px solid var(--color-text);
+  overflow: hidden;
+  cursor: grab;
+  /* Le doigt déplace la photo, pas la page. */
+  touch-action: none;
+  user-select: none;
+}
+.recadrage-cadre:active { cursor: grabbing; }
+.recadrage-cadre:focus-visible { outline: 3px solid var(--color-accent-deep); }
+.recadrage-cadre canvas { display: block; width: 100%; height: 100%; }
+.recadrage-zoom { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+.recadrage-zoom input[type="range"] { flex: 1; min-width: 0; accent-color: var(--color-accent-deep); }
+.recadrage-pas {
+  width: 34px; height: 34px; flex: 0 0 auto;
+  border: 1px solid rgba(27, 42, 65, .25);
+  background: var(--color-bg);
+  cursor: pointer;
+  font-size: 18px; line-height: 1;
+}
+.recadrage-pas:hover { border-color: var(--color-text); }
+.recadrage-raccourcis { display: flex; gap: 18px; justify-content: center; margin-top: 12px; }
+.recadrage-raccourcis button {
+  border: none; background: none; padding: 4px 0; cursor: pointer;
+  font-size: 13px; color: var(--color-text); text-decoration: underline; text-underline-offset: 3px;
+}
+.recadrage-raccourcis button:hover { color: var(--color-accent-deep); }
+.recadrage-note { font-size: 12.5px; color: var(--color-text-muted); text-align: center; margin-top: 10px; }
+.recadrage .status-msg { margin-top: 14px; }
+.recadrage-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
 
 /* --- Barre de filtres des listes admin ------------------------------------ */
 .admin-filtres {
@@ -140,7 +229,8 @@
 /* Rappel discret que la première photo sert de vignette sur le site. */
 .photo-badge {
   position: absolute;
-  left: 0; bottom: 0;
+  /* En haut à gauche : le bas de la vignette porte le bouton « Recadrer ». */
+  left: 0; top: 0;
   padding: 3px 8px;
   background: var(--color-text);
   color: var(--color-bg);

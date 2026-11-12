@@ -1,9 +1,9 @@
 // post-form.js — commun à nouveau.html et edition.html (posts vitrine).
 
 import { getAuthenticatedClient } from '../../supabase-client.js';
-import { uploadPhoto } from '../../lib/upload.js';
+import { creerPosteDePhotos } from '../../lib/photo-cadree.js';
 import { slugify } from '../../lib/slugify.js';
-import { creerVignette, creerCroix } from '../../lib/vignette-photo.js';
+import { creerVignette, creerCroix, creerBoutonRecadrer, imageDeFond } from '../../lib/vignette-photo.js';
 
 const idPost = new URLSearchParams(location.search).get('id');
 const estEdition = Boolean(idPost);
@@ -18,6 +18,34 @@ let photoAvant = null;
 let photoApres = null;
 let photosDetail = [];
 let client;
+let poste; // choisir, cadrer, envoyer : voir lib/photo-cadree.js
+
+function signalerErreur(err) {
+  erreurEl.textContent = err.message;
+  erreurEl.hidden = false;
+}
+
+/**
+ * Lance une opération sur une photo (ajout ou recadrage) et affiche son
+ * éventuel échec dans le formulaire. Sans cela, une photo refusée ou un envoi
+ * raté ne laissait aucune trace à l'écran : la zone restait vide, sans raison.
+ * @param {() => Promise<string | null>} operation rend l'adresse de la photo, ou null si annulé
+ * @param {(url: string) => void} surSucces
+ */
+async function traiterPhoto(operation, surSucces) {
+  erreurEl.hidden = true;
+  try {
+    const url = await operation();
+    if (url) surSucces(url);
+  } catch (err) {
+    signalerErreur(err);
+  }
+}
+
+function poserPhotoUnique(nom, url) {
+  if (nom === 'avant') photoAvant = url; else photoApres = url;
+  rendreDropzoneUnique(nom, url);
+}
 
 // Les zones "avant" et "après" n'accueillent qu'une photo : au lieu de créer
 // une vignette à côté, on habille la zone de dépôt elle-même. L'input de
@@ -26,14 +54,16 @@ let client;
 function rendreDropzoneUnique(nom, url) {
   const dz = document.querySelector(`[data-slot-photo="${nom}"]`);
   dz.classList.add('photo-vignette', 'dropzone-remplie');
-  dz.style.background = `center/cover no-repeat url("${String(url).replace(/"/g, '%22')}")`;
+  dz.style.backgroundImage = imageDeFond(url);
   // Retire le libellé ("Glisser la photo « avant »") sans toucher à l'input :
   // le supprimer rendrait la photo impossible à remplacer par la suite.
   for (const noeud of Array.from(dz.childNodes)) {
     if (noeud.nodeType === Node.TEXT_NODE) noeud.remove();
   }
   dz.querySelector('.photo-supprimer')?.remove();
+  dz.querySelector('.photo-recadrer')?.remove();
   dz.appendChild(creerCroix(() => viderDropzoneUnique(nom)));
+  dz.appendChild(creerBoutonRecadrer(() => traiterPhoto(() => poste.recadrer(url), (nouvelle) => poserPhotoUnique(nom, nouvelle))));
 }
 
 /**
@@ -48,8 +78,9 @@ function libelleDropzone(nom) {
 function viderDropzoneUnique(nom) {
   const dz = document.querySelector(`[data-slot-photo="${nom}"]`);
   dz.classList.remove('photo-vignette', 'dropzone-remplie');
-  dz.style.background = '';
+  dz.style.backgroundImage = '';
   dz.querySelector('.photo-supprimer')?.remove();
+  dz.querySelector('.photo-recadrer')?.remove();
   dz.insertBefore(document.createTextNode(libelleDropzone(nom)), dz.firstChild);
   if (nom === 'avant') photoAvant = null; else photoApres = null;
 }
@@ -82,7 +113,17 @@ function rendreDetail() {
   zoneDetail.querySelectorAll('[data-photo-detail]').forEach((el) => el.remove());
   const dropzone = zoneDetail.querySelector('[data-slot-photo="detail"]');
   photosDetail.forEach((url, i) => {
-    const div = creerVignette(url, () => { photosDetail.splice(i, 1); rendreDetail(); });
+    const div = creerVignette(
+      url,
+      () => { photosDetail.splice(i, 1); rendreDetail(); },
+      () => traiterPhoto(() => poste.recadrer(url), (nouvelle) => {
+        // Retrouvée par son adresse et non par son rang : une autre photo a pu
+        // être retirée pendant que la fenêtre de recadrage était ouverte.
+        const rang = photosDetail.indexOf(url);
+        if (rang !== -1) photosDetail[rang] = nouvelle;
+        rendreDetail();
+      })
+    );
     div.dataset.photoDetail = 'true';
     zoneDetail.insertBefore(div, dropzone);
   });
@@ -96,9 +137,10 @@ function wireDropzones() {
     input?.addEventListener('change', async () => {
       const file = input.files[0];
       if (!file) return;
-      const url = await uploadPhoto(client, file, 'posts');
-      if (dz.dataset.slotPhoto === 'avant') photoAvant = url; else photoApres = url;
-      rendreDropzoneUnique(dz.dataset.slotPhoto, url);
+      await traiterPhoto(() => poste.ajouter(file), (url) => poserPhotoUnique(dz.dataset.slotPhoto, url));
+      // Vidé dans tous les cas : sans cela, rechoisir la même photo après une
+      // annulation ne déclencherait rien, le champ n'ayant pas changé.
+      input.value = '';
     });
   });
 
@@ -108,9 +150,7 @@ function wireDropzones() {
   inputDetail.addEventListener('change', async () => {
     const file = inputDetail.files[0];
     if (!file) return;
-    const url = await uploadPhoto(client, file, 'posts');
-    photosDetail.push(url);
-    rendreDetail();
+    await traiterPhoto(() => poste.ajouter(file), (url) => { photosDetail.push(url); rendreDetail(); });
     inputDetail.value = '';
   });
 }
@@ -202,6 +242,7 @@ if (btnSupprimer) {
 
 async function init() {
   client = await getAuthenticatedClient();
+  poste = creerPosteDePhotos({ client, dossier: 'posts', zone: 'vitrine' });
   wireDropzones();
   caseAvantApres.addEventListener('change', basculerAvantApres);
   basculerAvantApres();
